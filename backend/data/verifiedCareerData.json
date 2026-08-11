@@ -1,0 +1,78 @@
+[
+  {
+    "title": "Software Development Engineer",
+    "category": "Computer Science & Information Technology",
+    "description": "Designs, develops, tests, and maintains software applications and systems using computer programming languages and computer science principles.",
+    "educationRequirements": ["B.Tech Computer Science & Engineering", "B.Tech Information Technology", "B.Sc Computer Science"],
+    "requiredSkills": ["Data Structures", "Algorithms", "Java", "Python", "Git", "SQL"],
+    "matchingBranches": ["Computer Science & Engineering", "Information Technology", "Electronics & Communication Engineering"],
+    "salaryRange": {
+      "minLPA": 4.5,
+      "maxLPA": 18.0,
+      "currency": "INR"
+    },
+    "provenance": {
+      "sourceName": "National Classification of Occupations (NCO 2015) & AICTE Curriculum Guidelines",
+      "sourceURL": "https://labour.gov.in/national-classification-occupations-nco-2015",
+      "retrievedAt": "2026-08-08T00:00:00.000Z",
+      "sourceDescription": "Official occupational classification by Ministry of Labour and Employment, Government of India."
+    }
+  },
+  {
+    "title": "Data Analyst",
+    "category": "Data Science & Analytics",
+    "description": "Inspects, cleans, transforms, and models data with the goal of discovering useful information, informing conclusions, and supporting decision-making.",
+    "educationRequirements": ["B.Tech (Any Branch)", "B.Sc Statistics", "B.Sc Mathematics"],
+    "requiredSkills": ["SQL", "Python", "Data Visualization", "Statistics", "Excel"],
+    "matchingBranches": ["Computer Science & Engineering", "Information Technology", "Electrical Engineering", "Mechanical Engineering"],
+    "salaryRange": {
+      "minLPA": 4.0,
+      "maxLPA": 14.0,
+      "currency": "INR"
+    },
+    "provenance": {
+      "sourceName": "NPTEL & AICTE Model Curriculum for Data Science",
+      "sourceURL": "https://nptel.ac.in/courses",
+      "retrievedAt": "2026-08-08T00:00:00.000Z",
+      "sourceDescription": "Ministry of Education National Programme on Technology Enhanced Learning curriculum guidelines."
+    }
+  },
+  {
+    "title": "Web Application Developer",
+    "category": "Software Engineering",
+    "description": "Builds and maintains client-side and server-side logic for web applications using standard web protocols and frameworks.",
+    "educationRequirements": ["B.Tech (CSE/IT)", "BCA", "Diploma in Computer Engineering"],
+    "requiredSkills": ["JavaScript", "HTML5", "CSS3", "React", "Node.js", "REST APIs"],
+    "matchingBranches": ["Computer Science & Engineering", "Information Technology"],
+    "salaryRange": {
+      "minLPA": 3.5,
+      "maxLPA": 15.0,
+      "currency": "INR"
+    },
+    "provenance": {
+      "sourceName": "W3C Web Standards & MDN Web Docs",
+      "sourceURL": "https://developer.mozilla.org/en-US/docs/Learn",
+      "retrievedAt": "2026-08-08T00:00:00.000Z",
+      "sourceDescription": "Mozilla Developer Network & W3C open web education standard."
+    }
+  },
+  {
+    "title": "Embedded Systems Engineer",
+    "category": "Electronics & Hardware",
+    "description": "Designs, programs, and integrates microcontrollers and firmware for modern electronic and IoT hardware platforms.",
+    "educationRequirements": ["B.Tech Electronics & Communication", "B.Tech Electrical Engineering"],
+    "requiredSkills": ["C", "C++", "Microcontrollers", "Embedded Systems", "RTOS", "Circuit Design"],
+    "matchingBranches": ["Electronics & Communication Engineering", "Electrical Engineering"],
+    "salaryRange": {
+      "minLPA": 4.0,
+      "maxLPA": 16.0,
+      "currency": "INR"
+    },
+    "provenance": {
+      "sourceName": "AICTE Model Curriculum for ECE",
+      "sourceURL": "https://www.aicte-india.org/education/model-curriculum",
+      "retrievedAt": "2026-08-08T00:00:00.000Z",
+      "sourceDescription": "All India Council for Technical Education technical curriculum framework."
+    }
+  }
+]

@@ -1,0 +1,197 @@
+[
+  {
+    "title": "MDN Web Docs - JavaScript Guide",
+    "provider": "Mozilla Developer Network",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide",
+    "category": "Web Development",
+    "skill": "JavaScript",
+    "difficulty": "Beginner",
+    "source": {
+      "sourceName": "Mozilla Developer Network",
+      "sourceURL": "https://developer.mozilla.org"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "React Official Documentation & Interactive Guide",
+    "provider": "React Core Team",
+    "url": "https://react.dev/learn",
+    "category": "Web Development",
+    "skill": "React",
+    "difficulty": "Intermediate",
+    "source": {
+      "sourceName": "Meta Open Source / React",
+      "sourceURL": "https://react.dev"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "Node.js Web Server & API Architecture Guide",
+    "provider": "OpenJS Foundation",
+    "url": "https://nodejs.org/en/learn/getting-started/introduction-to-nodejs",
+    "category": "Backend Development",
+    "skill": "Node.js",
+    "difficulty": "Intermediate",
+    "source": {
+      "sourceName": "Node.js Documentation",
+      "sourceURL": "https://nodejs.org"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "RESTful API Design Principles & HTTP Best Practices",
+    "provider": "MDN Web Docs",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview",
+    "category": "Backend Development",
+    "skill": "REST APIs",
+    "difficulty": "Intermediate",
+    "source": {
+      "sourceName": "Mozilla Developer Network",
+      "sourceURL": "https://developer.mozilla.org"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "Python Official Tutorial",
+    "provider": "Python Software Foundation",
+    "url": "https://docs.python.org/3/tutorial/index.html",
+    "category": "Programming Languages",
+    "skill": "Python",
+    "difficulty": "Beginner",
+    "source": {
+      "sourceName": "Python Software Foundation",
+      "sourceURL": "https://docs.python.org"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "NPTEL Programming, Data Structures and Algorithms in Python",
+    "provider": "NPTEL / IIT Madras",
+    "url": "https://nptel.ac.in/courses/106106145",
+    "category": "Computer Science Core",
+    "skill": "Data Structures",
+    "difficulty": "Intermediate",
+    "source": {
+      "sourceName": "Ministry of Education NPTEL",
+      "sourceURL": "https://nptel.ac.in"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "MIT OpenCourseWare - Introduction to Algorithms",
+    "provider": "MIT OpenCourseWare",
+    "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020",
+    "category": "Computer Science Core",
+    "skill": "Algorithms",
+    "difficulty": "Advanced",
+    "source": {
+      "sourceName": "Massachusetts Institute of Technology",
+      "sourceURL": "https://ocw.mit.edu"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "W3C HTML5 & Web Architecture Standards",
+    "provider": "W3C",
+    "url": "https://www.w3.org/standards/webdesign/htmlcss",
+    "category": "Web Development",
+    "skill": "HTML5",
+    "difficulty": "Beginner",
+    "source": {
+      "sourceName": "World Wide Web Consortium",
+      "sourceURL": "https://www.w3.org"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "CSS3 Layouts, Flexbox & Responsive Design Guide",
+    "provider": "MDN Web Docs",
+    "url": "https://developer.mozilla.org/en-US/docs/Learn/CSS",
+    "category": "Web Development",
+    "skill": "CSS3",
+    "difficulty": "Beginner",
+    "source": {
+      "sourceName": "Mozilla Developer Network",
+      "sourceURL": "https://developer.mozilla.org"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "PostgreSQL Official Documentation & SQL Tutorials",
+    "provider": "PostgreSQL Global Development Group",
+    "url": "https://www.postgresql.org/docs/current/tutorial.html",
+    "category": "Databases",
+    "skill": "SQL",
+    "difficulty": "Beginner",
+    "source": {
+      "sourceName": "PostgreSQL Global Development Group",
+      "sourceURL": "https://www.postgresql.org"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "Pro Git Book & Interactive Command Line Guide",
+    "provider": "Git SCM",
+    "url": "https://git-scm.com/book/en/v2",
+    "category": "DevOps & Tools",
+    "skill": "Git",
+    "difficulty": "Beginner",
+    "source": {
+      "sourceName": "Git Official Documentation",
+      "sourceURL": "https://git-scm.com"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "Oracle Java Official Developer Documentation",
+    "provider": "Oracle",
+    "url": "https://docs.oracle.com/en/java",
+    "category": "Programming Languages",
+    "skill": "Java",
+    "difficulty": "Intermediate",
+    "source": {
+      "sourceName": "Oracle Java Documentation",
+      "sourceURL": "https://docs.oracle.com"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "Scikit-Learn Machine Learning User Guide",
+    "provider": "Scikit-Learn Developers",
+    "url": "https://scikit-learn.org/stable/user_guide.html",
+    "category": "AI & Data Science",
+    "skill": "Machine Learning",
+    "difficulty": "Advanced",
+    "source": {
+      "sourceName": "Scikit-Learn Org",
+      "sourceURL": "https://scikit-learn.org"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "Khan Academy Probability & Statistics Course",
+    "provider": "Khan Academy",
+    "url": "https://www.khanacademy.org/math/statistics-probability",
+    "category": "Data Analytics",
+    "skill": "Statistics",
+    "difficulty": "Beginner",
+    "source": {
+      "sourceName": "Khan Academy",
+      "sourceURL": "https://www.khanacademy.org"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  },
+  {
+    "title": "Matplotlib & Seaborn Data Visualization Guide",
+    "provider": "PyData",
+    "url": "https://matplotlib.org/stable/tutorials/index.html",
+    "category": "Data Analytics",
+    "skill": "Data Visualization",
+    "difficulty": "Intermediate",
+    "source": {
+      "sourceName": "Matplotlib Org",
+      "sourceURL": "https://matplotlib.org"
+    },
+    "verifiedAt": "2026-08-08T00:00:00.000Z"
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "short_name": "Pathfinder",
+  "name": "Pathfinder AI — Career Guidance & Intelligence Platform",
+  "description": "AI-powered career guidance, skill evaluation, resume builder, and job-readiness platform for students.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo_3d.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#F8FAFC",
+  "theme_color": "#2563EB",
+  "display": "standalone",
+  "orientation": "any",
+  "scope": "/"
+}

@@ -1,0 +1,160 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #F8FAFC;
+  color: #111827;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-width: 320px;
+}
+
+/* Bright Powder Blue Auth Page Styling */
+.auth-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  position: relative;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.15), transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(124, 58, 237, 0.15), transparent 40%),
+    #f0f4f9;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 42px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(79, 70, 229, 0.15);
+  border-radius: 28px;
+  box-shadow: 0 30px 80px rgba(37, 99, 235, 0.12), 0 10px 25px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.auth-card h1 {
+  text-align: center;
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.auth-subtitle {
+  text-align: center;
+  color: #475569;
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+
+.auth-card h2 {
+  font-size: 24px;
+  margin-bottom: 24px;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-card label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.auth-card input,
+.auth-card select {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border-radius: 14px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+  outline: none;
+  font-size: 15px;
+  transition: all 0.25s ease;
+}
+
+.auth-card input:focus,
+.auth-card select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+  background: #ffffff;
+}
+
+.auth-card button {
+  width: 100%;
+  height: 54px;
+  margin-top: 18px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+  transition: all 0.25s ease;
+}
+
+.auth-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(37, 99, 235, 0.45);
+}
+
+/* Pulsing Level Node Animation */
+@keyframes neonPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgba(37, 99, 235, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+  }
+}
+
+.node-pulse-active {
+  animation: neonPulse 2s infinite;
+}
+
+/* Print Styles for A4 Resume PDF Output */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .no-print,
+  .navbar,
+  header,
+  footer {
+    display: none !important;
+  }
+
+  .resume-printable-area {
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+  }
+}
