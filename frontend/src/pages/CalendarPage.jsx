@@ -30,7 +30,7 @@ function CalendarPage() {
   const totalActiveDays = streakInfo?.totalActiveDays || 3;
 
   return (
-    <div style={{ background: "linear-gradient(135deg, #f0f4f9 0%, #e0e7ff 50%, #e0f2fe 100%)", minHeight: "100vh" }}>
+    <div style={{  minHeight: "100vh" }}>
       <Navbar user={user} />
 
       <div className="container py-4">
@@ -58,7 +58,7 @@ function CalendarPage() {
               <div className="p-3 bg-white rounded-4 border border-primary border-opacity-15 shadow-sm">
                 <div className="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
                   <span className="extra-small text-muted font-monospace">ACTIVE DAYS</span>
-                  <span className="badge bg-primary text-white fw-bold">{totalActiveDays} Days</span>
+                  <span className="badge bg-primary text-dark fw-bold">{totalActiveDays} Days</span>
                 </div>
                 <div className="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
                   <span className="extra-small text-muted font-monospace">CURRENT STREAK</span>
@@ -66,7 +66,7 @@ function CalendarPage() {
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
                   <span className="extra-small text-muted font-monospace">XP MULTIPLIER</span>
-                  <span className="badge bg-success bg-opacity-20 text-success fw-bold">1.5x Active</span>
+                  <span className="badge bg-success  text-success fw-bold">1.5x Active</span>
                 </div>
               </div>
             </div>
@@ -101,7 +101,7 @@ function CalendarPage() {
                     key={m.days}
                     className={`p-3 rounded-3 border d-flex justify-content-between align-items-center transition ${
                       m.unlocked
-                        ? "bg-success bg-opacity-10 border-success border-opacity-30"
+                        ? "bg-success  border-success border-opacity-30"
                         : "bg-light border-secondary border-opacity-20"
                     }`}
                   >
@@ -115,9 +115,9 @@ function CalendarPage() {
                       </div>
                     </div>
                     {m.unlocked ? (
-                      <span className="badge bg-success text-white extra-small">Unlocked</span>
+                      <span className="badge bg-success text-dark extra-small">Unlocked</span>
                     ) : (
-                      <span className="badge bg-secondary bg-opacity-20 text-muted extra-small">Locked</span>
+                      <span className="badge bg-secondary  text-muted extra-small">Locked</span>
                     )}
                   </div>
                 ))}

@@ -11,7 +11,6 @@ mongoose.set("bufferCommands", false);
 
 const connectDB = async () => {
   const primaryUri = process.env.MONGO_URI;
-  const localFallbackUri = "mongodb://127.0.0.1:27017/pathfinder";
 
   try {
     console.log("🔌 Attempting connection to primary MongoDB Atlas cluster...");
@@ -22,18 +21,8 @@ const connectDB = async () => {
     console.log("✅ MongoDB Atlas Connected Successfully");
   } catch (primaryError) {
     console.error("⚠️ Primary MongoDB Atlas Connection Failed:", primaryError.message);
-
-    try {
-      console.log("🔄 Trying local MongoDB fallback (mongodb://127.0.0.1:27017/pathfinder)...");
-      await mongoose.connect(localFallbackUri, {
-        serverSelectionTimeoutMS: 1500,
-        connectTimeoutMS: 1500,
-      });
-      console.log("✅ Local MongoDB Connected Successfully");
-    } catch (localError) {
-      console.error("❌ Local MongoDB also unavailable:", localError.message);
-      console.log("⚡ Zero-Config File DB Fallback Active (localDbService.js)");
-    }
+    console.error("⚠️ FATAL: Cannot start the application without a database connection.");
+    process.exit(1);
   }
 };
 

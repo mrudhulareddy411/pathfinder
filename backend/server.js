@@ -10,10 +10,6 @@ const seedVerifiedData = require("./services/seedService");
 const app = express();
 
 // Connect to MongoDB & Seed Verified Datasets
-connectDB().then(() => {
-  seedVerifiedData();
-});
-
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -60,9 +56,18 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "OK", service: "Pathfinder AI API", timestamp: new Date() });
 });
 
-// Start Server
-const PORT = process.env.PORT || 5000;
+// Connect to MongoDB & Seed Verified Datasets
+connectDB()
+  .then(() => {
+    seedVerifiedData();
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+    // Start Server only after DB connection is successful
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ Failed to start server: MongoDB connection error.", err);
+    process.exit(1);
+  });

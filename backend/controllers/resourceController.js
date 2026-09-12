@@ -1,20 +1,17 @@
 const mongoose = require("mongoose");
 const Resource = require("../models/Resource");
-const localDb = require("../config/localDbService");
 
 const getResources = async (req, res) => {
   try {
     const { skill, category } = req.query;
     let resources = [];
 
-    if (mongoose.connection.readyState === 1) {
+    
       const filter = {};
       if (skill) filter.skill = new RegExp(skill, "i");
       if (category) filter.category = category;
       resources = await Resource.find(filter);
-    } else {
-      resources = await localDb.getResources({ skill, category });
-    }
+    
 
     if (!resources || resources.length === 0) {
       return res.status(200).json({ message: "No verified resources available.", resources: [] });

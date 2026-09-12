@@ -101,7 +101,7 @@ function ActivityCalendar({ compact = false }) {
         {daysOfWeek.map((day, idx) => (
           <div
             key={day}
-            className={`fw-extrabold py-1.5 rounded ${idx === 0 || idx === 6 ? "text-primary bg-primary bg-opacity-10" : "text-dark bg-light"}`}
+            className={`fw-extrabold py-1.5 rounded ${idx === 0 || idx === 6 ? "text-primary bg-primary " : "text-dark bg-light"}`}
           >
             {day}
           </div>
@@ -145,9 +145,9 @@ function ActivityCalendar({ compact = false }) {
                 onClick={() => handleSelectDay(dayStr)}
                 className={`p-2 rounded-3 border transition-all d-flex flex-column align-items-center justify-content-between ${
                   isSelected
-                    ? "border-primary bg-primary bg-opacity-15 shadow-sm"
+                    ? "border-primary bg-primary  shadow-sm"
                     : isToday
-                    ? "border-warning bg-warning bg-opacity-20 shadow-sm"
+                    ? "border-warning bg-warning  shadow-sm"
                     : isWeekend
                     ? "border-secondary border-opacity-20 bg-light"
                     : "border-secondary border-opacity-15 bg-white"
@@ -202,7 +202,7 @@ function ActivityCalendar({ compact = false }) {
                     <span className="fw-bold text-primary extra-small">{act.activityType}</span>
                     <div className="text-muted extra-small">{new Date(act.timestamp).toLocaleTimeString()}</div>
                   </div>
-                  <span className="badge bg-success bg-opacity-15 text-success extra-small">✓ Verified Activity</span>
+                  <span className="badge bg-success  text-success extra-small">✓ Verified Activity</span>
                 </div>
               ))}
             </div>

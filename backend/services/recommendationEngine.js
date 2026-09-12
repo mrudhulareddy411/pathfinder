@@ -4,7 +4,6 @@ const Career = require("../models/Career");
 const Resource = require("../models/Resource");
 const SkillScore = require("../models/SkillScore");
 const AssessmentAttempt = require("../models/AssessmentAttempt");
-const localDb = require("../config/localDbService");
 
 const ML_API_URL = process.env.ML_API_URL || "http://127.0.0.1:8000";
 
@@ -55,15 +54,15 @@ const generateRecommendations = async (userProfile = {}) => {
   // A. CAREER CATALOG LOADING
   let careers = [];
   try {
-    if (mongoose.connection.readyState === 1) {
+    
       careers = await Career.find({});
-    }
+    
   } catch {
     careers = [];
   }
 
   if (!careers || careers.length === 0) {
-    careers = await localDb.getCareers();
+    console.warn("No careers found in database");
   }
 
   if (!careers || careers.length === 0) {

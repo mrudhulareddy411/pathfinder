@@ -50,13 +50,13 @@ function ResetPassword() {
   };
 
   return (
-    <div style={{ background: "linear-gradient(135deg, #f0f4f9 0%, #e0e7ff 50%, #e0f2fe 100%)", minHeight: "100vh" }} className="d-flex align-items-center justify-content-center p-3 p-md-5">
+    <div style={{  minHeight: "100vh" }} className="d-flex align-items-center justify-content-center p-3 p-md-5">
       <div className="bg-ambient-orb orb-1"></div>
       <div className="bg-ambient-orb orb-2"></div>
 
       <div className="container" style={{ maxWidth: "480px", zIndex: 1 }}>
         <div className="glass-panel p-4 p-md-5 rounded-5 border border-primary border-opacity-15 text-center bg-white shadow-lg">
-          <div className="fs-1 mb-3 p-3 rounded-circle bg-primary bg-opacity-10 border border-primary border-opacity-25 d-inline-block" style={{ color: "#2563eb" }}>
+          <div className="fs-1 mb-3 p-3 rounded-circle bg-primary  border border-primary border-opacity-25 d-inline-block" style={{ color: "#2563eb" }}>
             🔑
           </div>
 
@@ -66,13 +66,13 @@ function ResetPassword() {
           </p>
 
           {error && (
-            <div className="alert alert-danger bg-danger bg-opacity-10 border-danger border-opacity-25 text-danger extra-small p-3 rounded-3 mb-4 text-start">
+            <div className="alert alert-danger bg-danger  border-danger border-opacity-25 text-danger extra-small p-3 rounded-3 mb-4 text-start">
               {error}
             </div>
           )}
 
           {success ? (
-            <div className="p-4 rounded-4 bg-success bg-opacity-10 border border-success border-opacity-30 text-center mb-4">
+            <div className="p-4 rounded-4 bg-success  border border-success border-opacity-30 text-center mb-4">
               <div className="fs-2 mb-2">🎉</div>
               <h5 className="fw-bold text-dark mb-2">Password Reset Successfully!</h5>
               <p className="text-secondary extra-small mb-4">You can now log in with your new password.</p>

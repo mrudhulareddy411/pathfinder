@@ -80,7 +80,7 @@ function CareerPathfinder() {
 
       <div className="container py-4" style={{ maxWidth: "1150px" }}>
         {selectedMsg && (
-          <div className="clean-card p-3 mb-4 text-center border-success bg-success bg-opacity-10 text-success fw-semibold">
+          <div className="clean-card p-3 mb-4 text-center border-success bg-success  text-success fw-semibold">
             {selectedMsg}
           </div>
         )}
@@ -193,7 +193,7 @@ function CareerPathfinder() {
                           </Link>
                           <button
                             onClick={() => handleSelectCareer(targetCode, rec.title)}
-                            className={`btn btn-sm extra-small w-100 ${isSelected ? "btn-success text-white" : "btn-primary-clean"}`}
+                            className={`btn btn-sm extra-small w-100 ${isSelected ? "btn-success text-dark" : "btn-primary-clean"}`}
                           >
                             {isSelected ? "✓ Target Career Selected" : "🎯 Select as Target Career"}
                           </button>

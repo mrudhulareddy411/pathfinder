@@ -3,7 +3,6 @@ const { generateRecommendations } = require("../services/recommendationEngine");
 const { calculateJobReadiness } = require("../services/jobReadinessService");
 const { getOnetCareerDetails } = require("../services/onetDatasetService");
 const User = require("../models/User");
-const localDb = require("../config/localDbService");
 
 const getRecommendations = async (req, res) => {
   try {
@@ -12,10 +11,6 @@ const getRecommendations = async (req, res) => {
 
     if (mongoose.connection.readyState === 1 && userId) {
       user = await User.findById(userId);
-    }
-
-    if (!user && userId) {
-      user = await localDb.findUserById(userId);
     }
 
     if (!user) {
@@ -72,23 +67,16 @@ const selectCareer = async (req, res) => {
     }
 
     let updatedUser;
-    if (mongoose.connection.readyState === 1) {
-      updatedUser = await User.findByIdAndUpdate(
-        userId,
-        {
-          $set: {
-            selectedCareerDetails: careerDetails,
-            careerInterests: [careerDetails.title],
-          },
+    updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          selectedCareerDetails: careerDetails,
+          careerInterests: [careerDetails.title],
         },
-        { new: true }
-      ).select("-password");
-    } else {
-      updatedUser = await localDb.updateUser(userId, {
-        selectedCareerDetails: careerDetails,
-        careerInterests: [careerDetails.title],
-      });
-    }
+      },
+      { new: true }
+    ).select("-password");
 
     const readinessInfo = calculateJobReadiness(updatedUser, careerDetails);
 

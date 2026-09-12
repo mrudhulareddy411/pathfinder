@@ -4,11 +4,8 @@ import { Platform } from "react-native";
 
 // Detect suitable backend URL for Android Emulator vs iOS Simulator vs Local Network
 const getBaseUrl = () => {
-  if (Platform.OS === "android") {
-    // Android emulator loops back to host machine at 10.0.2.2
-    return "http://10.0.2.2:5000/api";
-  }
-  return "http://localhost:5000/api";
+  // Use the local network IP so the physical phone can access the backend server
+  return "http://172.18.102.48:5000/api";
 };
 
 const api = axios.create({

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Question = require("../models/Question");
-const localDb = require("../config/localDbService");
 
 /**
  * GET /api/questions (Admin / Catalog search)
@@ -11,7 +10,7 @@ const getQuestions = async (req, res) => {
     const { category, topic, difficulty, search } = req.query;
     let questions = [];
 
-    if (mongoose.connection.readyState === 1) {
+    
       try {
         const filter = {};
         if (category) filter.category = new RegExp(category.trim(), "i");
@@ -27,13 +26,8 @@ const getQuestions = async (req, res) => {
         }
         questions = await Question.find(filter).sort({ createdAt: -1 }).lean();
       } catch (dbErr) {
-        console.warn("Mongo question query failed, using localDb fallback:", dbErr.message);
+        console.error("Mongo question query failed:", dbErr.message);
       }
-    }
-
-    if (!questions || questions.length === 0) {
-      questions = await localDb.getQuestionsLocal();
-    }
 
     return res.status(200).json({ success: true, count: questions.length, questions });
   } catch (error) {
@@ -82,17 +76,11 @@ const createQuestion = async (req, res) => {
     };
 
     let newQuestion = null;
-    if (mongoose.connection.readyState === 1) {
       try {
         newQuestion = await Question.create(qPayload);
       } catch (dbErr) {
-        console.warn("Mongo question create failed:", dbErr.message);
+        console.error("Mongo question create failed:", dbErr.message);
       }
-    }
-
-    if (!newQuestion) {
-      newQuestion = await localDb.saveQuestionLocal(qPayload);
-    }
 
     return res.status(201).json({ success: true, message: "Question created successfully.", question: newQuestion });
   } catch (error) {
@@ -121,11 +109,11 @@ const updateQuestion = async (req, res) => {
     if (careerPaths !== undefined && Array.isArray(careerPaths)) updates.careerPaths = careerPaths.map((cp) => String(cp).trim());
 
     let updated = null;
-    if (mongoose.connection.readyState === 1) {
+    
       try {
         updated = await Question.findByIdAndUpdate(id, { $set: updates }, { new: true, runValidators: true });
       } catch (e) {}
-    }
+    
 
     return res.status(200).json({ success: true, message: "Question updated successfully.", question: updated || { _id: id, ...updates } });
   } catch (error) {
@@ -141,11 +129,11 @@ const updateQuestion = async (req, res) => {
 const deleteQuestion = async (req, res) => {
   try {
     const { id } = req.params;
-    if (mongoose.connection.readyState === 1) {
+    
       try {
         await Question.findByIdAndDelete(id);
       } catch (e) {}
-    }
+    
     return res.status(200).json({ success: true, message: "Question deleted successfully." });
   } catch (error) {
     console.error("Delete Question Error:", error);
@@ -161,12 +149,12 @@ const getCategories = async (req, res) => {
   try {
     let categories = [];
     let topics = [];
-    if (mongoose.connection.readyState === 1) {
+    
       try {
         categories = await Question.distinct("category");
         topics = await Question.distinct("topic");
       } catch (e) {}
-    }
+    
     if (!categories || categories.length === 0) {
       categories = ["Programming", "Data Structures", "Algorithms", "DBMS", "SQL", "JavaScript", "Web Development", "Machine Learning"];
       topics = ["Stack", "Queue", "OOP", "Sorting", "SQL Commands", "React Hooks", "OSI Model"];

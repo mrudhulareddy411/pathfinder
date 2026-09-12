@@ -4,7 +4,6 @@ const path = require("path");
 const Activity = require("../models/Activity");
 const User = require("../models/User");
 const Streak = require("../models/Streak");
-const localDb = require("../config/localDbService");
 const { awardXP } = require("./gamificationEngine");
 
 const DATA_DIR = path.join(__dirname, "../data");
@@ -49,48 +48,24 @@ const recordActivity = async (userId, activityType, metadata = {}, source = "SYS
   const todayStr = getFormattedDate(new Date(), timezone);
   const searchUserId = userId.toString();
 
-  if (mongoose.connection.readyState === 1) {
-    if (activityType === "LOGIN") {
-      const existingLogin = await Activity.findOne({
-        userId,
-        activityType: "LOGIN",
-        date: todayStr,
-      });
-      if (existingLogin) return existingLogin;
-    }
-
-    const newActivity = await Activity.create({
+  if (activityType === "LOGIN") {
+    const existingLogin = await Activity.findOne({
       userId,
-      activityType,
+      activityType: "LOGIN",
       date: todayStr,
-      timestamp: new Date(),
-      metadata,
-      source,
     });
-    return newActivity;
-  } else {
-    const activities = await getLocalActivities();
-    if (activityType === "LOGIN") {
-      const existingLogin = activities.find(
-        (a) => a.userId.toString() === searchUserId && a.activityType === "LOGIN" && a.date === todayStr
-      );
-      if (existingLogin) return existingLogin;
-    }
-
-    const objectId = new mongoose.Types.ObjectId().toString();
-    const newActivity = {
-      _id: objectId,
-      userId: searchUserId,
-      activityType,
-      date: todayStr,
-      timestamp: new Date().toISOString(),
-      metadata,
-      source,
-    };
-    activities.push(newActivity);
-    await saveLocalActivities(activities);
-    return newActivity;
+    if (existingLogin) return existingLogin;
   }
+
+  const newActivity = await Activity.create({
+    userId,
+    activityType,
+    date: todayStr,
+    timestamp: new Date(),
+    metadata,
+    source,
+  });
+  return newActivity;
 };
 
 // Process daily login & streak update
@@ -105,85 +80,51 @@ const processDailyLogin = async (userId, timezone = "Asia/Kolkata") => {
   let longestStreak = 1;
   let milestoneUnlocked = null;
 
-  if (mongoose.connection.readyState === 1) {
-    let streakRecord = await Streak.findOne({ userId });
-    let user = await User.findById(userId);
+  let streakRecord = await Streak.findOne({ userId });
+  let user = await User.findById(userId);
 
-    if (!streakRecord) {
-      streakRecord = await Streak.create({
-        userId,
-        currentStreak: 1,
-        longestStreak: 1,
-        lastLoginDate: todayStr,
-      });
-    } else {
-      const lastDateStr = streakRecord.lastLoginDate;
-      if (lastDateStr === todayStr) {
-        // Same day login: preserve current streak
-        currentStreak = streakRecord.currentStreak;
-      } else {
-        // Calculate difference in calendar days
-        const lastDate = new Date(lastDateStr);
-        const todayDate = new Date(todayStr);
-        const diffTime = Math.abs(todayDate - lastDate);
-        const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-
-        if (diffDays === 1) {
-          currentStreak = (streakRecord.currentStreak || 0) + 1;
-        } else {
-          currentStreak = 1; // Missed a day: reset current streak
-        }
-      }
-
-      longestStreak = Math.max(currentStreak, streakRecord.longestStreak || 1);
-      streakRecord.currentStreak = currentStreak;
-      streakRecord.longestStreak = longestStreak;
-      streakRecord.lastLoginDate = todayStr;
-      await streakRecord.save();
-    }
-
-    if (user) {
-      user.currentStreak = currentStreak;
-      user.longestStreak = longestStreak;
-      user.lastActivityDate = new Date();
-      await user.save();
-    }
-
-    // Award +10 login XP once
-    await awardXP(userId, "DAILY_LOGIN", 10, "Daily Login Bonus");
+  if (!streakRecord) {
+    streakRecord = await Streak.create({
+      userId,
+      currentStreak: 1,
+      longestStreak: 1,
+      lastLoginDate: todayStr,
+    });
   } else {
-    // Local DB Streak Calculation
-    let user = await localDb.findUserById(searchUserId);
-    if (user) {
-      const lastDateStr = user.lastLoginDate;
-      if (lastDateStr === todayStr) {
-        currentStreak = user.currentStreak || 1;
-      } else if (lastDateStr) {
-        const lastDate = new Date(lastDateStr);
-        const todayDate = new Date(todayStr);
-        const diffTime = Math.abs(todayDate - lastDate);
-        const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+    const lastDateStr = streakRecord.lastLoginDate;
+    if (lastDateStr === todayStr) {
+      // Same day login: preserve current streak
+      currentStreak = streakRecord.currentStreak;
+    } else {
+      // Calculate difference in calendar days
+      const lastDate = new Date(lastDateStr);
+      const todayDate = new Date(todayStr);
+      const diffTime = Math.abs(todayDate - lastDate);
+      const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
 
-        if (diffDays === 1) {
-          currentStreak = (user.currentStreak || 0) + 1;
-        } else {
-          currentStreak = 1;
-        }
+      if (diffDays === 1) {
+        currentStreak = (streakRecord.currentStreak || 0) + 1;
       } else {
-        currentStreak = 1;
+        currentStreak = 1; // Missed a day: reset current streak
       }
-
-      longestStreak = Math.max(currentStreak, user.longestStreak || 1);
-      await localDb.updateUser(searchUserId, {
-        currentStreak,
-        longestStreak,
-        lastLoginDate: todayStr,
-        lastActivityDate: new Date().toISOString(),
-      });
-
-      await awardXP(searchUserId, "DAILY_LOGIN", 10, "Daily Login Bonus");
     }
+
+    longestStreak = Math.max(currentStreak, streakRecord.longestStreak || 1);
+    streakRecord.currentStreak = currentStreak;
+    streakRecord.longestStreak = longestStreak;
+    streakRecord.lastLoginDate = todayStr;
+    await streakRecord.save();
   }
+
+  if (user) {
+    user.currentStreak = currentStreak;
+    user.longestStreak = longestStreak;
+    user.lastActivityDate = new Date();
+    await user.save();
+  }
+
+  // Award +10 login XP once
+  await awardXP(userId, "DAILY_LOGIN", 10, "Daily Login Bonus");
 
   // Check milestones (3, 7, 14, 30, 60, 100 days)
   const milestones = [3, 7, 14, 30, 60, 100];
@@ -211,17 +152,10 @@ const getCalendarData = async (userId, year, month, timezone = "Asia/Kolkata") =
 
   let userActivities = [];
 
-  if (mongoose.connection.readyState === 1) {
-    userActivities = await Activity.find({
-      userId,
-      date: new RegExp(`^${datePattern}`),
-    }).lean();
-  } else {
-    const allActivities = await getLocalActivities();
-    userActivities = allActivities.filter(
-      (a) => a.userId.toString() === searchUserId && a.date && a.date.startsWith(datePattern)
-    );
-  }
+  userActivities = await Activity.find({
+    userId,
+    date: new RegExp(`^${datePattern}`),
+  }).lean();
 
   // Group by day date string
   const dayMap = {};
@@ -256,12 +190,7 @@ const getCalendarData = async (userId, year, month, timezone = "Asia/Kolkata") =
 // Fetch activities for a specific day
 const getDayActivities = async (userId, dateString) => {
   const searchUserId = userId.toString();
-  if (mongoose.connection.readyState === 1) {
-    return await Activity.find({ userId, date: dateString }).sort({ timestamp: -1 });
-  } else {
-    const allActivities = await getLocalActivities();
-    return allActivities.filter((a) => a.userId.toString() === searchUserId && a.date === dateString);
-  }
+  return await Activity.find({ userId, date: dateString }).sort({ timestamp: -1 });
 };
 
 module.exports = {

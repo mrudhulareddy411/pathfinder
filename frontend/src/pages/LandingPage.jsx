@@ -31,7 +31,7 @@ function LandingPage() {
   ];
 
   return (
-    <div style={{ background: "linear-gradient(135deg, #f0f4f9 0%, #e0e7ff 50%, #e0f2fe 100%)", minHeight: "100vh", overflowX: "hidden" }}>
+    <div style={{  minHeight: "100vh", overflowX: "hidden" }}>
       {/* Background Orbs */}
       <div className="bg-ambient-orb orb-1"></div>
       <div className="bg-ambient-orb orb-2"></div>

@@ -27,7 +27,7 @@ function CareerJourney() {
       <Navbar user={user} />
       <div className="container py-5">
         <div className="mb-4">
-          <h2 className="fw-bold text-white mb-1">Career Journey Progression 🗺️</h2>
+          <h2 className="fw-bold text-dark mb-1">Career Journey Progression 🗺️</h2>
           <p className="text-secondary small">
             Visual level-based path guiding your transition from Student to Career Ready Professional.
           </p>

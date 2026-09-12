@@ -280,7 +280,7 @@ function ResumeBuilder() {
       </div>
 
       {saveStatus && (
-        <div className="alert alert-success rounded-0 text-center py-2 mb-0 extra-small fw-bold border-0 bg-success bg-opacity-15 text-success">
+        <div className="alert alert-success rounded-0 text-center py-2 mb-0 extra-small fw-bold border-0 bg-success  text-success">
           {saveStatus}
         </div>
       )}
@@ -331,7 +331,7 @@ function ResumeBuilder() {
                       {currentPhoto ? (
                         <img src={currentPhoto} alt="Profile Preview" className="rounded-circle border border-2 border-primary" style={{ width: "70px", height: "70px", objectFit: "cover" }} />
                       ) : (
-                        <div className="rounded-circle bg-secondary bg-opacity-20 d-flex align-items-center justify-content-center text-muted fs-4" style={{ width: "70px", height: "70px" }}>
+                        <div className="rounded-circle bg-secondary  d-flex align-items-center justify-content-center text-muted fs-4" style={{ width: "70px", height: "70px" }}>
                           👤
                         </div>
                       )}
@@ -748,7 +748,7 @@ function ResumeBuilder() {
 
           {/* RIGHT COLUMN: REAL-TIME LIVE RESUME PREVIEW */}
           <div className={`col-12 col-lg-6 ${mobileView === "edit" ? "d-none d-lg-block" : ""}`}>
-            <div className="glass-panel p-2 p-md-4 bg-secondary bg-opacity-10 rounded-4 border shadow-sm sticky-top" style={{ top: "80px" }}>
+            <div className="glass-panel p-2 p-md-4 bg-secondary  rounded-4 border shadow-sm sticky-top" style={{ top: "80px" }}>
               <div className="d-flex justify-content-between align-items-center mb-3 px-2 no-print">
                 <span className="badge bg-primary px-3 py-1.5 rounded-pill extra-small">
                   Live Preview ({resumeData.template})

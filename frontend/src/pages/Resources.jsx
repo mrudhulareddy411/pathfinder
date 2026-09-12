@@ -213,7 +213,7 @@ function Resources() {
                       <button
                         onClick={() => handleCompleteActivity(itemId, item.title, item.skill)}
                         className={`btn btn-sm extra-small w-100 justify-content-center ${
-                          isDone ? "btn-success text-white" : "btn-primary-clean"
+                          isDone ? "btn-success text-dark" : "btn-primary-clean"
                         }`}
                         disabled={isDone || isCompleting}
                       >

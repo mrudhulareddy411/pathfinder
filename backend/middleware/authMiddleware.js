@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const User = require("../models/User");
-const localDb = require("../config/localDbService");
 
 const protect = async (req, res, next) => {
   let token;
@@ -14,15 +13,9 @@ const protect = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET || "pathfinder_secret_key");
 
-      if (mongoose.connection.readyState === 1) {
+      
         req.user = await User.findById(decoded.id).select("-password");
-      } else {
-        const found = await localDb.findUserById(decoded.id);
-        if (found) {
-          const { password, ...userNoPass } = found;
-          req.user = userNoPass;
-        }
-      }
+      
 
       if (!req.user) {
         return res.status(401).json({ message: "User not found or token invalid." });

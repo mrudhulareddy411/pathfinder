@@ -3,7 +3,6 @@ const AssessmentAttempt = require("../models/AssessmentAttempt");
 const SkillScore = require("../models/SkillScore");
 const AssessmentBank = require("../models/AssessmentBank");
 const User = require("../models/User");
-const localDb = require("../config/localDbService");
 
 /**
  * GET /api/academic/performance
@@ -21,27 +20,17 @@ const getAcademicPerformance = async (req, res) => {
     let skillMap = {};
     let recommendedAssessments = [];
 
-    if (mongoose.connection.readyState === 1) {
-      try {
-        const u = await User.findById(userId).lean();
-        if (u) user = u;
-        attempts = await AssessmentAttempt.find({ userId }).sort({ completedAt: -1 }).lean();
-        const skillDoc = await SkillScore.findOne({ userId }).lean();
-        if (skillDoc?.skills) {
-          skillMap = skillDoc.skills instanceof Map ? Object.fromEntries(skillDoc.skills) : skillDoc.skills;
-        }
-        recommendedAssessments = await AssessmentBank.find().limit(6).lean();
-      } catch (dbErr) {
-        console.warn("Mongo connection query failed, using localDb fallback:", dbErr.message);
+    try {
+      const u = await User.findById(userId).lean();
+      if (u) user = u;
+      attempts = await AssessmentAttempt.find({ userId }).sort({ completedAt: -1 }).lean();
+      const skillDoc = await SkillScore.findOne({ userId }).lean();
+      if (skillDoc?.skills) {
+        skillMap = skillDoc.skills instanceof Map ? Object.fromEntries(skillDoc.skills) : skillDoc.skills;
       }
-    }
-
-    if (!user) {
-      user = await localDb.findUserById(userId);
-    }
-
-    if (!attempts || attempts.length === 0) {
-      attempts = await localDb.getAttemptsLocal(userId);
+      recommendedAssessments = await AssessmentBank.find().limit(6).lean();
+    } catch (dbErr) {
+      console.error("Mongo query failed:", dbErr.message);
     }
 
     // Calculate assessment stats

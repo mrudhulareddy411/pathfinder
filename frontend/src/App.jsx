@@ -24,6 +24,7 @@ import ResumeDashboard from "./pages/ResumeDashboard";
 import ResumeTemplateSelector from "./pages/ResumeTemplateSelector";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ThreeBackground from "./components/ThreeBackground";
 
 function App() {
   return (

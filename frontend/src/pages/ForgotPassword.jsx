@@ -56,14 +56,14 @@ function ForgotPassword() {
   };
 
   return (
-    <div style={{ background: "linear-gradient(135deg, #f0f4f9 0%, #e0e7ff 50%, #e0f2fe 100%)", minHeight: "100vh" }} className="d-flex align-items-center justify-content-center p-3 p-md-5">
+    <div style={{  minHeight: "100vh" }} className="d-flex align-items-center justify-content-center p-3 p-md-5">
       <div className="bg-ambient-orb orb-1"></div>
       <div className="bg-ambient-orb orb-2"></div>
 
       <div className="container" style={{ maxWidth: "480px", zIndex: 1 }}>
         <div className="glass-panel p-4 p-md-5 rounded-5 border border-primary border-opacity-15 text-center bg-white shadow-lg">
           {/* Icon */}
-          <div className="fs-1 mb-3 p-3 rounded-circle bg-primary bg-opacity-10 border border-primary border-opacity-25 d-inline-block" style={{ color: "#2563eb" }}>
+          <div className="fs-1 mb-3 p-3 rounded-circle bg-primary  border border-primary border-opacity-25 d-inline-block" style={{ color: "#2563eb" }}>
             {step === 1 ? "🔐" : "🔑"}
           </div>
 
@@ -77,7 +77,7 @@ function ForgotPassword() {
           </p>
 
           {error && (
-            <div className="alert alert-danger bg-danger bg-opacity-10 border-danger border-opacity-25 text-danger extra-small p-3 rounded-3 mb-4 text-start">
+            <div className="alert alert-danger bg-danger  border-danger border-opacity-25 text-danger extra-small p-3 rounded-3 mb-4 text-start">
               {error}
             </div>
           )}
@@ -103,7 +103,7 @@ function ForgotPassword() {
           ) : (
             <form onSubmit={handleVerifyOTP} className="d-flex flex-column gap-3 text-start">
               {devOtp && (
-                <div className="p-3 rounded-3 bg-primary bg-opacity-10 border border-primary border-opacity-25 text-center mb-2">
+                <div className="p-3 rounded-3 bg-primary  border border-primary border-opacity-25 text-center mb-2">
                   <span className="text-muted extra-small d-block">Development Mode OTP Code:</span>
                   <span className="fw-extrabold fs-3 font-monospace text-primary" style={{ letterSpacing: "4px" }}>
                     {devOtp}

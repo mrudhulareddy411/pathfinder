@@ -74,11 +74,11 @@ function CareerDetailsModal({ career, onClose }) {
           <div className="modal-header border-bottom p-4 bg-light rounded-top-5">
             <div>
               <div className="d-flex align-items-center gap-2 mb-1">
-                <span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-20 extra-small">
+                <span className="badge bg-primary  text-primary border border-primary border-opacity-20 extra-small">
                   O*NET 28.0 Occupation Record
                 </span>
                 {career.onetCode && (
-                  <span className="badge bg-dark text-white font-monospace extra-small">
+                  <span className="badge bg-dark text-dark font-monospace extra-small">
                     O*NET-SOC {career.onetCode}
                   </span>
                 )}
@@ -125,7 +125,7 @@ function CareerDetailsModal({ career, onClose }) {
               <h6 className="fw-extrabold text-dark mb-3">Required Technical Skills & Technologies</h6>
               <div className="d-flex flex-wrap gap-2">
                 {(career.requiredSkills || ["Problem Solving", "Computer Science", "SQL"]).map((sk) => (
-                  <span key={sk} className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-2 rounded-pill small fw-semibold">
+                  <span key={sk} className="badge bg-primary  text-primary border border-primary border-opacity-25 px-3 py-2 rounded-pill small fw-semibold">
                     {sk}
                   </span>
                 ))}
@@ -140,7 +140,7 @@ function CareerDetailsModal({ career, onClose }) {
                 <h5 className="fw-extrabold text-dark mb-0 d-flex align-items-center gap-2">
                   <span>🗺️</span> 8-Level Career Development Roadmap
                 </h5>
-                <span className="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30 extra-small font-monospace">
+                <span className="badge bg-success  text-success border border-success border-opacity-30 extra-small font-monospace">
                   Career Specific Progression
                 </span>
               </div>
@@ -150,7 +150,7 @@ function CareerDetailsModal({ career, onClose }) {
                   <div className="col-12 col-md-6" key={lvl.level}>
                     <div className="p-3 bg-white rounded-4 border border-secondary border-opacity-20 shadow-sm h-100">
                       <div className="d-flex align-items-center gap-2 mb-2">
-                        <span className="badge bg-primary text-white font-monospace rounded-circle p-2" style={{ width: "28px", height: "28px" }}>
+                        <span className="badge bg-primary text-dark font-monospace rounded-circle p-2" style={{ width: "28px", height: "28px" }}>
                           {lvl.level}
                         </span>
                         <h6 className="fw-bold text-dark mb-0">{lvl.title}</h6>

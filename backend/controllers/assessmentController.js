@@ -4,7 +4,6 @@ const Question = require("../models/Question");
 const AssessmentAttempt = require("../models/AssessmentAttempt");
 const SkillScore = require("../models/SkillScore");
 const User = require("../models/User");
-const localDb = require("../config/localDbService");
 
 const defaultCatalog = [
   {
@@ -67,6 +66,16 @@ const defaultCatalog = [
     difficulty: "Medium",
     topics: ["Programming", "DSA", "SQL", "Web Dev", "Git"],
   },
+  {
+    _id: "asm_dynamic_skills",
+    id: "asm_dynamic_skills",
+    title: "AI-Powered Skill Based Assessment",
+    description: "A dynamic assessment that adapts to your profile and tests a mix of ML, Programming, SQL, and other key skills based on dataset insights.",
+    category: "Skill Based",
+    durationMinutes: 30,
+    difficulty: "Adaptive",
+    topics: ["Machine Learning", "Programming", "SQL", "Data Structures", "Dynamic"],
+  },
 ];
 
 const defaultQuestionsMap = {
@@ -80,9 +89,11 @@ const defaultQuestionsMap = {
     { _id: "q_db2", question: "What does ACID stand for in Database Systems?", options: ["Atomicity, Consistency, Isolation, Durability", "Access, Control, Index, Data", "Array, Class, Instance, Directory", "Automatic, Concurrent, Isolated, Distributed"], correctAnswer: "Atomicity, Consistency, Isolation, Durability" },
   ],
   Default: [
-    { _id: "q_gen1", question: "Which data structure uses FIFO (First In First Out) ordering?", options: ["Stack", "Queue", "Tree", "Graph"], correctAnswer: "Queue" },
-    { _id: "q_gen2", question: "What is the average time complexity of Quick Sort?", options: ["O(N log N)", "O(N^2)", "O(N)", "O(1)"], correctAnswer: "O(N log N)" },
-    { _id: "q_gen3", question: "In relational databases, what is a Primary Key?", options: ["A key that allows duplicate values", "A unique identifier for each record in a table", "A foreign key reference", "An index for full text search"], correctAnswer: "A unique identifier for each record in a table" },
+    { _id: "q_gen1", question: "Which data structure uses FIFO (First In First Out) ordering?", options: ["Stack", "Queue", "Tree", "Graph"], correctAnswer: "Queue", difficulty: "Easy" },
+    { _id: "q_gen2", question: "What is the average time complexity of Quick Sort?", options: ["O(N log N)", "O(N^2)", "O(N)", "O(1)"], correctAnswer: "O(N log N)", difficulty: "Medium" },
+    { _id: "q_gen3", question: "In relational databases, what is a Primary Key?", options: ["A key that allows duplicate values", "A unique identifier for each record in a table", "A foreign key reference", "An index for full text search"], correctAnswer: "A unique identifier for each record in a table", difficulty: "Easy" },
+    { _id: "q_gen4", question: "What does the 'volatile' keyword signify in programming?", options: ["Variables that change randomly", "Memory may be modified by concurrent threads", "Variables are stored on disk", "Prevents compilation errors"], correctAnswer: "Memory may be modified by concurrent threads", difficulty: "Hard" },
+    { _id: "q_gen5", question: "Which algorithmic paradigm is Dijkstra's algorithm based on?", options: ["Divide and Conquer", "Dynamic Programming", "Greedy Approach", "Backtracking"], correctAnswer: "Greedy Approach", difficulty: "Medium" },
   ],
 };
 
@@ -93,7 +104,7 @@ const defaultQuestionsMap = {
 const getAssessments = async (req, res) => {
   try {
     let formatted = [];
-    if (mongoose.connection.readyState === 1) {
+    
       try {
         const assessments = await AssessmentBank.find().sort({ createdAt: -1 }).lean();
         formatted = assessments.map((a) => ({
@@ -108,7 +119,7 @@ const getAssessments = async (req, res) => {
           topics: a.topics || [],
         }));
       } catch (e) {}
-    }
+    
 
     if (!formatted || formatted.length === 0) {
       formatted = defaultCatalog;
@@ -143,11 +154,11 @@ const createAssessment = async (req, res) => {
     };
 
     let newAsm = null;
-    if (mongoose.connection.readyState === 1) {
+    
       try {
         newAsm = await AssessmentBank.create(payload);
       } catch (e) {}
-    }
+    
 
     return res.status(201).json({ success: true, message: "Assessment created.", assessment: newAsm || { _id: `asm_${Date.now()}`, ...payload } });
   } catch (error) {
@@ -163,29 +174,57 @@ const createAssessment = async (req, res) => {
 const getAssessmentForTake = async (req, res) => {
   try {
     const { id } = req.params;
+    const { level } = req.query; // e.g. Easy, Medium, Hard
     let questions = [];
     let title = "Skill Assessment";
     let category = "General";
 
-    if (mongoose.connection.readyState === 1) {
+    if (id === "asm_dynamic_skills") {
+      title = "AI-Powered Skill Based Assessment";
+      category = "Skill Based";
+      const allDefaults = [
+        ...(defaultQuestionsMap.Programming || []),
+        ...(defaultQuestionsMap.DBMS || []),
+        ...(defaultQuestionsMap.Default || [])
+      ];
+      questions = allDefaults.sort(() => 0.5 - Math.random()).slice(0, 10);
+    } else {
       try {
-        let asm = await AssessmentBank.findById(id).populate("questionIds").lean();
+        let asm = await AssessmentBank.findById(id).lean();
         if (!asm) {
-          asm = await AssessmentBank.findOne({ category: new RegExp(id, "i") }).populate("questionIds").lean();
+          asm = await AssessmentBank.findOne({ category: new RegExp(id, "i") }).lean();
         }
-        if (asm && asm.questionIds && asm.questionIds.length > 0) {
-          questions = asm.questionIds;
+        if (asm) {
           title = asm.title;
           category = asm.category;
+          
+          if (level) {
+             const randomQs = await Question.aggregate([
+               { $match: { category: category, difficulty: level } },
+               { $sample: { size: 10 } }
+             ]);
+             if (randomQs && randomQs.length > 0) {
+               questions = randomQs;
+             }
+          }
+          
+          if (questions.length === 0 && asm.questionIds && asm.questionIds.length > 0) {
+             questions = await Question.find({ _id: { $in: asm.questionIds } }).lean();
+          }
         }
       } catch (e) {}
-    }
 
-    if (!questions || questions.length === 0) {
-      const qList = defaultQuestionsMap[id] || defaultQuestionsMap[category] || defaultQuestionsMap.Default;
-      questions = qList;
-      title = `${id} Assessment`;
-      category = id;
+      if (!questions || questions.length === 0) {
+        let qList = defaultQuestionsMap[id] || defaultQuestionsMap[category] || defaultQuestionsMap.Default;
+        if (level) {
+          const filtered = qList.filter(q => q.difficulty === level);
+          if (filtered.length > 0) qList = filtered;
+        }
+        // Shuffle questions
+        questions = qList.sort(() => 0.5 - Math.random()).slice(0, 10);
+        title = `${id} Assessment`;
+        category = id;
+      }
     }
 
     // Strip correctAnswer for test taker security
@@ -230,21 +269,31 @@ const submitAssessment = async (req, res) => {
     let questions = [];
     let category = id || "General";
 
-    if (mongoose.connection.readyState === 1) {
+    
       try {
-        let asm = await AssessmentBank.findById(id).populate("questionIds").lean();
+        let asm = await AssessmentBank.findById(id).lean();
         if (!asm) {
-          asm = await AssessmentBank.findOne({ category: new RegExp(id, "i") }).populate("questionIds").lean();
+          asm = await AssessmentBank.findOne({ category: new RegExp(id, "i") }).lean();
         }
-        if (asm && asm.questionIds) {
-          questions = asm.questionIds;
+        if (asm) {
           category = asm.category;
+          const submittedIds = Object.keys(answers).filter(k => mongoose.Types.ObjectId.isValid(k));
+          questions = await Question.find({ _id: { $in: submittedIds } }).lean();
         }
       } catch (e) {}
-    }
+    
 
     if (!questions || questions.length === 0) {
-      questions = defaultQuestionsMap[id] || defaultQuestionsMap[category] || defaultQuestionsMap.Default;
+      // Fallback search through all maps
+      const allDefaults = [
+        ...(defaultQuestionsMap[id] || []),
+        ...(defaultQuestionsMap[category] || []),
+        ...defaultQuestionsMap.Default,
+        ...(defaultQuestionsMap.Programming || []),
+        ...(defaultQuestionsMap.DBMS || [])
+      ];
+      const submittedKeys = Object.keys(answers);
+      questions = allDefaults.filter(q => submittedKeys.includes(q._id));
     }
 
     let correctCount = 0;
@@ -293,7 +342,7 @@ const submitAssessment = async (req, res) => {
       completedAt: new Date(),
     };
 
-    if (mongoose.connection.readyState === 1) {
+    
       try {
         await AssessmentAttempt.create(attemptData);
         let skillDoc = await SkillScore.findOne({ userId });
@@ -305,9 +354,7 @@ const submitAssessment = async (req, res) => {
         });
         await skillDoc.save();
       } catch (e) {}
-    } else {
-      await localDb.saveAttemptLocal(attemptData);
-    }
+    
 
     return res.status(200).json({
       success: true,

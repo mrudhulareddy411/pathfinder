@@ -10,7 +10,6 @@ const Activity = require("../models/Activity");
 const Streak = require("../models/Streak");
 const User = require("../models/User");
 const mongoose = require("mongoose");
-const localDb = require("../config/localDbService");
 const fs = require("fs").promises;
 const path = require("path");
 
@@ -36,17 +35,11 @@ const getUserActivities = async (req, res) => {
     const userId = req.user.id.toString();
     let activities = [];
 
-    if (mongoose.connection.readyState === 1) {
+    
       const filter = { userId: req.user.id };
       if (month) filter.date = new RegExp(`^${month}`);
       activities = await Activity.find(filter).sort({ timestamp: -1 });
-    } else {
-      const all = await getLocalActivities();
-      activities = all.filter((a) => a.userId && a.userId.toString() === userId);
-      if (month) {
-        activities = activities.filter((a) => a.date && a.date.startsWith(month));
-      }
-    }
+    
 
     return res.json({
       count: activities.length,
@@ -114,21 +107,14 @@ const getStreakMetrics = async (req, res) => {
     let longestStreak = 1;
     let lastLoginDate = getFormattedDate();
 
-    if (mongoose.connection.readyState === 1) {
+    
       const streakRecord = await Streak.findOne({ userId });
       if (streakRecord) {
         currentStreak = streakRecord.currentStreak || 1;
         longestStreak = streakRecord.longestStreak || 1;
         lastLoginDate = streakRecord.lastLoginDate || getFormattedDate();
       }
-    } else {
-      const user = await localDb.findUserById(userId);
-      if (user) {
-        currentStreak = user.currentStreak || 1;
-        longestStreak = user.longestStreak || 1;
-        lastLoginDate = user.lastLoginDate || getFormattedDate();
-      }
-    }
+    
 
     return res.json({
       currentStreak,
@@ -161,11 +147,9 @@ const completeActivity = async (req, res) => {
     const searchUserId = userId.toString();
 
     let user;
-    if (mongoose.connection.readyState === 1) {
+    
       user = await User.findById(userId);
-    } else {
-      user = await localDb.findUserById(searchUserId);
-    }
+    
 
     if (!user) {
       return res.status(404).json({ message: "User not found." });
@@ -205,18 +189,11 @@ const completeActivity = async (req, res) => {
 
     // 4. Update user completedActivities list
     let finalUser;
-    if (mongoose.connection.readyState === 1) {
+    
       user.completedActivities.push(newCompletion);
       await user.save();
       finalUser = await User.findById(userId).select("-password");
-    } else {
-      const updatedList = [...completedList, newCompletion];
-      finalUser = await localDb.updateUser(searchUserId, {
-        completedActivities: updatedList,
-        xp: updatedUserObj?.xp || user.xp,
-        levelNumber: updatedUserObj?.levelNumber || user.levelNumber,
-      });
-    }
+    
 
     return res.json({
       success: true,

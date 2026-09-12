@@ -211,18 +211,18 @@ function ResumePreview({ resumeData, selectedTemplate = "CLASSIC", accentColor =
     <div className="bg-white shadow-sm rounded overflow-hidden" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", minHeight: "1000px" }}>
       <div className="row g-0">
         {/* Left Sidebar */}
-        <div className="col-4 p-4 text-white" style={{ background: accentColor }}>
+        <div className="col-4 p-4 text-dark" style={{ background: accentColor }}>
           {hasPhoto && (
             <div className="text-center mb-4">
               <ProfilePhoto src={photoSrc} size={95} shape="circle" />
             </div>
           )}
           <h4 className="fw-extrabold mb-1">{personalInformation.fullName || "Your Full Name"}</h4>
-          <p className="extra-small text-white-50 text-uppercase fw-bold mb-4">{personalInformation.title || "Software Engineering Student"}</p>
+          <p className="extra-small text-dark-50 text-uppercase fw-bold mb-4">{personalInformation.title || "Software Engineering Student"}</p>
 
           <div className="mb-4">
             <h6 className="fw-bold text-uppercase border-bottom border-white border-opacity-25 pb-1 mb-2 extra-small">Contact</h6>
-            <div className="extra-small text-white-75 d-flex flex-column gap-1">
+            <div className="extra-small text-dark-75 d-flex flex-column gap-1">
               {personalInformation.email && <div>📧 {personalInformation.email}</div>}
               {personalInformation.phone && <div>📞 {personalInformation.phone}</div>}
               {personalInformation.location && <div>📍 {personalInformation.location}</div>}
@@ -236,7 +236,7 @@ function ResumePreview({ resumeData, selectedTemplate = "CLASSIC", accentColor =
               <h6 className="fw-bold text-uppercase border-bottom border-white border-opacity-25 pb-1 mb-2 extra-small">Skills</h6>
               <div className="d-flex flex-wrap gap-1">
                 {skills.map((sk, idx) => (
-                  <span key={idx} className="badge bg-white bg-opacity-20 text-white extra-small">
+                  <span key={idx} className="badge bg-white  text-dark extra-small">
                     {typeof sk === "object" ? sk.name : sk}
                   </span>
                 ))}
@@ -247,7 +247,7 @@ function ResumePreview({ resumeData, selectedTemplate = "CLASSIC", accentColor =
           {languages.length > 0 && (
             <div className="mb-4">
               <h6 className="fw-bold text-uppercase border-bottom border-white border-opacity-25 pb-1 mb-2 extra-small">Languages</h6>
-              <div className="extra-small text-white-75">
+              <div className="extra-small text-dark-75">
                 {languages.map((lang, idx) => (
                   <div key={idx}>{typeof lang === "object" ? `${lang.language} (${lang.proficiency || "Fluent"})` : lang}</div>
                 ))}
@@ -414,7 +414,7 @@ function ResumePreview({ resumeData, selectedTemplate = "CLASSIC", accentColor =
             <h6 className="fw-bold text-dark text-uppercase small mb-2">● Technical Competencies</h6>
             <div className="d-flex flex-wrap gap-1.5">
               {skills.map((sk, idx) => (
-                <span key={idx} className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-20 extra-small">
+                <span key={idx} className="badge bg-success  text-success border border-success border-opacity-20 extra-small">
                   {typeof sk === "object" ? sk.name : sk}
                 </span>
               ))}
@@ -440,7 +440,7 @@ function ResumePreview({ resumeData, selectedTemplate = "CLASSIC", accentColor =
   // Render Renderer 5: CREATIVE (Featured Top Header Avatar 130px)
   const renderCreative = () => (
     <div className="p-4 p-md-5 bg-white text-dark shadow-sm rounded" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", minHeight: "1000px" }}>
-      <div className="p-4 rounded-4 text-white mb-4" style={{ background: "linear-gradient(135deg, #7c3aed 0%, #4f46e5 50%, #0284c7 100%)" }}>
+      <div className="p-4 rounded-4 text-dark mb-4" style={{ background: "linear-gradient(135deg, #7c3aed 0%, #4f46e5 50%, #0284c7 100%)" }}>
         <div className="d-flex align-items-center gap-4">
           {hasPhoto ? (
             <ProfilePhoto src={photoSrc} size={130} shape="circle" />
@@ -470,7 +470,7 @@ function ResumePreview({ resumeData, selectedTemplate = "CLASSIC", accentColor =
           <h6 className="fw-extrabold text-uppercase text-primary mb-2">⚡ Core Skills & Competencies</h6>
           <div className="d-flex flex-wrap gap-2">
             {skills.map((sk, idx) => (
-              <span key={idx} className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-20 px-3 py-1.5 rounded-pill extra-small fw-semibold">
+              <span key={idx} className="badge bg-primary  text-primary border border-primary border-opacity-20 px-3 py-1.5 rounded-pill extra-small fw-semibold">
                 {typeof sk === "object" ? sk.name : sk}
               </span>
             ))}
@@ -579,7 +579,7 @@ function ResumePreview({ resumeData, selectedTemplate = "CLASSIC", accentColor =
           <h6 className="fw-bold text-uppercase border-bottom pb-1 mb-3 text-primary">Technical & Core Skills</h6>
           <div className="d-flex flex-wrap gap-2">
             {skills.map((sk, idx) => (
-              <span key={idx} className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-20 px-3 py-1.5 rounded-pill extra-small fw-semibold">
+              <span key={idx} className="badge bg-primary  text-primary border border-primary border-opacity-20 px-3 py-1.5 rounded-pill extra-small fw-semibold">
                 {typeof sk === "object" ? sk.name : sk}
               </span>
             ))}

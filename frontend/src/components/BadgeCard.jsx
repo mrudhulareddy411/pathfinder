@@ -24,10 +24,10 @@ function BadgeCard({ badge, unlocked = false }) {
       }}
     >
       <div className="fs-1 mb-2 filter-glow">{badge.icon || "🏆"}</div>
-      <h6 className="fw-bold text-white mb-1">{badge.name}</h6>
+      <h6 className="fw-bold text-dark mb-1">{badge.name}</h6>
       <p className="text-secondary extra-small mb-2.5">{badge.description}</p>
       <div className="d-flex justify-content-between align-items-center extra-small">
-        <span className="badge bg-secondary bg-opacity-30 text-light border border-secondary border-opacity-25 px-2 py-1">
+        <span className="badge bg-secondary  text-light border border-secondary border-opacity-25 px-2 py-1">
           {badge.rarity}
         </span>
         <span className="text-gradient-teal fw-bold font-monospace">+{badge.xpReward} XP</span>

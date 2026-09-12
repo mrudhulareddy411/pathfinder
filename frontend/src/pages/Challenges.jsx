@@ -114,7 +114,7 @@ function Challenges() {
 
                   <div className="pt-3 border-top">
                     {isDone ? (
-                      <button className="btn btn-success btn-sm w-100 justify-content-center text-white" disabled>
+                      <button className="btn btn-success btn-sm w-100 justify-content-center text-dark" disabled>
                         ✓ Completed (+{c.xpReward} XP)
                       </button>
                     ) : (

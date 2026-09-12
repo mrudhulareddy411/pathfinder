@@ -54,10 +54,10 @@ function Hero3DVisual() {
           }}
         >
           <span className="fs-1 mb-1">🚀</span>
-          <h5 className="fw-extrabold text-white mb-0" style={{ letterSpacing: "1px" }}>
+          <h5 className="fw-extrabold text-dark mb-0" style={{ letterSpacing: "1px" }}>
             PATHFINDER AI
           </h5>
-          <span className="extra-small text-white opacity-75 fw-semibold">Career Core</span>
+          <span className="extra-small text-dark opacity-75 fw-semibold">Career Core</span>
         </motion.div>
 
         {/* Orbiting Floating Metric Cards */}

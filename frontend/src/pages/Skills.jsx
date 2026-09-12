@@ -281,7 +281,7 @@ function Skills() {
                             </a>
                             <button
                               onClick={() => handleCompleteActivity(itemId, item.title, item.skill)}
-                              className={`btn btn-sm extra-small w-100 justify-content-center ${isDone ? "btn-success text-white" : "btn-primary-clean"}`}
+                              className={`btn btn-sm extra-small w-100 justify-content-center ${isDone ? "btn-success text-dark" : "btn-primary-clean"}`}
                               disabled={isDone || isCompleting}
                             >
                               {isDone ? "✓ Completed (+50 XP)" : isCompleting ? "Saving..." : "Complete & Earn +50 XP"}

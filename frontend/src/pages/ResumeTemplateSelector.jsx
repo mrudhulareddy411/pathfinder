@@ -12,26 +12,26 @@ function MiniTemplateMockup({ code, accent }) {
         <div className="p-2.5 rounded-4 bg-white border border-secondary border-opacity-20 shadow-sm overflow-hidden" style={{ minHeight: "150px" }}>
           <div className="row g-0 h-100 rounded-3 overflow-hidden border">
             {/* Left Sidebar */}
-            <div className="col-4 p-2 text-white d-flex flex-column justify-content-between" style={{ background: accent }}>
+            <div className="col-4 p-2 text-dark d-flex flex-column justify-content-between" style={{ background: accent }}>
               <div>
-                <div className="rounded-circle bg-white bg-opacity-30 mx-auto mb-1" style={{ width: "22px", height: "22px" }}></div>
-                <div className="bg-white bg-opacity-80 rounded mx-auto mb-1" style={{ height: "4px", width: "80%" }}></div>
-                <div className="bg-white bg-opacity-50 rounded mx-auto" style={{ height: "3px", width: "60%" }}></div>
+                <div className="rounded-circle bg-white  mx-auto mb-1" style={{ width: "22px", height: "22px" }}></div>
+                <div className="bg-white  rounded mx-auto mb-1" style={{ height: "4px", width: "80%" }}></div>
+                <div className="bg-white  rounded mx-auto" style={{ height: "3px", width: "60%" }}></div>
               </div>
               <div className="d-flex flex-column gap-1">
-                <div className="bg-white bg-opacity-30 rounded px-1 py-0.5 extra-small" style={{ fontSize: "7px" }}>SKILLS</div>
-                <div className="bg-white bg-opacity-30 rounded px-1 py-0.5 extra-small" style={{ fontSize: "7px" }}>LANGUAGES</div>
+                <div className="bg-white  rounded px-1 py-0.5 extra-small" style={{ fontSize: "7px" }}>SKILLS</div>
+                <div className="bg-white  rounded px-1 py-0.5 extra-small" style={{ fontSize: "7px" }}>LANGUAGES</div>
               </div>
             </div>
             {/* Right Main Area */}
             <div className="col-8 p-2 bg-light d-flex flex-column gap-1.5">
               <div className="fw-bold text-dark extra-small" style={{ fontSize: "9px" }}>SUMMARY</div>
-              <div className="bg-secondary bg-opacity-20 rounded" style={{ height: "3px", width: "100%" }}></div>
-              <div className="bg-secondary bg-opacity-20 rounded" style={{ height: "3px", width: "85%" }}></div>
+              <div className="bg-secondary  rounded" style={{ height: "3px", width: "100%" }}></div>
+              <div className="bg-secondary  rounded" style={{ height: "3px", width: "85%" }}></div>
               <div className="fw-bold text-dark extra-small mt-1" style={{ fontSize: "9px" }}>EXPERIENCE & PROJECTS</div>
               <div className="p-1 rounded bg-white border">
-                <div className="bg-dark bg-opacity-60 rounded" style={{ height: "4px", width: "70%" }}></div>
-                <div className="bg-secondary bg-opacity-20 rounded mt-1" style={{ height: "3px", width: "90%" }}></div>
+                <div className="bg-dark  rounded" style={{ height: "4px", width: "70%" }}></div>
+                <div className="bg-secondary  rounded mt-1" style={{ height: "3px", width: "90%" }}></div>
               </div>
             </div>
           </div>
@@ -46,12 +46,12 @@ function MiniTemplateMockup({ code, accent }) {
             <div className="text-muted extra-small" style={{ fontSize: "7px" }}>Email | Phone | Location | LinkedIn</div>
           </div>
           <div className="fw-bold text-dark extra-small border-bottom border-dark pb-0.5 mb-1" style={{ fontSize: "8px" }}>EDUCATION</div>
-          <div className="bg-secondary bg-opacity-20 rounded mb-2" style={{ height: "4px", width: "95%" }}></div>
+          <div className="bg-secondary  rounded mb-2" style={{ height: "4px", width: "95%" }}></div>
           <div className="fw-bold text-dark extra-small border-bottom border-dark pb-0.5 mb-1" style={{ fontSize: "8px" }}>TECHNICAL SKILLS</div>
           <div className="d-flex gap-1 flex-wrap mb-2">
-            <span className="badge bg-dark text-white p-1" style={{ fontSize: "7px" }}>React</span>
-            <span className="badge bg-dark text-white p-1" style={{ fontSize: "7px" }}>Node.js</span>
-            <span className="badge bg-dark text-white p-1" style={{ fontSize: "7px" }}>Python</span>
+            <span className="badge bg-dark text-dark p-1" style={{ fontSize: "7px" }}>React</span>
+            <span className="badge bg-dark text-dark p-1" style={{ fontSize: "7px" }}>Node.js</span>
+            <span className="badge bg-dark text-dark p-1" style={{ fontSize: "7px" }}>Python</span>
           </div>
           <div className="text-end text-success extra-small fw-bold" style={{ fontSize: "8px" }}>✓ 100% ATS Parseable</div>
         </div>
@@ -75,8 +75,8 @@ function MiniTemplateMockup({ code, accent }) {
             <div className="ps-2">
               <div className="fw-bold text-success extra-small" style={{ fontSize: "8px" }}>● Skills Matrix</div>
               <div className="d-flex gap-1">
-                <span className="badge bg-success bg-opacity-15 text-success" style={{ fontSize: "6px" }}>JavaScript</span>
-                <span className="badge bg-success bg-opacity-15 text-success" style={{ fontSize: "6px" }}>SQL</span>
+                <span className="badge bg-success  text-success" style={{ fontSize: "6px" }}>JavaScript</span>
+                <span className="badge bg-success  text-success" style={{ fontSize: "6px" }}>SQL</span>
               </div>
             </div>
           </div>
@@ -86,7 +86,7 @@ function MiniTemplateMockup({ code, accent }) {
     case "CREATIVE":
       return (
         <div className="p-2.5 rounded-4 bg-white border border-secondary border-opacity-20 shadow-sm" style={{ minHeight: "150px" }}>
-          <div className="p-2 rounded-3 text-white mb-2" style={{ background: "linear-gradient(135deg, #7c3aed 0%, #4f46e5 50%, #0284c7 100%)" }}>
+          <div className="p-2 rounded-3 text-dark mb-2" style={{ background: "linear-gradient(135deg, #7c3aed 0%, #4f46e5 50%, #0284c7 100%)" }}>
             <div className="d-flex align-items-center gap-2">
               <div className="rounded-circle bg-white text-primary fw-bold d-flex align-items-center justify-content-center" style={{ width: "22px", height: "22px", fontSize: "10px" }}>P</div>
               <div>
@@ -96,9 +96,9 @@ function MiniTemplateMockup({ code, accent }) {
             </div>
           </div>
           <div className="d-flex gap-1 mb-1">
-            <span className="badge bg-primary bg-opacity-15 text-primary" style={{ fontSize: "6px" }}>UI/UX</span>
-            <span className="badge bg-primary bg-opacity-15 text-primary" style={{ fontSize: "6px" }}>React</span>
-            <span className="badge bg-primary bg-opacity-15 text-primary" style={{ fontSize: "6px" }}>Design</span>
+            <span className="badge bg-primary  text-primary" style={{ fontSize: "6px" }}>UI/UX</span>
+            <span className="badge bg-primary  text-primary" style={{ fontSize: "6px" }}>React</span>
+            <span className="badge bg-primary  text-primary" style={{ fontSize: "6px" }}>Design</span>
           </div>
           <div className="row g-1">
             <div className="col-6">
@@ -142,9 +142,9 @@ function MiniTemplateMockup({ code, accent }) {
           </div>
           <div className="fw-bold text-primary mb-1" style={{ fontSize: "8px" }}>Technical & Core Skills</div>
           <div className="d-flex gap-1 flex-wrap mb-1">
-            <span className="badge bg-primary bg-opacity-15 text-primary" style={{ fontSize: "6px" }}>Full Stack</span>
-            <span className="badge bg-primary bg-opacity-15 text-primary" style={{ fontSize: "6px" }}>JavaScript</span>
-            <span className="badge bg-primary bg-opacity-15 text-primary" style={{ fontSize: "6px" }}>Python</span>
+            <span className="badge bg-primary  text-primary" style={{ fontSize: "6px" }}>Full Stack</span>
+            <span className="badge bg-primary  text-primary" style={{ fontSize: "6px" }}>JavaScript</span>
+            <span className="badge bg-primary  text-primary" style={{ fontSize: "6px" }}>Python</span>
           </div>
           <div className="p-1 rounded bg-light border extra-small" style={{ fontSize: "7px" }}>
             ⭐ Featured Projects & Academic Achievements
@@ -162,9 +162,9 @@ function MiniTemplateMockup({ code, accent }) {
             <div className="text-secondary" style={{ fontSize: "6px" }}>email@student.edu • +91 98765 43210</div>
           </div>
           <div className="fw-bold text-dark border-bottom pb-0.5 mb-1" style={{ fontSize: "8px", fontFamily: "Georgia, serif" }}>EDUCATION</div>
-          <div className="bg-secondary bg-opacity-20 rounded mb-2" style={{ height: "3px", width: "90%" }}></div>
+          <div className="bg-secondary  rounded mb-2" style={{ height: "3px", width: "90%" }}></div>
           <div className="fw-bold text-dark border-bottom pb-0.5 mb-1" style={{ fontSize: "8px", fontFamily: "Georgia, serif" }}>SKILLS & CERTIFICATIONS</div>
-          <div className="bg-secondary bg-opacity-20 rounded" style={{ height: "3px", width: "80%" }}></div>
+          <div className="bg-secondary  rounded" style={{ height: "3px", width: "80%" }}></div>
         </div>
       );
   }
@@ -252,11 +252,11 @@ function ResumeTemplateSelector() {
   };
 
   return (
-    <div style={{ background: "linear-gradient(135deg, #f0f4f9 0%, #e0e7ff 50%, #e0f2fe 100%)", minHeight: "100vh" }}>
+    <div style={{ minHeight: "100vh" }}>
       <Navbar user={user} />
 
       <div className="container py-5">
-        <div className="glass-panel p-4 p-md-5 bg-white rounded-5 border border-primary border-opacity-15 shadow-sm text-center mb-5">
+        <div className="glass-panel p-4 p-md-5 rounded-5 border border-primary border-opacity-15 shadow-sm text-center mb-5">
           <img
             src="/resume_3d.png"
             alt="3D Resume Studio"
@@ -281,7 +281,7 @@ function ResumeTemplateSelector() {
                 <motion.div
                   whileHover={{ y: -6, scale: 1.02 }}
                   onClick={() => setSelectedCode(tpl.code)}
-                  className="glass-panel p-4 h-100 d-flex flex-column rounded-5 border position-relative cursor-pointer transition-all bg-white"
+                  className="glass-panel p-4 h-100 d-flex flex-column rounded-5 border position-relative cursor-pointer transition-all"
                   style={{
                     borderColor: isSelected ? tpl.accent : "rgba(79, 70, 229, 0.15)",
                     boxShadow: isSelected ? `0 0 25px ${tpl.accent}35` : "0 10px 30px rgba(37, 99, 235, 0.08)",
@@ -291,12 +291,12 @@ function ResumeTemplateSelector() {
                     <span className="fs-2">{tpl.icon}</span>
                     <div className="d-flex gap-2 align-items-center">
                       {tpl.atsFriendly && (
-                        <span className="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30 extra-small">
+                        <span className="badge bg-success  text-success border border-success border-opacity-30 extra-small">
                           ✓ ATS Parseable
                         </span>
                       )}
                       {isSelected && (
-                        <span className="badge bg-primary text-white extra-small">✓ Selected</span>
+                        <span className="badge bg-primary text-dark extra-small">✓ Selected</span>
                       )}
                     </div>
                   </div>

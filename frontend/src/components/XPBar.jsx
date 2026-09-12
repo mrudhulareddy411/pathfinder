@@ -20,7 +20,7 @@ function XPBar({ xp = 0, levelNumber = 1 }) {
             LEVEL {levelNumber}
           </span>
           <div>
-            <div className="text-white fw-bold small">Career Journey XP</div>
+            <div className="text-dark fw-bold small">Career Journey XP</div>
             <div className="text-secondary extra-small">Gamified Skill Milestone Progress</div>
           </div>
         </div>
@@ -32,7 +32,7 @@ function XPBar({ xp = 0, levelNumber = 1 }) {
         </div>
       </div>
 
-      <div className="progress rounded-pill bg-black bg-opacity-60 p-0.5" style={{ height: "16px", border: "1px solid rgba(0, 242, 254, 0.25)", boxShadow: "inset 0 2px 4px rgba(0,0,0,0.5)" }}>
+      <div className="progress rounded-pill bg-black  p-0.5" style={{ height: "16px", border: "1px solid rgba(0, 242, 254, 0.25)", boxShadow: "inset 0 2px 4px rgba(0,0,0,0.5)" }}>
         <div
           className="progress-bar rounded-pill"
           role="progressbar"

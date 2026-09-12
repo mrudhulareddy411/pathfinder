@@ -32,7 +32,7 @@ function Sidebar() {
               key={link.path}
               to={link.path}
               className={`d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none small transition ${
-                isActive ? "bg-teal bg-opacity-25 text-teal fw-bold border-start border-3 border-teal" : "text-light opacity-75 hover-opacity-100"
+                isActive ? "bg-teal  text-teal fw-bold border-start border-3 border-teal" : "text-light opacity-75 hover-opacity-100"
               }`}
               style={isActive ? { color: "#2dd4bf", background: "rgba(45, 212, 191, 0.15)" } : {}}
             >

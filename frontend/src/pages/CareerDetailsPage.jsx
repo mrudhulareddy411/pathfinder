@@ -96,12 +96,12 @@ function CareerDetailsPage() {
   const completedActSet = new Set((user?.completedActivities || []).map((a) => a.activityId || a.title));
 
   return (
-    <div style={{ background: "linear-gradient(135deg, #f0f4f9 0%, #e0e7ff 50%, #e0f2fe 100%)", minHeight: "100vh" }}>
+    <div style={{  minHeight: "100vh" }}>
       <Navbar user={user} />
 
       <div className="container py-5" style={{ maxWidth: "1100px" }}>
         {actionMsg && (
-          <div className="alert alert-success rounded-4 text-center py-2.5 mb-4 fw-bold border-0 bg-success bg-opacity-15 text-success">
+          <div className="alert alert-success rounded-4 text-center py-2.5 mb-4 fw-bold border-0 bg-success  text-success">
             {actionMsg}
           </div>
         )}
@@ -123,7 +123,7 @@ function CareerDetailsPage() {
         )}
 
         {error && (
-          <div className="alert alert-danger rounded-4 p-4 text-center bg-danger bg-opacity-10 border-danger border-opacity-25 text-danger">
+          <div className="alert alert-danger rounded-4 p-4 text-center bg-danger  border-danger border-opacity-25 text-danger">
             <h5 className="fw-bold">Unable to load career details</h5>
             <p className="small mb-0">{error}</p>
           </div>
@@ -136,16 +136,16 @@ function CareerDetailsPage() {
               <div className="d-flex flex-wrap justify-content-between align-items-start gap-3">
                 <div>
                   <div className="d-flex align-items-center gap-2 mb-2">
-                    <span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-20 extra-small">
+                    <span className="badge bg-primary  text-primary border border-primary border-opacity-20 extra-small">
                       Source: Local O*NET Dataset
                     </span>
                     {career.onetCode && (
-                      <span className="badge bg-dark text-white font-monospace extra-small">
+                      <span className="badge bg-dark text-dark font-monospace extra-small">
                         O*NET-SOC {career.onetCode}
                       </span>
                     )}
                     {career.inDemand && (
-                      <span className="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30 extra-small">
+                      <span className="badge bg-success  text-success border border-success border-opacity-30 extra-small">
                         🔥 In Demand
                       </span>
                     )}
@@ -159,7 +159,7 @@ function CareerDetailsPage() {
                     onClick={handleSelectTargetCareer}
                     className={`btn btn-sm fw-bold rounded-3 px-4 py-2 ${
                       user?.selectedCareerDetails?.title === career.title
-                        ? "btn-success text-white"
+                        ? "btn-success text-dark"
                         : "btn-cyber"
                     }`}
                   >
@@ -199,7 +199,7 @@ function CareerDetailsPage() {
                     <div className="d-flex flex-wrap gap-1.5">
                       {strongSkills.length > 0 ? (
                         strongSkills.map((s) => (
-                          <span key={s} className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-1.5 rounded-pill extra-small fw-semibold">
+                          <span key={s} className="badge bg-success  text-success border border-success border-opacity-25 px-3 py-1.5 rounded-pill extra-small fw-semibold">
                             ✓ {s}
                           </span>
                         ))
@@ -246,7 +246,7 @@ function CareerDetailsPage() {
                     <div className="fw-bold extra-small text-dark mb-1">Core Cognitive Abilities:</div>
                     <div className="d-flex flex-wrap gap-1">
                       {(career.abilities || ["Deductive Reasoning", "Problem Sensitivity", "Mathematical Reasoning"]).map((a) => (
-                        <span key={a} className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-20 extra-small">
+                        <span key={a} className="badge badge-clean-blue extra-small">
                           {a}
                         </span>
                       ))}
@@ -257,7 +257,7 @@ function CareerDetailsPage() {
                     <div className="fw-bold extra-small text-dark mb-1">Knowledge Domains:</div>
                     <div className="d-flex flex-wrap gap-1">
                       {(career.knowledge || ["Computers & Electronics", "Mathematics", "Engineering"]).map((k) => (
-                        <span key={k} className="badge bg-secondary bg-opacity-15 text-secondary border border-secondary border-opacity-30 extra-small">
+                        <span key={k} className="badge badge-clean-gray extra-small">
                           {k}
                         </span>
                       ))}
@@ -268,7 +268,7 @@ function CareerDetailsPage() {
                     <div className="fw-bold extra-small text-dark mb-1">Software & Technologies:</div>
                     <div className="d-flex flex-wrap gap-1">
                       {(career.softwareTech || ["Python", "SQL", "Git", "Docker"]).map((st) => (
-                        <span key={st} className="badge bg-dark text-white extra-small font-monospace">
+                        <span key={st} className="badge badge-clean-amber extra-small font-monospace">
                           {st}
                         </span>
                       ))}
@@ -282,14 +282,14 @@ function CareerDetailsPage() {
             <div className="glass-panel p-4 p-md-5 rounded-5 border border-primary border-opacity-15 bg-white shadow-sm">
               <div className="d-flex flex-wrap align-items-center justify-content-between mb-4 gap-2">
                 <div>
-                  <span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-20 extra-small mb-1">
+                  <span className="badge bg-primary  text-primary border border-primary border-opacity-20 extra-small mb-1">
                     Generated by local Random Forest model
                   </span>
                   <h4 className="fw-extrabold text-dark mb-0 d-flex align-items-center gap-2">
                     <span>🗺️</span> 8-Level Progression Roadmap for {career.title}
                   </h4>
                 </div>
-                <span className="badge bg-success bg-opacity-15 text-success border border-success border-opacity-30 extra-small font-monospace">
+                <span className="badge bg-success  text-success border border-success border-opacity-30 extra-small font-monospace">
                   8 Milestone Levels
                 </span>
               </div>
@@ -304,7 +304,7 @@ function CareerDetailsPage() {
                     <div className="col-12 col-md-6 col-lg-3" key={lvl.level}>
                       <div className="p-3.5 bg-light rounded-4 border border-secondary border-opacity-20 shadow-sm h-100 d-flex flex-column hover-lift transition">
                         <div className="d-flex align-items-center gap-2 mb-2">
-                          <span className="badge bg-primary text-white font-monospace rounded-circle p-2" style={{ width: "30px", height: "30px" }}>
+                          <span className="badge bg-primary text-dark font-monospace rounded-circle p-2" style={{ width: "30px", height: "30px" }}>
                             {lvl.level}
                           </span>
                           <h6 className="fw-bold text-dark mb-0 extra-small">{lvl.title}</h6>
@@ -322,7 +322,7 @@ function CareerDetailsPage() {
                           onClick={() => handleCompleteRoadmapActivity(lvl)}
                           className={`btn btn-sm w-100 fw-bold rounded-3 extra-small py-1.5 transition ${
                             isDone
-                              ? "btn-success text-white"
+                              ? "btn-success text-dark"
                               : "btn-outline-primary"
                           }`}
                           disabled={isDone || isRecording}

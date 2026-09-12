@@ -3,7 +3,6 @@ const User = require("../models/User");
 const XPTransaction = require("../models/XPTransaction");
 const Streak = require("../models/Streak");
 const Badge = require("../models/Badge");
-const localDb = require("../config/localDbService");
 
 const XP_MAP = {
   COMPLETE_PROFILE: 50,
@@ -30,7 +29,7 @@ const awardXP = async (userId, action, customXp = null, sourceActivity = "") => 
   const xpAmount = customXp || XP_MAP[action] || 50;
 
   let user;
-  if (mongoose.connection.readyState === 1) {
+  
     user = await User.findById(userId);
     if (!user) return null;
 
@@ -45,18 +44,7 @@ const awardXP = async (userId, action, customXp = null, sourceActivity = "") => 
       xpAmount,
       sourceActivity,
     });
-  } else {
-    user = await localDb.findUserById(userId);
-    if (!user) return null;
-
-    const newXp = (user.xp || 0) + xpAmount;
-    const newLevel = calculateLevel(newXp);
-    user = await localDb.updateUser(userId, {
-      xp: newXp,
-      levelNumber: newLevel,
-      lastActivityDate: new Date().toISOString(),
-    });
-  }
+  
 
   return user;
 };
@@ -66,7 +54,7 @@ const updateStreak = async (userId) => {
   let currentStreak = 1;
   let longestStreak = 1;
 
-  if (mongoose.connection.readyState === 1) {
+  
     let streakRecord = await Streak.findOne({ userId });
     if (!streakRecord) {
       streakRecord = await Streak.create({ userId, lastActivityDate: now, currentStreak: 1, longestStreak: 1 });
@@ -89,7 +77,7 @@ const updateStreak = async (userId) => {
       streakRecord.lastActivityDate = now;
       await streakRecord.save();
     }
-  }
+  
   return { currentStreak, longestStreak };
 };
 

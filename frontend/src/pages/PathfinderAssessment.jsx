@@ -111,7 +111,7 @@ function PathfinderAssessment() {
   };
 
   return (
-    <div style={{ background: "linear-gradient(135deg, #f0f4f9 0%, #e0e7ff 50%, #e0f2fe 100%)", minHeight: "100vh" }}>
+    <div style={{  minHeight: "100vh" }}>
       <Navbar user={user} />
 
       <div className="container py-5" style={{ maxWidth: "900px" }}>
@@ -145,7 +145,7 @@ function PathfinderAssessment() {
         </div>
 
         {submitted && (
-          <div className="alert alert-success rounded-4 text-center py-3 mb-4 fw-bold border-0 bg-success bg-opacity-15 text-success">
+          <div className="alert alert-success rounded-4 text-center py-3 mb-4 fw-bold border-0 bg-success  text-success">
             🎉 Assessment Submitted Successfully! Running O*NET ML Random Forest Model inference...
           </div>
         )}
@@ -173,7 +173,7 @@ function PathfinderAssessment() {
                     <div className="p-3 bg-light rounded-4 border border-secondary border-opacity-15">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <label className="fw-bold text-dark small">{item.label}</label>
-                        <span className="badge bg-primary text-white font-monospace">{assessment[item.key]} / 5</span>
+                        <span className="badge bg-primary text-dark font-monospace">{assessment[item.key]} / 5</span>
                       </div>
                       <div className="extra-small text-muted mb-2">{item.desc}</div>
                       <input
@@ -217,7 +217,7 @@ function PathfinderAssessment() {
                     <div className="p-3 bg-light rounded-4 border border-secondary border-opacity-15">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <label className="fw-bold text-dark small">{item.label}</label>
-                        <span className="badge bg-primary text-white font-monospace">{assessment[item.key]} / 5</span>
+                        <span className="badge bg-primary text-dark font-monospace">{assessment[item.key]} / 5</span>
                       </div>
                       <div className="extra-small text-muted mb-2">{item.desc}</div>
                       <input
@@ -265,7 +265,7 @@ function PathfinderAssessment() {
                     <div className="p-3 bg-light rounded-4 border border-secondary border-opacity-15">
                       <div className="d-flex justify-content-between align-items-center mb-1">
                         <label className="fw-bold text-dark small">{item.label}</label>
-                        <span className="badge bg-primary text-white font-monospace">{assessment[item.key]} / 5</span>
+                        <span className="badge bg-primary text-dark font-monospace">{assessment[item.key]} / 5</span>
                       </div>
                       <div className="extra-small text-muted mb-2">{item.desc}</div>
                       <input

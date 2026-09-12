@@ -108,7 +108,7 @@ function LevelMap({ currentLevel = 1, careerTitle = "General Career Journey" }) 
               background: "rgba(16, 185, 129, 0.08)",
               borderColor: "rgba(52, 211, 153, 0.4)",
             };
-            statusBadge = <span className="badge bg-success bg-opacity-20 text-success border border-success border-opacity-25 px-3 py-1">🟢 Completed</span>;
+            statusBadge = <span className="badge bg-success  text-success border border-success border-opacity-25 px-3 py-1">🟢 Completed</span>;
           } else if (status === "IN_PROGRESS") {
             nodeStyle = {
               background: "linear-gradient(135deg, #2563eb, #7c3aed)",
@@ -131,7 +131,7 @@ function LevelMap({ currentLevel = 1, careerTitle = "General Career Journey" }) 
               borderColor: "rgba(203, 213, 225, 0.6)",
               opacity: 0.7,
             };
-            statusBadge = <span className="badge bg-secondary bg-opacity-20 text-secondary border border-secondary border-opacity-25 px-3 py-1">🔒 Locked</span>;
+            statusBadge = <span className="badge bg-secondary  text-secondary border border-secondary border-opacity-25 px-3 py-1">🔒 Locked</span>;
           }
 
           return (
@@ -145,7 +145,7 @@ function LevelMap({ currentLevel = 1, careerTitle = "General Career Journey" }) 
                 style={cardStyle}
               >
                 <div
-                  className="rounded-circle d-flex align-items-center justify-content-center fs-3 flex-shrink-0 text-white"
+                  className="rounded-circle d-flex align-items-center justify-content-center fs-3 flex-shrink-0 text-dark"
                   style={{ width: "64px", height: "64px", ...nodeStyle }}
                 >
                   {lvl.icon}

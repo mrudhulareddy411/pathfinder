@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const SkillScore = require("../models/SkillScore");
 const AssessmentAttempt = require("../models/AssessmentAttempt");
 const User = require("../models/User");
+const Resource = require("../models/Resource");
 const { generateRecommendations } = require("../services/recommendationEngine");
-const localDb = require("../config/localDbService");
 
 /**
  * GET /api/skill-gap
@@ -20,7 +20,7 @@ const getSkillGap = async (req, res) => {
     let skillMap = {};
     let user = req.user;
 
-    if (mongoose.connection.readyState === 1) {
+    
       try {
         attemptsCount = await AssessmentAttempt.countDocuments({ userId });
         const skillDoc = await SkillScore.findOne({ userId }).lean();
@@ -30,14 +30,8 @@ const getSkillGap = async (req, res) => {
         const u = await User.findById(userId).lean();
         if (u) user = u;
       } catch (dbErr) {
-        console.warn("Mongo query failed in skillGapController, using localDb fallback:", dbErr.message);
+        console.error("Mongo query failed in skillGapController:", dbErr.message);
       }
-    }
-
-    if (attemptsCount === 0) {
-      const localAttempts = await localDb.getAttemptsLocal(userId);
-      attemptsCount = localAttempts.length;
-    }
 
     // Requirement 8 & 13: Do not generate skill gaps without assessment data
     if (attemptsCount === 0 && Object.keys(skillMap).length === 0) {
@@ -92,7 +86,7 @@ const getSkillGap = async (req, res) => {
       });
     });
 
-    const resources = await localDb.getResources({});
+    const resources = await Resource.find({}).lean();
     const learningResources = resources.filter((r) =>
       weakSkillNames.some((ws) => r.skill?.toLowerCase().includes(ws.toLowerCase()))
     );

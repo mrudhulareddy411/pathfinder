@@ -65,7 +65,7 @@ function Settings() {
         </div>
 
         {saveStatus && (
-          <div className="clean-card p-3 mb-4 text-center border-success bg-success bg-opacity-10 text-success fw-semibold">
+          <div className="clean-card p-3 mb-4 text-center border-success bg-success  text-success fw-semibold">
             {saveStatus}
           </div>
         )}

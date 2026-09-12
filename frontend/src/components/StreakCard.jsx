@@ -3,7 +3,7 @@ function StreakCard({ currentStreak = 1, longestStreak = 1 }) {
     <div className="glass-panel p-4 mb-4 rounded-4 bg-white border border-amber border-warning border-opacity-30 shadow-sm">
       <div className="d-flex align-items-center gap-3">
         <div
-          className="fs-2 text-warning p-3 rounded-circle bg-warning bg-opacity-15 border border-warning border-opacity-30 d-flex align-items-center justify-content-center flex-shrink-0 animate-float"
+          className="fs-2 text-warning p-3 rounded-circle bg-warning  border border-warning border-opacity-30 d-flex align-items-center justify-content-center flex-shrink-0 animate-float"
           style={{ width: "54px", height: "54px", boxShadow: "0 0 20px rgba(245, 158, 11, 0.25)" }}
         >
           🔥

@@ -1,16 +1,11 @@
 const mongoose = require("mongoose");
 const Career = require("../models/Career");
-const localDb = require("../config/localDbService");
 const { getOnetCareerDetails } = require("../services/onetDatasetService");
 
 const getCareers = async (req, res) => {
   try {
     let careers = [];
-    if (mongoose.connection.readyState === 1) {
-      careers = await Career.find({});
-    } else {
-      careers = await localDb.getCareers();
-    }
+    careers = await Career.find({});
 
     if (!careers || careers.length === 0) {
       return res.status(200).json({ message: "Verified information unavailable.", careers: [] });
@@ -32,12 +27,7 @@ const getCareerById = async (req, res) => {
     }
 
     let career = null;
-    if (mongoose.connection.readyState === 1) {
-      career = await Career.findById(id);
-    } else {
-      const careers = await localDb.getCareers();
-      career = careers.find((c) => c._id === id || c.id === id || c.title === id || c.onetCode === id);
-    }
+    career = await Career.findById(id);
 
     if (!career) {
       return res.status(404).json({ message: "Verified career information unavailable for this ID." });

@@ -248,7 +248,7 @@ function Dashboard() {
 
           <div className="row g-3 mb-3">
             <div className="col-12 col-sm-6 col-md-3">
-              <div className="p-3 clean-card-flat bg-light">
+              <div className="p-3 clean-card-flat">
                 <div className="text-secondary extra-small fw-medium">Student GPA</div>
                 <div className="fw-bold text-primary fs-5 mt-1">
                   {activeUser.cgpa || performance?.gpa || "Not provided"}
@@ -257,7 +257,7 @@ function Dashboard() {
             </div>
 
             <div className="col-12 col-sm-6 col-md-3">
-              <div className="p-3 clean-card-flat bg-light">
+              <div className="p-3 clean-card-flat">
                 <div className="text-secondary extra-small fw-medium">Average Assessment Score</div>
                 <div className="fw-bold text-success fs-5 mt-1">
                   {performance?.averageScore || "No assessments yet"}
@@ -266,14 +266,14 @@ function Dashboard() {
             </div>
 
             <div className="col-12 col-sm-6 col-md-3">
-              <div className="p-3 clean-card-flat bg-light">
+              <div className="p-3 clean-card-flat">
                 <div className="text-secondary extra-small fw-medium">Assessments Completed</div>
                 <div className="fw-bold text-dark fs-5 mt-1">{performance?.assessmentsCompletedCount || 0}</div>
               </div>
             </div>
 
             <div className="col-12 col-sm-6 col-md-3">
-              <div className="p-3 clean-card-flat bg-light">
+              <div className="p-3 clean-card-flat">
                 <div className="text-secondary extra-small fw-medium">Strongest Skill</div>
                 <div className="fw-bold text-dark fs-6 mt-1 text-truncate">
                   {performance?.topSkill || "No test data yet"}
@@ -305,28 +305,28 @@ function Dashboard() {
 
           <div className="row g-3 mb-3">
             <div className="col-12 col-sm-6 col-lg-3">
-              <div className="p-3 clean-card-flat bg-light">
+              <div className="p-3 clean-card-flat">
                 <div className="text-secondary extra-small fw-medium">Target Career</div>
                 <div className="fw-bold text-dark fs-6 mt-1">{targetCareerTitle}</div>
               </div>
             </div>
 
             <div className="col-12 col-sm-6 col-lg-3">
-              <div className="p-3 clean-card-flat bg-light">
+              <div className="p-3 clean-card-flat">
                 <div className="text-secondary extra-small fw-medium">Career Match</div>
                 <div className="fw-bold text-primary fs-5 mt-1">{topMatchScore}%</div>
               </div>
             </div>
 
             <div className="col-12 col-sm-6 col-lg-3">
-              <div className="p-3 clean-card-flat bg-light">
+              <div className="p-3 clean-card-flat">
                 <div className="text-secondary extra-small fw-medium">Job Readiness</div>
                 <div className="fw-bold text-success fs-5 mt-1">{readinessScore}%</div>
               </div>
             </div>
 
             <div className="col-12 col-sm-6 col-lg-3">
-              <div className="p-3 clean-card-flat bg-light">
+              <div className="p-3 clean-card-flat">
                 <div className="text-secondary extra-small fw-medium">Experience Level</div>
                 <div className="fw-bold text-dark fs-6 mt-1">{readinessTier}</div>
               </div>
@@ -434,7 +434,7 @@ function Dashboard() {
           <div className="row g-3 position-relative">
             {/* Step 1 */}
             <div className="col-12 col-sm-6 col-md-4 col-lg-2">
-              <div className="p-3 clean-card-flat bg-light h-100 d-flex flex-column justify-content-between">
+              <div className="p-3 clean-card-flat h-100 d-flex flex-column justify-content-between">
                 <div>
                   <span className="badge badge-clean-blue mb-2">1. Current Level</span>
                   <div className="fw-bold text-dark small">Computer Science Student</div>
@@ -448,7 +448,7 @@ function Dashboard() {
 
             {/* Step 2 */}
             <div className="col-12 col-sm-6 col-md-4 col-lg-2">
-              <div className="p-3 clean-card-flat bg-light h-100 d-flex flex-column justify-content-between">
+              <div className="p-3 clean-card-flat h-100 d-flex flex-column justify-content-between">
                 <div>
                   <span className="badge badge-clean-blue mb-2">2. Skills to Build</span>
                   <div className="fw-bold text-dark small">{displayImprove.slice(0, 3).join(", ")}</div>
@@ -462,7 +462,7 @@ function Dashboard() {
 
             {/* Step 3 */}
             <div className="col-12 col-sm-6 col-md-4 col-lg-2">
-              <div className="p-3 clean-card-flat bg-light h-100 d-flex flex-column justify-content-between">
+              <div className="p-3 clean-card-flat h-100 d-flex flex-column justify-content-between">
                 <div>
                   <span className="badge badge-clean-blue mb-2">3. Projects</span>
                   <div className="fw-bold text-dark small">Full Stack & DB Projects</div>
@@ -476,7 +476,7 @@ function Dashboard() {
 
             {/* Step 4 */}
             <div className="col-12 col-sm-6 col-md-4 col-lg-2">
-              <div className="p-3 clean-card-flat bg-light h-100 d-flex flex-column justify-content-between">
+              <div className="p-3 clean-card-flat h-100 d-flex flex-column justify-content-between">
                 <div>
                   <span className="badge badge-clean-blue mb-2">4. Resume</span>
                   <div className="fw-bold text-dark small">ATS-Friendly Resume</div>
@@ -490,7 +490,7 @@ function Dashboard() {
 
             {/* Step 5 */}
             <div className="col-12 col-sm-6 col-md-4 col-lg-2">
-              <div className="p-3 clean-card-flat bg-light h-100 d-flex flex-column justify-content-between">
+              <div className="p-3 clean-card-flat h-100 d-flex flex-column justify-content-between">
                 <div>
                   <span className="badge badge-clean-blue mb-2">5. Interview Prep</span>
                   <div className="fw-bold text-dark small">DSA & Tech Interviews</div>
@@ -504,7 +504,7 @@ function Dashboard() {
 
             {/* Step 6 */}
             <div className="col-12 col-sm-6 col-md-4 col-lg-2">
-              <div className="p-3 clean-card-flat bg-light h-100 d-flex flex-column justify-content-between border-primary border-opacity-25">
+              <div className="p-3 clean-card-flat h-100 d-flex flex-column justify-content-between border-primary border-opacity-25">
                 <div>
                   <span className="badge badge-clean-green mb-2">6. Job Ready</span>
                   <div className="fw-bold text-dark small">Internships & Jobs</div>
@@ -533,7 +533,7 @@ function Dashboard() {
 
                 <div className="row g-3">
                   <div className="col-12 col-md-4">
-                    <div className="p-3 clean-card-flat bg-light h-100">
+                    <div className="p-3 clean-card-flat h-100">
                       <div className="fw-bold text-success small mb-2">Strong Skills</div>
                       <div className="d-flex flex-column gap-1.5">
                         {displayStrong.map((s, i) => (
@@ -544,7 +544,7 @@ function Dashboard() {
                   </div>
 
                   <div className="col-12 col-md-4">
-                    <div className="p-3 clean-card-flat bg-light h-100">
+                    <div className="p-3 clean-card-flat h-100">
                       <div className="fw-bold text-amber small mb-2" style={{ color: "#D97706" }}>Skills to Improve</div>
                       <div className="d-flex flex-column gap-1.5">
                         {displayImprove.map((s, i) => (
@@ -555,7 +555,7 @@ function Dashboard() {
                   </div>
 
                   <div className="col-12 col-md-4">
-                    <div className="p-3 clean-card-flat bg-light h-100">
+                    <div className="p-3 clean-card-flat h-100">
                       <div className="fw-bold text-primary small mb-2">Recommended</div>
                       <div className="d-flex flex-column gap-1.5">
                         {displayRecommended.map((s, i) => (
@@ -587,7 +587,7 @@ function Dashboard() {
                   <span className="badge badge-clean-amber">Target Gap Analysis</span>
                 </div>
 
-                <div className="p-3 clean-card-flat bg-light mb-3">
+                <div className="p-3 clean-card-flat mb-3">
                   <div className="row text-center extra-small fw-bold text-secondary pb-2 border-bottom">
                     <div className="col-5 text-start">Skill</div>
                     <div className="col-3">Proficiency</div>
@@ -650,7 +650,7 @@ function Dashboard() {
                 </div>
 
                 <div className="d-flex flex-column gap-3">
-                  <div className="p-3 clean-card-flat bg-light">
+                  <div className="p-3 clean-card-flat">
                     <div className="d-flex justify-content-between align-items-start mb-1">
                       <div className="fw-bold text-dark small">React</div>
                       <span className="badge badge-clean-blue">35% Progress</span>
@@ -664,7 +664,7 @@ function Dashboard() {
                     </Link>
                   </div>
 
-                  <div className="p-3 clean-card-flat bg-light">
+                  <div className="p-3 clean-card-flat">
                     <div className="d-flex justify-content-between align-items-start mb-1">
                       <div className="fw-bold text-dark small">REST APIs & Backend Routing</div>
                       <span className="badge badge-clean-amber">0% Progress</span>
@@ -678,7 +678,7 @@ function Dashboard() {
                     </Link>
                   </div>
 
-                  <div className="p-3 clean-card-flat bg-light">
+                  <div className="p-3 clean-card-flat">
                     <div className="d-flex justify-content-between align-items-start mb-1">
                       <div className="fw-bold text-dark small">Git & Version Control</div>
                       <span className="badge badge-clean-green">60% Progress</span>
@@ -709,7 +709,7 @@ function Dashboard() {
 
                 <div className="d-flex flex-column gap-3">
                   {defaultProjects.map((proj) => (
-                    <div key={proj.id} className="p-3 clean-card-flat bg-light">
+                    <div key={proj.id} className="p-3 clean-card-flat">
                       <div className="d-flex justify-content-between align-items-start mb-1">
                         <div className="fw-bold text-dark small">{proj.title}</div>
                         <span className="badge badge-clean-gray">{proj.difficulty}</span>
@@ -750,7 +750,7 @@ function Dashboard() {
                   <span className="badge badge-clean-blue">{resumeData.completion}% Complete</span>
                 </div>
 
-                <div className="p-3 clean-card-flat bg-light mb-3">
+                <div className="p-3 clean-card-flat mb-3">
                   <div className="d-flex align-items-baseline gap-2 mb-2">
                     <h3 className="fw-bold text-dark mb-0">{resumeData.completion}%</h3>
                     <span className="text-secondary extra-small">Resume Readiness Score</span>
@@ -791,7 +791,7 @@ function Dashboard() {
 
                 <div className="row g-3">
                   <div className="col-12 col-sm-6">
-                    <div className="p-3 clean-card-flat bg-light">
+                    <div className="p-3 clean-card-flat">
                       <div className="d-flex justify-content-between text-extra-small mb-1">
                         <span className="fw-semibold text-dark">Technical Skills</span>
                         <span className="fw-bold text-primary">82%</span>
@@ -803,7 +803,7 @@ function Dashboard() {
                   </div>
 
                   <div className="col-12 col-sm-6">
-                    <div className="p-3 clean-card-flat bg-light">
+                    <div className="p-3 clean-card-flat">
                       <div className="d-flex justify-content-between text-extra-small mb-1">
                         <span className="fw-semibold text-dark">Projects</span>
                         <span className="fw-bold text-primary">70%</span>
@@ -815,7 +815,7 @@ function Dashboard() {
                   </div>
 
                   <div className="col-12 col-sm-6">
-                    <div className="p-3 clean-card-flat bg-light">
+                    <div className="p-3 clean-card-flat">
                       <div className="d-flex justify-content-between text-extra-small mb-1">
                         <span className="fw-semibold text-dark">Resume</span>
                         <span className="fw-bold text-primary">65%</span>
@@ -827,7 +827,7 @@ function Dashboard() {
                   </div>
 
                   <div className="col-12 col-sm-6">
-                    <div className="p-3 clean-card-flat bg-light">
+                    <div className="p-3 clean-card-flat">
                       <div className="d-flex justify-content-between text-extra-small mb-1">
                         <span className="fw-semibold text-dark">Interview Readiness</span>
                         <span className="fw-bold text-primary">55%</span>
@@ -839,7 +839,7 @@ function Dashboard() {
                   </div>
 
                   <div className="col-12">
-                    <div className="p-3 clean-card-flat bg-light">
+                    <div className="p-3 clean-card-flat">
                       <div className="d-flex justify-content-between text-extra-small mb-1">
                         <span className="fw-semibold text-dark">Career Alignment ({targetCareerTitle})</span>
                         <span className="fw-bold text-success">92%</span>
@@ -865,7 +865,7 @@ function Dashboard() {
               <h5 className="fw-bold text-dark mb-3">What You Should Do Next</h5>
               
               <div className="d-flex flex-column gap-2.5">
-                <div className="p-3 clean-card-flat bg-light d-flex justify-content-between align-items-center">
+                <div className="p-3 clean-card-flat d-flex justify-content-between align-items-center">
                   <div>
                     <div className="fw-semibold text-dark small">1. Complete Skill Gap Assessment</div>
                     <div className="extra-small text-secondary">Verify technical proficiency levels across your stack</div>
@@ -875,7 +875,7 @@ function Dashboard() {
                   </Link>
                 </div>
 
-                <div className="p-3 clean-card-flat bg-light d-flex justify-content-between align-items-center">
+                <div className="p-3 clean-card-flat d-flex justify-content-between align-items-center">
                   <div>
                     <div className="fw-semibold text-dark small">2. Learn React Fundamentals</div>
                     <div className="extra-small text-secondary">Fulfill essential frontend requirement for {targetCareerTitle}</div>
@@ -885,7 +885,7 @@ function Dashboard() {
                   </Link>
                 </div>
 
-                <div className="p-3 clean-card-flat bg-light d-flex justify-content-between align-items-center">
+                <div className="p-3 clean-card-flat d-flex justify-content-between align-items-center">
                   <div>
                     <div className="fw-semibold text-dark small">3. Build Full Stack Project</div>
                     <div className="extra-small text-secondary">Demonstrate practical software engineering capabilities</div>
@@ -895,7 +895,7 @@ function Dashboard() {
                   </Link>
                 </div>
 
-                <div className="p-3 clean-card-flat bg-light d-flex justify-content-between align-items-center">
+                <div className="p-3 clean-card-flat d-flex justify-content-between align-items-center">
                   <div>
                     <div className="fw-semibold text-dark small">4. Complete Profile & Resume</div>
                     <div className="extra-small text-secondary">Auto-import education & skills into professional templates</div>
@@ -934,7 +934,7 @@ function Dashboard() {
                 </div>
 
                 {/* Section 13: Secondary Gamification / Progress */}
-                <div className="p-3 clean-card-flat bg-light">
+                <div className="p-3 clean-card-flat">
                   <div className="fw-semibold text-dark extra-small mb-2">Student Progress Summary</div>
                   <div className="d-flex justify-content-between align-items-center text-secondary extra-small">
                     <span>🔥 Daily Streak: <strong>{streakInfo.currentStreak || 1} Day(s)</strong></span>

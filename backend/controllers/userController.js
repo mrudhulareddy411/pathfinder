@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const path = require("path");
 const fs = require("fs");
 const User = require("../models/User");
-const localDb = require("../config/localDbService");
 const { calculateJobReadiness } = require("../services/jobReadinessService");
 
 /**
@@ -72,11 +71,7 @@ const getUserProfile = async (req, res) => {
     }
 
     let user = null;
-    if (mongoose.connection.readyState === 1) {
-      user = await User.findById(userId).select("-password").lean();
-    } else {
-      user = await localDb.findUserById(userId);
-    }
+    user = await User.findById(userId).select("-password").lean();
 
     if (!user) {
       return res.status(404).json({ success: false, message: "User profile not found." });
@@ -188,15 +183,11 @@ const updateUserProfile = async (req, res) => {
     updates.profileCompleted = true;
 
     let updatedUser = null;
-    if (mongoose.connection.readyState === 1) {
-      updatedUser = await User.findByIdAndUpdate(
-        userId,
-        { $set: updates },
-        { new: true, runValidators: true }
-      ).select("-password").lean();
-    } else {
-      updatedUser = await localDb.updateUser(userId, updates);
-    }
+    updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: updates },
+      { new: true, runValidators: true }
+    ).select("-password").lean();
 
     const formattedProfile = formatUserProfile(updatedUser);
     const readiness = calculateJobReadiness(updatedUser, updatedUser.selectedCareerDetails);
@@ -237,15 +228,11 @@ const uploadProfilePhoto = async (req, res) => {
     const photoUrl = `/uploads/profiles/${req.file.filename}`;
 
     let updatedUser = null;
-    if (mongoose.connection.readyState === 1) {
-      updatedUser = await User.findByIdAndUpdate(
-        userId,
-        { $set: { profileImage: photoUrl, profilePhoto: photoUrl } },
-        { new: true }
-      ).select("-password").lean();
-    } else {
-      updatedUser = await localDb.updateUser(userId, { profileImage: photoUrl, profilePhoto: photoUrl });
-    }
+    updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { profileImage: photoUrl, profilePhoto: photoUrl } },
+      { new: true }
+    ).select("-password").lean();
 
     return res.status(200).json({
       success: true,
@@ -279,15 +266,11 @@ const removeProfilePhoto = async (req, res) => {
     }
 
     let updatedUser = null;
-    if (mongoose.connection.readyState === 1) {
-      updatedUser = await User.findByIdAndUpdate(
-        userId,
-        { $set: { profileImage: null, profilePhoto: null } },
-        { new: true }
-      ).select("-password").lean();
-    } else {
-      updatedUser = await localDb.updateUser(userId, { profileImage: null, profilePhoto: null });
-    }
+    updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { profileImage: null, profilePhoto: null } },
+      { new: true }
+    ).select("-password").lean();
 
     return res.status(200).json({
       success: true,

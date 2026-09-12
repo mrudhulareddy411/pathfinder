@@ -126,7 +126,7 @@ function Register() {
   ];
 
   return (
-    <div style={{ background: "linear-gradient(135deg, #f0f4f9 0%, #e0e7ff 50%, #e0f2fe 100%)", minHeight: "100vh" }} className="d-flex align-items-center justify-content-center p-3 p-md-5">
+    <div style={{  minHeight: "100vh" }} className="d-flex align-items-center justify-content-center p-3 p-md-5">
       <div className="bg-ambient-orb orb-1"></div>
       <div className="bg-ambient-orb orb-2"></div>
 
@@ -219,7 +219,7 @@ function Register() {
               </div>
 
               {error && (
-                <div className="alert alert-danger bg-danger bg-opacity-10 border-danger border-opacity-25 text-danger extra-small p-3 rounded-3 mb-3">
+                <div className="alert alert-danger bg-danger  border-danger border-opacity-25 text-danger extra-small p-3 rounded-3 mb-3">
                   {error}
                   {isDuplicateEmail && (
                     <div className="mt-2 d-flex gap-2">

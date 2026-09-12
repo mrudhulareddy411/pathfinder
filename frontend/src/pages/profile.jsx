@@ -387,8 +387,8 @@ function Profile() {
           <div
             className={`clean-card p-3 mb-4 text-center fw-semibold ${
               saveStatus.type === "success"
-                ? "border-success bg-success bg-opacity-10 text-success"
-                : "border-danger bg-danger bg-opacity-10 text-danger"
+                ? "border-success bg-success  text-success"
+                : "border-danger bg-danger  text-danger"
             }`}
           >
             {saveStatus.message}
@@ -415,7 +415,7 @@ function Profile() {
                 />
               ) : (
                 <div
-                  className="rounded-circle text-white fw-bold d-flex align-items-center justify-content-center flex-shrink-0"
+                  className="rounded-circle text-dark fw-bold d-flex align-items-center justify-content-center flex-shrink-0"
                   style={{ width: "64px", height: "64px", backgroundColor: "#2563EB", fontSize: "24px" }}
                 >
                   {firstInitial}
@@ -525,7 +525,7 @@ function Profile() {
                 />
               ) : (
                 <div
-                  className="rounded-circle text-white fw-bold d-flex align-items-center justify-content-center"
+                  className="rounded-circle text-dark fw-bold d-flex align-items-center justify-content-center"
                   style={{
                     width: "96px",
                     height: "96px",

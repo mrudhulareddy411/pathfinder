@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const mongoose = require("mongoose");
 const User = require("../models/User");
-const localDb = require("../config/localDbService");
 const { processDailyLogin } = require("../services/activityService");
 
 // Helper to generate JWT Token
@@ -12,8 +11,6 @@ const generateToken = (id) => {
     expiresIn: "30d",
   });
 };
-
-const isMongoConnected = () => mongoose.connection.readyState === 1;
 
 // Helper to decode Google Credential JWT safely
 const decodeGoogleCredential = (credential) => {
@@ -58,16 +55,9 @@ const register = async (req, res) => {
 
     const normalizedEmail = email.trim().toLowerCase();
 
-    if (isMongoConnected()) {
-      const existingUser = await User.findOne({ email: normalizedEmail });
-      if (existingUser) {
-        return res.status(400).json({ message: "This email is already registered." });
-      }
-    } else {
-      const existingUser = await localDb.findUserByEmail(normalizedEmail);
-      if (existingUser) {
-        return res.status(400).json({ message: "This email is already registered." });
-      }
+    const existingUser = await User.findOne({ email: normalizedEmail });
+    if (existingUser) {
+      return res.status(400).json({ message: "This email is already registered." });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -91,11 +81,7 @@ const register = async (req, res) => {
     };
 
     let user;
-    if (isMongoConnected()) {
-      user = await User.create(userPayload);
-    } else {
-      user = await localDb.createUser(userPayload);
-    }
+    user = await User.create(userPayload);
 
     const userId = user._id || user.id;
 
@@ -133,11 +119,7 @@ const login = async (req, res) => {
     const normalizedEmail = email.trim().toLowerCase();
 
     let user;
-    if (isMongoConnected()) {
-      user = await User.findOne({ email: normalizedEmail });
-    } else {
-      user = await localDb.findUserByEmail(normalizedEmail);
-    }
+    user = await User.findOne({ email: normalizedEmail });
 
     if (!user) {
       return res.status(404).json({ message: "No account found with this email address." });
@@ -213,58 +195,31 @@ const googleAuth = async (req, res) => {
     let user = null;
     let isNewUser = false;
 
-    if (isMongoConnected()) {
-      user = await User.findOne({
-        $or: [{ email: normalizedEmail }, { googleId: targetGoogleId }],
-      });
+    user = await User.findOne({
+      $or: [{ email: normalizedEmail }, { googleId: targetGoogleId }],
+    });
 
-      if (!user) {
-        isNewUser = true;
-        const dummyPassword = await bcrypt.hash(`GoogleAuth_${Date.now()}_${Math.random()}`, 10);
-        user = await User.create({
-          fullName: targetName || "Google Student",
-          email: normalizedEmail,
-          password: dummyPassword,
-          googleId: targetGoogleId || `g_${Date.now()}`,
-          profileImage: targetPicture || null,
-          authProvider: "google",
-          educationLevel: "B.Tech",
-          branch: "Computer Science & Engineering",
-          college: "",
-          graduationYear: "2027",
-          profileCompleted: false,
-        });
-      } else {
-        user.googleId = targetGoogleId || user.googleId;
-        user.profileImage = targetPicture || user.profileImage;
-        user.authProvider = "google";
-        await user.save();
-      }
+    if (!user) {
+      isNewUser = true;
+      const dummyPassword = await bcrypt.hash(`GoogleAuth_${Date.now()}_${Math.random()}`, 10);
+      user = await User.create({
+        fullName: targetName || "Google Student",
+        email: normalizedEmail,
+        password: dummyPassword,
+        googleId: targetGoogleId || `g_${Date.now()}`,
+        profileImage: targetPicture || null,
+        authProvider: "google",
+        educationLevel: "B.Tech",
+        branch: "Computer Science & Engineering",
+        college: "",
+        graduationYear: "2027",
+        profileCompleted: false,
+      });
     } else {
-      user = await localDb.findUserByEmail(normalizedEmail);
-      if (!user) {
-        isNewUser = true;
-        const dummyPassword = await bcrypt.hash(`GoogleAuth_${Date.now()}_${Math.random()}`, 10);
-        user = await localDb.createUser({
-          fullName: targetName || "Google Student",
-          email: normalizedEmail,
-          password: dummyPassword,
-          googleId: targetGoogleId || `g_${Date.now()}`,
-          profileImage: targetPicture || null,
-          authProvider: "google",
-          educationLevel: "B.Tech",
-          branch: "Computer Science & Engineering",
-          college: "",
-          graduationYear: "2027",
-          profileCompleted: false,
-        });
-      } else {
-        user = await localDb.updateUser(user._id || user.id, {
-          googleId: targetGoogleId || user.googleId,
-          profileImage: targetPicture || user.profileImage,
-          authProvider: "google",
-        });
-      }
+      user.googleId = targetGoogleId || user.googleId;
+      user.profileImage = targetPicture || user.profileImage;
+      user.authProvider = "google";
+      await user.save();
     }
 
     const userId = user._id || user.id;
@@ -318,12 +273,7 @@ const sendOTP = async (req, res) => {
     const normalizedEmail = email.trim().toLowerCase();
 
     let user = null;
-    if (isMongoConnected()) {
-      user = await User.findOne({ email: normalizedEmail });
-    }
-    if (!user) {
-      user = await localDb.findUserByEmail(normalizedEmail);
-    }
+    user = await User.findOne({ email: normalizedEmail });
 
     if (!user) {
       return res.status(404).json({ message: "No account found with this email address." });
@@ -338,20 +288,14 @@ const sendOTP = async (req, res) => {
 
     const userId = user._id || user.id;
 
-    if (isMongoConnected()) {
-      try {
-        await User.updateOne(
-          { email: normalizedEmail },
-          { $set: { otpToken: hashedOTP, otpExpires: expiresAt } }
-        );
-      } catch (err) {
-        console.warn("Mongo OTP update warning:", err.message);
-      }
+    try {
+      await User.updateOne(
+        { email: normalizedEmail },
+        { $set: { otpToken: hashedOTP, otpExpires: expiresAt } }
+      );
+    } catch (err) {
+      console.warn("Mongo OTP update warning:", err.message);
     }
-    await localDb.updateUserByEmail(normalizedEmail, {
-      otpToken: hashedOTP,
-      otpExpires: expiresAt.toISOString(),
-    });
 
     return res.json({
       success: true,
@@ -381,24 +325,11 @@ const verifyOTP = async (req, res) => {
     const hashedOTP = crypto.createHash("sha256").update(otp.trim()).digest("hex");
 
     let user = null;
-    if (isMongoConnected()) {
-      user = await User.findOne({
-        email: normalizedEmail,
-        otpToken: hashedOTP,
-        otpExpires: { $gt: new Date() },
-      });
-    }
-    if (!user) {
-      user = await localDb.findUserByEmail(normalizedEmail);
-      if (
-        !user ||
-        user.otpToken !== hashedOTP ||
-        !user.otpExpires ||
-        new Date(user.otpExpires) <= new Date()
-      ) {
-        user = null;
-      }
-    }
+    user = await User.findOne({
+      email: normalizedEmail,
+      otpToken: hashedOTP,
+      otpExpires: { $gt: new Date() },
+    });
 
     if (!user) {
       return res.status(400).json({ message: "Invalid or expired 6-digit OTP code." });
@@ -409,30 +340,21 @@ const verifyOTP = async (req, res) => {
     const hashedResetToken = crypto.createHash("sha256").update(rawResetToken).digest("hex");
     const expiresAt = new Date(Date.now() + 3600000); // 1 hour
 
-    if (isMongoConnected()) {
-      try {
-        await User.updateOne(
-          { email: normalizedEmail },
-          {
-            $set: {
-              otpToken: null,
-              otpExpires: null,
-              resetPasswordToken: hashedResetToken,
-              resetPasswordExpires: expiresAt,
-            },
-          }
-        );
-      } catch (err) {
-        console.warn("Mongo reset token update warning:", err.message);
-      }
+    try {
+      await User.updateOne(
+        { email: normalizedEmail },
+        {
+          $set: {
+            otpToken: null,
+            otpExpires: null,
+            resetPasswordToken: hashedResetToken,
+            resetPasswordExpires: expiresAt,
+          },
+        }
+      );
+    } catch (err) {
+      console.warn("Mongo reset token update warning:", err.message);
     }
-
-    await localDb.updateUserByEmail(normalizedEmail, {
-      otpToken: null,
-      otpExpires: null,
-      resetPasswordToken: hashedResetToken,
-      resetPasswordExpires: expiresAt.toISOString(),
-    });
 
     return res.json({
       success: true,
@@ -467,21 +389,10 @@ const resetPassword = async (req, res) => {
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
     let user = null;
-    if (isMongoConnected()) {
-      user = await User.findOne({
-        resetPasswordToken: hashedToken,
-        resetPasswordExpires: { $gt: new Date() },
-      });
-    }
-    if (!user) {
-      const users = await localDb.getUsers();
-      user = users.find(
-        (u) =>
-          u.resetPasswordToken === hashedToken &&
-          u.resetPasswordExpires &&
-          new Date(u.resetPasswordExpires) > new Date()
-      );
-    }
+    user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpires: { $gt: new Date() },
+    });
 
     if (!user) {
       return res.status(400).json({ message: "Invalid or expired password reset token." });
@@ -491,28 +402,20 @@ const resetPassword = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     const userEmail = user.email ? user.email.toLowerCase() : "";
 
-    if (isMongoConnected()) {
-      try {
-        await User.updateOne(
-          { email: userEmail },
-          {
-            $set: {
-              password: hashedPassword,
-              resetPasswordToken: null,
-              resetPasswordExpires: null,
-            },
-          }
-        );
-      } catch (err) {
-        console.warn("Mongo password update warning:", err.message);
-      }
+    try {
+      await User.updateOne(
+        { email: userEmail },
+        {
+          $set: {
+            password: hashedPassword,
+            resetPasswordToken: null,
+            resetPasswordExpires: null,
+          },
+        }
+      );
+    } catch (err) {
+      console.warn("Mongo password update warning:", err.message);
     }
-
-    await localDb.updateUserByEmail(userEmail, {
-      password: hashedPassword,
-      resetPasswordToken: null,
-      resetPasswordExpires: null,
-    });
 
     return res.json({
       success: true,
@@ -532,11 +435,7 @@ const { calculateJobReadiness } = require("../services/jobReadinessService");
 const getMe = async (req, res) => {
   try {
     let user;
-    if (isMongoConnected()) {
-      user = await User.findById(req.user.id).select("-password").lean();
-    } else {
-      user = await localDb.findUserById(req.user.id);
-    }
+    user = await User.findById(req.user.id).select("-password").lean();
 
     if (!user) {
       return res.status(404).json({ message: "User profile not found." });
@@ -615,15 +514,11 @@ const updateProfile = async (req, res) => {
     updates.profileCompleted = true;
 
     let updatedUser;
-    if (isMongoConnected()) {
-      updatedUser = await User.findByIdAndUpdate(
-        req.user.id,
-        { $set: updates },
-        { new: true, runValidators: true }
-      ).select("-password").lean();
-    } else {
-      updatedUser = await localDb.updateUser(req.user.id, updates);
-    }
+    updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { $set: updates },
+      { new: true, runValidators: true }
+    ).select("-password").lean();
 
     const readiness = calculateJobReadiness(updatedUser, updatedUser.selectedCareerDetails);
 
