@@ -31,7 +31,7 @@ function LandingPage() {
   ];
 
   return (
-    <div style={{  minHeight: "100vh", overflowX: "hidden" }}>
+    <div style={{  minHeight: "100vh", overflowX: "hidden" }} className="dashboard-clean-bg">
       {/* Background Orbs */}
       <div className="bg-ambient-orb orb-1"></div>
       <div className="bg-ambient-orb orb-2"></div>
@@ -98,7 +98,7 @@ function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="glass-panel p-4 h-100"
+                className="clean-card p-4 h-100"
               >
                 <div className="fs-1 mb-3">{ft.icon}</div>
                 <h5 className="fw-bold text-dark mb-2">{ft.title}</h5>

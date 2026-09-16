@@ -126,12 +126,12 @@ function Register() {
   ];
 
   return (
-    <div style={{  minHeight: "100vh" }} className="d-flex align-items-center justify-content-center p-3 p-md-5">
+    <div style={{  minHeight: "100vh" }} className="dashboard-clean-bg d-flex align-items-center justify-content-center p-3 p-md-5">
       <div className="bg-ambient-orb orb-1"></div>
       <div className="bg-ambient-orb orb-2"></div>
 
       <div className="container" style={{ maxWidth: "1100px", zIndex: 1 }}>
-        <div className="glass-panel overflow-hidden p-0 rounded-5 border border-primary border-opacity-15 shadow-lg">
+        <div className="clean-card overflow-hidden p-0 rounded-5 border border-primary border-opacity-15 shadow-lg">
           <div className="row g-0">
             {/* LEFT COLUMN: PROGRESSIVE STEPS VISUAL */}
             <div
