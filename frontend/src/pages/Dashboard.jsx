@@ -137,24 +137,7 @@ function Dashboard() {
             </div>
 
             <div className="row g-4">
-              <div className="col-md-6">
-                <div className="p-4 rounded-4 h-100 bg-white shadow-sm" style={{ border: "1px solid rgba(0,0,0,0.05)" }}>
-                  <h5 className="fw-bold mb-4 text-dark">Active Projects</h5>
-                  {user.projects?.length > 0 ? (
-                    user.projects.slice(0, 3).map((p, i) => (
-                      <div key={i} className="p-3 rounded-3 mb-3 bg-light border">
-                        <div className="fw-bold text-dark mb-1">{p.title}</div>
-                        <div className="text-muted small">{p.description?.substring(0, 50)}...</div>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-muted small">No projects added yet.</p>
-                  )}
-                  <Link to="/projects" className="btn btn-sm btn-link text-primary text-decoration-none p-0 mt-2 fw-bold">View all projects <ArrowRight size={14}/></Link>
-                </div>
-              </div>
-              
-              <div className="col-md-6">
+              <div className="col-12">
                 <div className="p-4 rounded-4 h-100 bg-white shadow-sm" style={{ border: "1px solid rgba(0,0,0,0.05)" }}>
                   <h5 className="fw-bold mb-4 text-dark">Certifications</h5>
                   {user.certifications?.length > 0 ? (

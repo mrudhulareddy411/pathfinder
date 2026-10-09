@@ -88,23 +88,7 @@ export default function DashboardScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        {/* RECENT PROJECTS */}
-        <View style={styles.sectionCard}>
-          <Text style={styles.sectionTitle}>Active Projects</Text>
-          {user?.projects && user.projects.length > 0 ? (
-            user.projects.slice(0, 2).map((p, idx) => (
-              <View key={idx} style={styles.listItem}>
-                <Text style={styles.listTitle}>{p.title}</Text>
-                <Text style={styles.listDesc} numberOfLines={1}>{p.description || "No description"}</Text>
-              </View>
-            ))
-          ) : (
-            <Text style={styles.emptyText}>No active projects added yet.</Text>
-          )}
-          <TouchableOpacity onPress={() => navigation.navigate("Projects")}>
-            <Text style={styles.linkText}>View all projects</Text>
-          </TouchableOpacity>
-        </View>
+        {/* RECENT PROJECTS (Removed) */}
 
       </ScrollView>
     </View>
