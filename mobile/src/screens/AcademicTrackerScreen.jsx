@@ -42,6 +42,7 @@ export default function AcademicTrackerScreen({ navigation }) {
   const recentAttempts = performance?.recentAttempts || [];
   const strongestSkills = performance?.strongestSkills || [];
   const skillsToImprove = performance?.skillsToImprove || [];
+  const recommendedAssessments = performance?.recommendedAssessments || [];
 
   return (
     <View style={globalStyles.container}>
@@ -154,6 +155,52 @@ export default function AcademicTrackerScreen({ navigation }) {
             <Text style={globalStyles.cardSubtitle}>No test attempts recorded yet.</Text>
           )}
         </View>
+
+        {/* RECOMMENDED ASSESSMENTS CATALOG */}
+        <View style={globalStyles.card}>
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+            <View style={{ flex: 1 }}>
+              <Text style={globalStyles.cardTitle}>Recommended Skill Assessments</Text>
+              <Text style={globalStyles.cardSubtitle}>
+                Choose a domain or career path assessment to test your knowledge.
+              </Text>
+            </View>
+            <TouchableOpacity 
+              style={[globalStyles.btnOutline, { paddingHorizontal: 12, paddingVertical: 6, marginLeft: 8 }]}
+              onPress={() => navigation.navigate("Assessment")}
+            >
+              <Text style={[globalStyles.btnOutlineText, { fontSize: 11 }]}>View All</Text>
+            </TouchableOpacity>
+          </View>
+
+          {recommendedAssessments.length > 0 ? (
+            recommendedAssessments.map((asm) => (
+              <View key={asm.id} style={styles.recommendedCard}>
+                <View style={styles.recHeader}>
+                  <View style={globalStyles.badgeBlue}>
+                    <Text style={globalStyles.badgeBlueText}>{asm.category}</Text>
+                  </View>
+                  <Text style={styles.durationText}>{asm.durationMinutes || 15} mins</Text>
+                </View>
+                <Text style={styles.attTitle}>{asm.title}</Text>
+                
+                <View style={{ alignItems: "flex-end", marginTop: 10 }}>
+                  <TouchableOpacity 
+                    style={[globalStyles.btnOutline, { paddingVertical: 6, paddingHorizontal: 12 }]}
+                    onPress={() => navigation.navigate("Assessment")}
+                  >
+                    <Text style={[globalStyles.btnOutlineText, { fontSize: 11 }]}>Start Test ➔</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))
+          ) : (
+            <View style={{ padding: 16, backgroundColor: theme.colors.bg, borderRadius: 8, alignItems: "center" }}>
+              <Text style={{ color: theme.colors.textMuted, fontSize: 12 }}>Loading recommended assessments...</Text>
+            </View>
+          )}
+        </View>
+
       </ScrollView>
     </View>
   );
@@ -233,4 +280,22 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: theme.colors.textMuted,
   },
+  recommendedCard: {
+    backgroundColor: theme.colors.bg,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+  },
+  recHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  durationText: {
+    fontSize: 11,
+    color: theme.colors.textMuted,
+  }
 });
