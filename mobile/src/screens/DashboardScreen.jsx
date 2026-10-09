@@ -40,6 +40,7 @@ export default function DashboardScreen({ navigation }) {
   const readinessScore = user?.jobReadiness?.score || 0;
   const totalSkills = user?.skills?.length || 0;
   const resumesCount = resumeData ? resumeData.length : 0;
+  const learningProgress = performance ? `${performance.overallPercentage || 0}%` : "0%";
 
   return (
     <View style={styles.container}>
@@ -65,17 +66,40 @@ export default function DashboardScreen({ navigation }) {
 
         {/* METRICS GRID */}
         <View style={styles.metricsGrid}>
-          <View style={[styles.metricBox, { backgroundColor: "#eff6ff", borderColor: "#bfdbfe" }]}>
-            <Text style={[styles.metricLabel, { color: "#3b82f6" }]}>Readiness</Text>
-            <Text style={[styles.metricValue, { color: "#1e3a8a" }]}>{readinessScore}%</Text>
+          <View style={styles.metricBox}>
+            <View style={styles.metricHeader}>
+              <Text style={styles.metricLabel}>CAREER READINESS</Text>
+              <View style={[styles.iconBg, { backgroundColor: "#eff6ff" }]}><Text style={{ fontSize: 16 }}>🎯</Text></View>
+            </View>
+            <Text style={styles.metricValue}>{readinessScore}%</Text>
+            <Text style={styles.metricDesc}>Based on AI analysis</Text>
           </View>
-          <View style={[styles.metricBox, { backgroundColor: "#f3e8ff", borderColor: "#e9d5ff" }]}>
-            <Text style={[styles.metricLabel, { color: "#8b5cf6" }]}>Skills</Text>
-            <Text style={[styles.metricValue, { color: "#4c1d95" }]}>{totalSkills}</Text>
+          
+          <View style={styles.metricBox}>
+            <View style={styles.metricHeader}>
+              <Text style={styles.metricLabel}>SKILLS VERIFIED</Text>
+              <View style={[styles.iconBg, { backgroundColor: "#f3e8ff" }]}><Text style={{ fontSize: 16 }}>💻</Text></View>
+            </View>
+            <Text style={styles.metricValue}>{totalSkills}</Text>
+            <Text style={styles.metricDesc}>Across all domains</Text>
           </View>
-          <View style={[styles.metricBox, { backgroundColor: "#fef3c7", borderColor: "#fde68a" }]}>
-            <Text style={[styles.metricLabel, { color: "#d97706" }]}>Resumes</Text>
-            <Text style={[styles.metricValue, { color: "#78350f" }]}>{resumesCount}</Text>
+
+          <View style={styles.metricBox}>
+            <View style={styles.metricHeader}>
+              <Text style={styles.metricLabel}>ACADEMIC SCORE</Text>
+              <View style={[styles.iconBg, { backgroundColor: "#d1fae5" }]}><Text style={{ fontSize: 16 }}>📖</Text></View>
+            </View>
+            <Text style={styles.metricValue}>{learningProgress}</Text>
+            <Text style={styles.metricDesc}>Overall performance</Text>
+          </View>
+
+          <View style={styles.metricBox}>
+            <View style={styles.metricHeader}>
+              <Text style={styles.metricLabel}>RESUMES BUILT</Text>
+              <View style={[styles.iconBg, { backgroundColor: "#fef3c7" }]}><Text style={{ fontSize: 16 }}>💼</Text></View>
+            </View>
+            <Text style={styles.metricValue}>{resumesCount}</Text>
+            <Text style={styles.metricDesc}>ATS-optimized</Text>
           </View>
         </View>
 
@@ -148,21 +172,25 @@ const styles = StyleSheet.create({
     borderColor: "#e2e8f0"
   },
   secondaryActionText: { color: "#334155", fontWeight: "bold", fontSize: 14 },
-  metricsGrid: { flexDirection: "row", gap: 12, marginBottom: 20 },
+  metricsGrid: { flexDirection: "row", flexWrap: "wrap", gap: 12, marginBottom: 20 },
   metricBox: {
-    flex: 1,
+    width: "48%",
     padding: 16,
     borderRadius: 16,
+    backgroundColor: "#ffffff",
     borderWidth: 1,
-    alignItems: "center",
+    borderColor: "rgba(0,0,0,0.05)",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.03,
     shadowRadius: 5,
     elevation: 1,
   },
-  metricLabel: { fontSize: 12, textTransform: "uppercase", marginBottom: 8, fontWeight: "bold" },
-  metricValue: { fontSize: 22, fontWeight: "bold" },
+  metricHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 12 },
+  metricLabel: { fontSize: 10, color: "#64748b", fontWeight: "bold", letterSpacing: 0.5, flex: 1 },
+  iconBg: { padding: 6, borderRadius: 8 },
+  metricValue: { fontSize: 24, fontWeight: "bold", color: "#0f172a", marginBottom: 4 },
+  metricDesc: { fontSize: 11, color: "#64748b" },
   promoCard: {
     backgroundColor: "#e0f2fe",
     borderRadius: 20,
