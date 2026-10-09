@@ -15,6 +15,11 @@ export default function AssessmentScreen({ navigation }) {
   const [user, setUser] = useState(null);
   const [assessments, setAssessments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const categories = [
+    "All", "Skill Based", "Programming", "Data Structures", "Algorithms", "DBMS", "SQL", "JavaScript", "Web Development", "Machine Learning"
+  ];
 
   // Test mode state
   const [activeTest, setActiveTest] = useState(null);
@@ -97,22 +102,46 @@ export default function AssessmentScreen({ navigation }) {
       <ScrollView contentContainerStyle={globalStyles.scrollContent}>
         {/* TEST RESULT SCREEN */}
         {testResult ? (
-          <View style={[globalStyles.card, { alignItems: "center", paddingVertical: 30 }]}>
-            <Text style={{ fontSize: 44, marginBottom: 10 }}>🎉</Text>
+          <View style={[globalStyles.card, { alignItems: "center", paddingVertical: 40 }]}>
+            <Text style={{ fontSize: 50, marginBottom: 12 }}>🎉</Text>
             <View style={globalStyles.badgeGreen}>
               <Text style={globalStyles.badgeGreenText}>Assessment Completed</Text>
             </View>
-            <Text style={[globalStyles.cardTitle, { marginTop: 10 }]}>
+            <Text style={[globalStyles.cardTitle, { marginTop: 16, textAlign: "center", fontSize: 22 }]}>
               {activeTest?.title || "Assessment Result"}
             </Text>
+            <Text style={{ color: theme.colors.textMuted, textAlign: "center", marginBottom: 20 }}>
+              Your test has been securely evaluated and saved to your profile.
+            </Text>
 
-            <View style={styles.scoreBox}>
-              <Text style={styles.scoreLabel}>YOUR SCORE</Text>
-              <Text style={styles.scoreVal}>{testResult.percentage}%</Text>
-              <Text style={styles.scoreSub}>
-                {testResult.score} / {testResult.totalQuestions} Questions Correct
+            <View style={styles.scoreBoxLarge}>
+              <Text style={styles.scoreLabelLarge}>YOUR FINAL SCORE</Text>
+              <Text style={styles.scoreValLarge}>{testResult.percentage}%</Text>
+              <Text style={styles.scoreSubLarge}>
+                {testResult.score} out of {testResult.totalQuestions} Correct
               </Text>
             </View>
+
+            {testResult.skillScores && Object.keys(testResult.skillScores).length > 0 && (
+              <View style={{ width: "100%", marginTop: 24, marginBottom: 10 }}>
+                <Text style={{ fontSize: 16, fontWeight: "800", color: theme.colors.textMain, marginBottom: 16 }}>
+                  Skill Breakdown
+                </Text>
+                {Object.entries(testResult.skillScores).map(([sk, pct]) => (
+                  <View key={sk} style={styles.skillBarCard}>
+                    <View style={styles.skillBarHeader}>
+                      <Text style={styles.skillBarTitle}>{sk}</Text>
+                      <View style={globalStyles.badgeBlue}>
+                        <Text style={globalStyles.badgeBlueText}>{pct}%</Text>
+                      </View>
+                    </View>
+                    <View style={styles.progressBarTrack}>
+                      <View style={[styles.progressBarFill, { width: `${pct}%` }]} />
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
 
             <View style={{ flexDirection: "row", gap: 10, marginTop: 20 }}>
               <TouchableOpacity
@@ -122,7 +151,7 @@ export default function AssessmentScreen({ navigation }) {
                   setActiveTest(null);
                 }}
               >
-                <Text style={globalStyles.btnOutlineText}>Catalog</Text>
+                <Text style={globalStyles.btnOutlineText}>Take Another</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={globalStyles.btnPrimary}
@@ -267,20 +296,47 @@ export default function AssessmentScreen({ navigation }) {
         ) : (
           /* CATALOG VIEW */
           <View>
-            <View style={globalStyles.card}>
-              <View style={globalStyles.badgeBlue}>
-                <Text style={globalStyles.badgeBlueText}>Technical & Career Tests</Text>
+            <View style={styles.catalogBanner}>
+              <View style={[globalStyles.badgeBlue, { alignSelf: "center", backgroundColor: "rgba(255,255,255,0.2)" }]}>
+                <Text style={[globalStyles.badgeBlueText, { color: "#FFFFFF" }]}>⚡ Technical & Career Assessments</Text>
               </View>
-              <Text style={globalStyles.cardTitle}>Skill Assessments ⚡</Text>
-              <Text style={globalStyles.cardSubtitle}>
-                Take domain & career-specific assessments. Questions are loaded from MongoDB and scored backend server-side.
+              <Text style={styles.bannerTitle}>Skill Evaluation Center</Text>
+              <Text style={styles.bannerSub}>
+                Discover your strengths and identify growth areas. Take domain-specific assessments powered by our advanced intelligence engine.
               </Text>
+            </View>
+
+            <View style={{ marginBottom: 16 }}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16, gap: 10 }}>
+                {categories.map((cat) => {
+                  const isSelected = selectedCategory === cat;
+                  return (
+                    <TouchableOpacity
+                      key={cat}
+                      onPress={() => setSelectedCategory(cat)}
+                      style={[
+                        styles.catPill,
+                        isSelected ? styles.catPillSelected : null
+                      ]}
+                    >
+                      <Text style={[
+                        styles.catPillText,
+                        isSelected ? styles.catPillTextSelected : null
+                      ]}>
+                        {cat}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
             </View>
 
             {loading ? (
               <ActivityIndicator color={theme.colors.primary} style={{ marginVertical: 30 }} />
             ) : (
-              assessments.map((asm) => (
+              assessments
+                .filter(asm => selectedCategory === "All" || asm.category === selectedCategory)
+                .map((asm) => (
                 <View key={asm._id || asm.id} style={globalStyles.card}>
                   <View style={styles.catHeader}>
                     <View style={globalStyles.badgeBlue}>
@@ -450,4 +506,90 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: theme.colors.textDark,
   },
+  catalogBanner: {
+    backgroundColor: theme.colors.primary,
+    padding: 24,
+    borderRadius: 16,
+    marginHorizontal: 16,
+    marginBottom: 20,
+    alignItems: "center",
+  },
+  bannerTitle: {
+    fontSize: 24,
+    fontWeight: "800",
+    color: "#FFFFFF",
+    marginTop: 12,
+    marginBottom: 8,
+  },
+  bannerSub: {
+    fontSize: 14,
+    color: "rgba(255,255,255,0.9)",
+    textAlign: "center",
+    lineHeight: 20,
+  },
+  catPill: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    backgroundColor: "#FFFFFF",
+  },
+  catPillSelected: {
+    backgroundColor: theme.colors.primaryLight,
+    borderColor: theme.colors.primary,
+  },
+  catPillText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: theme.colors.textMuted,
+  },
+  catPillTextSelected: {
+    color: theme.colors.primaryDark,
+  },
+  scoreBoxLarge: {
+    backgroundColor: theme.colors.primaryLight,
+    borderColor: theme.colors.primary,
+    borderWidth: 2,
+    borderRadius: 16,
+    padding: 30,
+    alignItems: "center",
+    width: "100%",
+  },
+  scoreLabelLarge: {
+    fontSize: 12,
+    fontWeight: "800",
+    color: theme.colors.primary,
+    letterSpacing: 1,
+  },
+  scoreValLarge: {
+    fontSize: 60,
+    fontWeight: "800",
+    color: theme.colors.primaryDark,
+    marginVertical: 4,
+  },
+  scoreSubLarge: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: theme.colors.textMain,
+  },
+  skillBarCard: {
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+  },
+  skillBarHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  skillBarTitle: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: theme.colors.textMain,
+  }
 });
