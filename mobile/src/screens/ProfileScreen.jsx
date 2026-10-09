@@ -114,7 +114,7 @@ export default function ProfileScreen({ navigation }) {
   const userPhoto = rawPhoto
     ? /^https?:\/\//i.test(rawPhoto)
       ? rawPhoto
-      : `http://localhost:5000${rawPhoto.startsWith("/") ? "" : "/"}${rawPhoto}`
+      : `http://10.248.189.208:5000${rawPhoto.startsWith("/") ? "" : "/"}${rawPhoto}`
     : null;
 
   return (

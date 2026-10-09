@@ -57,43 +57,29 @@ function ResumeBuilder() {
               title: user.selectedCareerDetails?.title || `${user.branch || "Software Engineering"} Student`,
               email: user.email || "",
               phone: user.phone || "+91 98765 43210",
-              location: user.college ? `${user.college}` : "India",
-              linkedin: user.linkedin || "https://www.linkedin.com/in/mrudhula-kondreddy-2b525a312",
-              github: user.github || "https://github.com/mrudhulareddy411",
+              location: user.college ? `${user.college}` : "",
+              linkedin: user.linkedin || "",
+              github: user.github || "",
               profilePhoto: user.profilePhoto || user.profileImage || "",
               profileImage: user.profilePhoto || user.profileImage || "",
               showPhoto: true,
             },
-            summary: `Motivated ${user.branch || "Computer Science"} student at ${user.college || "institution"} targeting ${user.selectedCareerDetails?.title || "Software Engineering"} roles.`,
-            skills: user.skills && user.skills.length > 0 ? user.skills : ["JavaScript", "React", "Node.js", "Python", "SQL"],
+            summary: `Motivated student at ${user.college || "institution"} targeting ${user.selectedCareerDetails?.title || "career"} roles.`,
+            skills: user.skills && user.skills.length > 0 ? user.skills : [],
             education: [
               {
-                degree: user.educationLevel === "B.Tech" ? "B.Tech Computer Science & Engineering" : user.educationLevel || "Degree",
-                institution: user.college || "Saveetha Institute of Tech",
-                branch: user.branch || "CSE",
-                startYear: "2024",
-                endYear: user.graduationYear || "2027",
-                score: "CGPA 8.6",
+                degree: user.educationLevel || "",
+                institution: user.college || "",
+                branch: user.branch || "",
+                startYear: "",
+                endYear: user.graduationYear || "",
+                score: "",
               },
             ],
-            projects: [
-              {
-                title: "Pathfinder AI Platform",
-                description: "Full stack career guidance & resume builder web application built with React & Node.js.",
-                technologies: "React, Express, MongoDB, Node.js",
-                link: "https://github.com/pathfinder",
-              },
-            ],
-            certifications: [
-              { title: "Full Stack Web Development", organization: "Coursera", year: "2025" },
-            ],
-            achievements: [
-              { title: "Hackathon Finalist", description: "Top 5 team in University National Tech Fest" },
-            ],
-            languages: [
-              { language: "English", proficiency: "Fluent" },
-              { language: "Hindi", proficiency: "Intermediate" },
-            ],
+            projects: [],
+            certifications: [],
+            achievements: [],
+            languages: [],
           }));
         }
       } catch (err) {

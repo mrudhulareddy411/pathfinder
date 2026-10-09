@@ -9,6 +9,7 @@ const { awardXP } = require("../services/gamificationEngine");
 const Activity = require("../models/Activity");
 const Streak = require("../models/Streak");
 const User = require("../models/User");
+const Event = require("../models/Event");
 const mongoose = require("mongoose");
 const fs = require("fs").promises;
 const path = require("path");
@@ -209,10 +210,63 @@ const completeActivity = async (req, res) => {
   }
 };
 
+// @desc    Get user's events
+// @route   GET /api/calendar/events
+// @access  Private
+const getEvents = async (req, res) => {
+  try {
+    const events = await Event.find({ userId: req.user.id }).sort({ date: 1 });
+    return res.json(events);
+  } catch (error) {
+    console.error("Get Events Error:", error);
+    return res.status(500).json({ message: "Server error retrieving events." });
+  }
+};
+
+// @desc    Create a calendar event
+// @route   POST /api/calendar/events
+// @access  Private
+const createEvent = async (req, res) => {
+  try {
+    const { title, date, type, description } = req.body;
+    const newEvent = await Event.create({
+      userId: req.user.id,
+      title,
+      date,
+      type,
+      description
+    });
+    return res.status(201).json(newEvent);
+  } catch (error) {
+    console.error("Create Event Error:", error);
+    return res.status(500).json({ message: "Server error creating event." });
+  }
+};
+
+// @desc    Delete a calendar event
+// @route   DELETE /api/calendar/events/:id
+// @access  Private
+const deleteEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const event = await Event.findOneAndDelete({ _id: id, userId: req.user.id });
+    if (!event) {
+      return res.status(404).json({ message: "Event not found or not authorized" });
+    }
+    return res.json({ success: true, message: "Event deleted" });
+  } catch (error) {
+    console.error("Delete Event Error:", error);
+    return res.status(500).json({ message: "Server error deleting event." });
+  }
+};
+
 module.exports = {
   getUserActivities,
   getCalendar,
   getActivitiesForDay,
   getStreakMetrics,
   completeActivity,
+  getEvents,
+  createEvent,
+  deleteEvent,
 };

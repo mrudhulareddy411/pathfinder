@@ -26,6 +26,14 @@ import ResumeBuilder from "./pages/ResumeBuilder";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ThreeBackground from "./components/ThreeBackground";
 
+import Developer from "./pages/Developer";
+import InfoPage from "./pages/InfoPage";
+import About from "./pages/About";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import FAQ from "./pages/FAQ";
+import Contact from "./pages/Contact";
+
 function App() {
   return (
     <BrowserRouter>
@@ -35,6 +43,17 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+
+        {/* Public Info Routes */}
+        <Route path="/developer" element={<Developer />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/help" element={<InfoPage title="Help Center" description="Get help using Pathfinder AI." />} />
+        <Route path="/roadmap" element={<InfoPage title="Roadmap" description="View the platform's upcoming features and your personal career journey map." />} />
+        <Route path="/progress" element={<InfoPage title="Progress Tracker" description="Detailed insights into your learning and assessment progress." />} />
 
         {/* Protected Student Routes */}
         <Route

@@ -10,7 +10,7 @@ function Settings() {
   const [saving, setSaving] = useState(false);
 
   const [settingsForm, setSettingsForm] = useState({
-    email: "mrudhula@example.com",
+    email: "",
     notifications: true,
     weeklyReport: true,
     theme: "Light (Clean Professional)",
@@ -130,7 +130,7 @@ function Settings() {
                       <input
                         type="text"
                         className="form-control border-subtle small"
-                        value={user?.fullName || "Kondreddy Mrudhula"}
+                        value={user?.fullName || ""}
                         disabled
                         style={{ borderColor: "#E2E8F0" }}
                       />

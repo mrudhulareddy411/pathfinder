@@ -13,7 +13,7 @@ export const loginUser = async (email, password) => {
     }
     return { success: false, message: res.data?.message || "Login failed." };
   } catch (err) {
-    console.error("Mobile Login Error:", err);
+    console.log("Mobile Login Error:", err);
     return {
       success: false,
       message: err.response?.data?.message || "Server connection error.",
@@ -33,7 +33,7 @@ export const registerUser = async (userData) => {
     }
     return { success: false, message: res.data?.message || "Registration failed." };
   } catch (err) {
-    console.error("Mobile Register Error:", err);
+    console.log("Mobile Register Error:", err);
     return {
       success: false,
       message: err.response?.data?.message || "Server connection error.",

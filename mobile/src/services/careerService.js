@@ -32,7 +32,7 @@ export const getRecommendations = async () => {
 
 export const setTargetCareer = async (careerData) => {
   try {
-    const res = await api.post("/recommendations/target", careerData);
+    const res = await api.post("/recommendations/select", careerData);
     return res.data;
   } catch (err) {
     console.error("Error setting target career:", err);

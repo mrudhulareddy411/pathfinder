@@ -56,18 +56,44 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "OK", service: "Pathfinder AI API", timestamp: new Date() });
 });
 
-// Connect to MongoDB & Seed Verified Datasets
-connectDB()
-  .then(() => {
-    seedVerifiedData();
+const cluster = require("cluster");
+const os = require("os");
 
-    // Start Server only after DB connection is successful
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
+const numCPUs = process.env.NODE_ENV === "production" ? os.cpus().length : 1;
+
+// Connect to MongoDB & Seed Verified Datasets in Primary
+if (cluster.isPrimary || cluster.isMaster) {
+  console.log(`🚀 Primary ${process.pid} is running`);
+
+  connectDB()
+    .then(async () => {
+      await seedVerifiedData();
+
+      // Fork workers after successful DB connection and seeding
+      for (let i = 0; i < numCPUs; i++) {
+        cluster.fork();
+      }
+
+      cluster.on("exit", (worker, code, signal) => {
+        console.log(`⚠️ Worker ${worker.process.pid} died. Restarting...`);
+        cluster.fork();
+      });
+    })
+    .catch((err) => {
+      console.error("❌ Failed to start primary: MongoDB connection error.", err);
+      process.exit(1);
     });
-  })
-  .catch((err) => {
-    console.error("❌ Failed to start server: MongoDB connection error.", err);
-    process.exit(1);
-  });
+} else {
+  // Workers also need DB connection for handling requests
+  connectDB()
+    .then(() => {
+      const PORT = process.env.PORT || 5000;
+      app.listen(PORT, () => {
+        console.log(`🚀 Worker ${process.pid} running on http://localhost:${PORT}`);
+      });
+    })
+    .catch((err) => {
+      console.error(`❌ Worker ${process.pid}: MongoDB connection error.`, err);
+      process.exit(1);
+    });
+}

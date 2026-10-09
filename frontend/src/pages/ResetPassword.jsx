@@ -66,13 +66,13 @@ function ResetPassword() {
           </p>
 
           {error && (
-            <div className="alert alert-danger bg-danger  border-danger border-opacity-25 text-danger extra-small p-3 rounded-3 mb-4 text-start">
+            <div className="alert alert-danger border-danger border-opacity-25 extra-small p-3 rounded-3 mb-4 text-start">
               {error}
             </div>
           )}
 
           {success ? (
-            <div className="p-4 rounded-4 bg-success  border border-success border-opacity-30 text-center mb-4">
+            <div className="p-4 rounded-4 bg-success bg-opacity-10 border border-success border-opacity-30 text-center mb-4">
               <div className="fs-2 mb-2">🎉</div>
               <h5 className="fw-bold text-dark mb-2">Password Reset Successfully!</h5>
               <p className="text-secondary extra-small mb-4">You can now log in with your new password.</p>

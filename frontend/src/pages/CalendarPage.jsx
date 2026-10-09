@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ActivityCalendar from "../components/ActivityCalendar";
 import StreakCard from "../components/StreakCard";
+import CalendarEvents from "../components/CalendarEvents";
 
 function CalendarPage() {
   const [user, setUser] = useState(null);
@@ -77,6 +78,7 @@ function CalendarPage() {
           {/* Main Activity Grid */}
           <div className="col-12 col-lg-8">
             <ActivityCalendar />
+            <CalendarEvents />
           </div>
 
           {/* Side Panel: Streak & Milestone Badges */}

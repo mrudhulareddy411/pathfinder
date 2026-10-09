@@ -1,180 +1,93 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import api from "../services/api";
+import { Cpu } from "lucide-react";
+import siteConfig from "../config/siteConfig";
 
-function Footer({ user: propUser }) {
-  const [user, setUser] = useState(propUser || null);
-
-  useEffect(() => {
-    if (propUser) {
-      setUser(propUser);
-    } else {
-      const fetchUser = async () => {
-        try {
-          const meRes = await api.get("/auth/me");
-          if (meRes.data) {
-            setUser(meRes.data);
-          }
-        } catch {
-          // Soft fallback for guest
-        }
-      }; 
-      fetchUser();
-    }
-  }, [propUser]);
-
-  const normalizeExternalUrl = (url) => {
-    if (!url || typeof url !== "string") return "";
-    const trimmed = url.trim();
-    if (!trimmed) return "";
-    if (/^https?:\/\//i.test(trimmed)) return trimmed;
-    return `https://${trimmed}`;
-  };
-
-  const fullName = user?.fullName || "Kondreddy Mrudhula";
-  const firstInitial = (fullName.trim()[0] || "K").toUpperCase();
-  const rawPhoto = user?.profileImage || user?.profilePhoto || null;
-  const userPhoto = rawPhoto
-    ? /^https?:\/\//i.test(rawPhoto)
-      ? rawPhoto
-      : `http://localhost:5000${rawPhoto}`
-    : null;
-  const linkedinUrl = user?.linkedinUrl || user?.linkedin || "";
-  const githubUrl = user?.githubUrl || user?.github || "";
-
+function Footer() {
   return (
-    <footer
-      className="mt-5 pt-5 pb-4 no-print position-relative"
-      style={{
-        background: "rgba(255, 255, 255, 0.5)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        color: "#475569",
-        borderTop: "1px solid rgba(0, 0, 0, 0.05)",
-      }}
-    >
+    <footer className="footer mt-5 pt-5 pb-4 no-print position-relative bg-white border-top">
       <div className="container" style={{ maxWidth: "1250px" }}>
         <div className="row g-4 mb-4">
-          {/* COLUMN 1: PATHFINDER AI */}
-          <div className="col-12 col-md-6 col-lg-3">
-            <div className="d-flex align-items-center gap-2 mb-3">
-              <div
-                className="rounded-3 text-dark fw-bold d-flex align-items-center justify-content-center shadow-sm"
-                style={{ width: "34px", height: "34px", background: "linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%)", fontSize: "16px" }}
-              >
-                P
+          
+          {/* BRAND COLUMN */}
+          <div className="col-12 col-lg-3">
+            <Link className="navbar-brand fw-extrabold text-dark fs-4 d-flex align-items-center gap-2 mb-3 text-decoration-none" to="/">
+              <div style={{ width: "32px", height: "32px", background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Cpu size={18} color="white" />
               </div>
-              <span className="fw-bold fs-5" style={{ color: "#0f172a", letterSpacing: "-0.02em" }}>Pathfinder AI</span>
-            </div>
-            <p className="small mb-4" style={{ maxWidth: "300px" }}>
-              Empowering students and professionals to navigate their career paths with intelligent, data-driven insights and AI-powered tools.
+              {siteConfig.appName}
+            </Link>
+            <p className="small text-muted mb-4" style={{ maxWidth: "300px" }}>
+              {siteConfig.tagline}
             </p>
           </div>
 
-          {/* COLUMN 2: ABOUT ME (COMPACT PERSONAL PROFILE) */}
-          <div className="col-12 col-md-6 col-lg-3">
-            <h6 className="fw-bold text-dark small text-uppercase tracking-wider mb-3">About Me</h6>
-            <div className="d-flex align-items-center gap-3 mb-2">
-              {userPhoto ? (
-                <img
-                  src={userPhoto}
-                  alt={fullName}
-                  className="rounded-circle flex-shrink-0"
-                  style={{
-                    width: "72px",
-                    height: "72px",
-                    objectFit: "cover",
-                    border: "2px solid #3B82F6",
-                  }}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.style.display = "none";
-                  }}
-                />
-              ) : (
-                <div
-                  className="rounded-circle text-dark fw-bold d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm"
-                  style={{
-                    width: "72px",
-                    height: "72px",
-                    background: "linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%)",
-                    fontSize: "28px",
-                  }}
-                >
-                  {firstInitial}
-                </div>
-              )}
-              <div className="overflow-hidden">
-                <div className="fw-bold text-dark small text-truncate">{fullName}</div>
-                <div className="extra-small" style={{ color: "#64748b", lineHeight: "1.3" }}>
-                  B.Tech / Computer Science & Engineering Student
-                </div>
+          {/* PRODUCT COLUMN */}
+          <div className="col-6 col-md-3 col-lg-2">
+            <h6 className="fw-bold text-dark small text-uppercase mb-3">Product</h6>
+            <ul className="list-unstyled d-flex flex-column gap-2 small">
+              <li><Link to="/career-pathfinder" className="text-decoration-none text-muted transition-all hover-primary">Career Pathfinder</Link></li>
+              <li><Link to="/skills" className="text-decoration-none text-muted transition-all hover-primary">Skills Gap</Link></li>
+              <li><Link to="/resources" className="text-decoration-none text-muted transition-all hover-primary">Learning Resources</Link></li>
+              <li><Link to="/assessment" className="text-decoration-none text-muted transition-all hover-primary">Assessments</Link></li>
+              <li><Link to="/academics" className="text-decoration-none text-muted transition-all hover-primary">Academic Tracker</Link></li>
+              <li><Link to="/admin" className="text-decoration-none text-muted transition-all hover-primary">Admin Datasets</Link></li>
+            </ul>
+          </div>
+
+          {/* COMPANY COLUMN */}
+          <div className="col-6 col-md-3 col-lg-2">
+            <h6 className="fw-bold text-dark small text-uppercase mb-3">Company</h6>
+            <ul className="list-unstyled d-flex flex-column gap-2 small">
+              <li><Link to="/about" className="text-decoration-none text-muted transition-all hover-primary">About</Link></li>
+              <li><Link to="/contact" className="text-decoration-none text-muted transition-all hover-primary">Contact</Link></li>
+              <li><Link to="/developer" className="text-decoration-none text-muted transition-all hover-primary">Developer</Link></li>
+              <li><Link to="/help" className="text-decoration-none text-muted transition-all hover-primary">Help Center</Link></li>
+              <li><Link to="/faq" className="text-decoration-none text-muted transition-all hover-primary">FAQ</Link></li>
+            </ul>
+          </div>
+
+          {/* LEGAL COLUMN */}
+          <div className="col-6 col-md-3 col-lg-2">
+            <h6 className="fw-bold text-dark small text-uppercase mb-3">Legal</h6>
+            <ul className="list-unstyled d-flex flex-column gap-2 small">
+              <li><Link to="/privacy" className="text-decoration-none text-muted transition-all hover-primary">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="text-decoration-none text-muted transition-all hover-primary">Terms & Conditions</Link></li>
+            </ul>
+          </div>
+
+          {/* DEVELOPER COLUMN */}
+          <div className="col-6 col-md-3 col-lg-3">
+            <h6 className="fw-bold text-dark small text-uppercase mb-3">Developer</h6>
+            <div className="p-3 bg-light rounded-3 border">
+              <div className="extra-small text-muted mb-1">Developed by:</div>
+              <Link to="/developer" className="fw-bold text-primary text-decoration-none d-block mb-2">
+                {siteConfig.developer.name}
+              </Link>
+              <div className="extra-small text-secondary mb-3">
+                {siteConfig.developer.role}
               </div>
-            </div>
-
-            <p className="extra-small mb-3" style={{ color: "#64748b", lineHeight: "1.5" }}>
-              Computer Science student interested in software development, artificial intelligence, machine learning and building practical technology solutions.
-            </p>
-
-            <div className="d-flex flex-wrap gap-2">
-              {linkedinUrl && (
-                <a
-                  href={normalizeExternalUrl(linkedinUrl)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-sm px-2.5 py-1 text-dark text-decoration-none fw-semibold extra-small d-inline-flex align-items-center gap-1 rounded-2"
-                  style={{ backgroundColor: "#2563EB" }}
-                >
-                  View LinkedIn Profile ↗
-                </a>
-              )}
-              {githubUrl && (
-                <a
-                  href={normalizeExternalUrl(githubUrl)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-sm px-2.5 py-1 text-dark text-decoration-none fw-semibold extra-small d-inline-flex align-items-center gap-1 rounded-2"
-                  style={{ backgroundColor: "#334155", border: "1px solid rgba(255, 255, 255, 0.15)" }}
-                >
-                  GitHub ↗
-                </a>
-              )}
+              <div className="d-flex gap-2">
+                {siteConfig.developer.socialLinks?.github && (
+                  <a href={siteConfig.developer.socialLinks.github} target="_blank" rel="noreferrer" className="btn btn-sm btn-outline-secondary py-1 px-2 extra-small">
+                    GitHub
+                  </a>
+                )}
+                {siteConfig.developer.socialLinks?.linkedin && (
+                  <a href={siteConfig.developer.socialLinks.linkedin} target="_blank" rel="noreferrer" className="btn btn-sm btn-outline-primary py-1 px-2 extra-small">
+                    LinkedIn
+                  </a>
+                )}
+              </div>
             </div>
           </div>
 
-          <div className="col-6 col-md-3">
-              <h5 className="fw-bold mb-3" style={{ color: "#0f172a" }}>Product</h5>
-              <ul className="list-unstyled d-flex flex-column gap-2 small">
-                <li><Link to="/career-pathfinder" className="text-decoration-none transition-all" style={{ color: "#475569" }}>Career Pathfinder</Link></li>
-                <li><Link to="/assessment" className="text-decoration-none transition-all" style={{ color: "#475569" }}>Skills Assessment</Link></li>
-                <li><Link to="/skills" className="text-decoration-none transition-all" style={{ color: "#475569" }}>Skill Gap Analysis</Link></li>
-                <li><Link to="/resume/templates" className="text-decoration-none transition-all" style={{ color: "#475569" }}>Resume Builder</Link></li>
-              </ul>
-            </div>
-            <div className="col-6 col-md-3">
-              <h5 className="fw-bold mb-3" style={{ color: "#0f172a" }}>Resources</h5>
-              <ul className="list-unstyled d-flex flex-column gap-2 small">
-                <li><Link to="/resources" className="text-decoration-none transition-all" style={{ color: "#475569" }}>Learning Hub</Link></li>
-                <li><Link to="/projects" className="text-decoration-none transition-all" style={{ color: "#475569" }}>Project Ideas</Link></li>
-                <li><Link to="/challenges" className="text-decoration-none transition-all" style={{ color: "#475569" }}>Challenges</Link></li>
-                <li><Link to="/calendar" className="text-decoration-none transition-all" style={{ color: "#475569" }}>Events Calendar</Link></li>
-              </ul>
-            </div>
         </div>
 
-        {/* BOTTOM FOOTER */}
-        <div className="border-top mt-5 pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center" style={{ borderColor: "rgba(0, 0, 0, 0.05) !important" }}>
-          <p className="small mb-2 mb-md-0" style={{ color: "#64748b" }}>
-            &copy; {new Date().getFullYear()} Pathfinder AI. All rights reserved.
+        {/* BOTTOM COPYRIGHT */}
+        <div className="border-top mt-4 pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center">
+          <p className="small text-muted mb-0">
+            &copy; {new Date().getFullYear()} {siteConfig.appName}. All Rights Reserved.
           </p>
-          <div className="d-flex gap-3">
-            <Link to="/settings" className="text-decoration-none" style={{ color: "#64748b" }}>
-              Privacy
-            </Link>
-            <Link to="/settings" className="text-decoration-none" style={{ color: "#94A3B8" }}>
-              Terms
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

@@ -8,10 +8,12 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { theme } from "../theme";
 import { logoutUser } from "../services/authService";
 
 export default function Header({ user, navigation }) {
+  const insets = useSafeAreaInsets();
   const [profileModalVisible, setProfileModalVisible] = useState(false);
 
   const fullName = user?.fullName || "Student Profile";
@@ -20,7 +22,7 @@ export default function Header({ user, navigation }) {
   const userPhoto = rawPhoto
     ? /^https?:\/\//i.test(rawPhoto)
       ? rawPhoto
-      : `http://localhost:5000${rawPhoto.startsWith("/") ? "" : "/"}${rawPhoto}`
+      : `http://10.248.189.208:5000${rawPhoto.startsWith("/") ? "" : "/"}${rawPhoto}`
     : null;
 
   const userEmail = user?.email || "";
@@ -37,7 +39,7 @@ export default function Header({ user, navigation }) {
   };
 
   return (
-    <View style={styles.headerBar}>
+    <View style={[styles.headerBar, { paddingTop: insets.top, height: 60 + insets.top }]}>
       {/* BRAND LOGO */}
       <TouchableOpacity
         style={styles.brandContainer}

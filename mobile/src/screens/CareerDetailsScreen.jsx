@@ -132,7 +132,7 @@ export default function CareerDetailsScreen({ route, navigation }) {
                 <Text style={styles.missingText}>• {s}</Text>
                 <TouchableOpacity
                   style={styles.learnBtn}
-                  onPress={() => navigation.navigate("LearningHub")}
+                  onPress={() => navigation.navigate("MainDrawer", { screen: "LearningHub" })}
                 >
                   <Text style={styles.learnBtnText}>Learn ↗</Text>
                 </TouchableOpacity>

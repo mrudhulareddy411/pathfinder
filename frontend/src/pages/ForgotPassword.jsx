@@ -77,7 +77,7 @@ function ForgotPassword() {
           </p>
 
           {error && (
-            <div className="alert alert-danger bg-danger  border-danger border-opacity-25 text-danger extra-small p-3 rounded-3 mb-4 text-start">
+            <div className="alert alert-danger border-danger border-opacity-25 extra-small p-3 rounded-3 mb-4 text-start">
               {error}
             </div>
           )}

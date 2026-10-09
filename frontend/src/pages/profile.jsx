@@ -18,7 +18,7 @@ const resolvePhotoUrl = (url) => {
   return null;
 };
 
-export const normalizeExternalUrl = (url) => {
+const normalizeExternalUrl = (url) => {
   if (!url || typeof url !== "string") return "";
   const trimmed = url.trim();
   if (!trimmed) return "";
@@ -165,7 +165,7 @@ function Profile() {
           phone: uData.phone || "",
           college: uData.college || "",
           branch: uData.branch || uData.course || "",
-          educationLevel: uData.educationLevel || uData.education || "B.Tech",
+          educationLevel: uData.educationLevel || uData.education || "",
           semester: uData.semester || "",
           graduationYear: uData.graduationYear || "",
           cgpa: uData.cgpa || "",
@@ -387,8 +387,8 @@ function Profile() {
           <div
             className={`clean-card p-3 mb-4 text-center fw-semibold ${
               saveStatus.type === "success"
-                ? "border-success bg-success  text-success"
-                : "border-danger bg-danger  text-danger"
+                ? "border-success bg-success bg-opacity-10 text-success"
+                : "border-danger bg-danger bg-opacity-10 text-danger"
             }`}
           >
             {saveStatus.message}

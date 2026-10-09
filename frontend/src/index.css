@@ -221,150 +221,224 @@ h6,
 }
 
 /* --------------------------------------------------
-   GLASSMORPHISM CAREER DASHBOARD STYLES (3D Theme)
+   VIBRANT PREMIUM DASHBOARD STYLES (Animated Mesh & Glass)
    -------------------------------------------------- */
 
+@keyframes gradientBGMesh {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .dashboard-clean-bg {
-  background-color: transparent !important;
+  background: linear-gradient(-45deg, #f8fafc, #e0e7ff, #f3e8ff, #e0f2fe);
+  background-size: 400% 400%;
+  animation: gradientBGMesh 15s ease infinite;
   color: var(--pf-text-main);
   font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add some animated abstract shapes to the background */
+.dashboard-clean-bg::before,
+.dashboard-clean-bg::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  opacity: 0.6;
+  pointer-events: none;
+  animation: float 10s ease-in-out infinite alternate;
+}
+
+.dashboard-clean-bg::before {
+  background: #a78bfa; /* purple */
+  top: -10%;
+  left: -10%;
+}
+
+.dashboard-clean-bg::after {
+  background: #60a5fa; /* blue */
+  bottom: -10%;
+  right: -10%;
+  animation-delay: -5s;
+}
+
+/* Ensure content stays above the decorative background */
+.dashboard-clean-bg > * {
+  position: relative;
+  z-index: 1;
 }
 
 .dashboard-clean-bg .text-dark {
-  color: #0f172a !important;
+  color: #1e293b !important;
 }
 
 .dashboard-clean-bg .text-secondary {
-  color: #475569 !important;
+  color: #64748b !important;
 }
 
 .dashboard-clean-bg .bg-light,
 .bg-light,
 .bg-white {
-  background-color: rgba(255, 255, 255, 0.9) !important;
-  border-color: rgba(255, 255, 255, 0.95) !important;
-  color: #0f172a !important;
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(8px);
+  color: #1e293b !important;
 }
 
 .text-dark {
-  color: #0f172a !important;
+  color: #1e293b !important;
 }
 
 .clean-card {
-  background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.9) !important;
-  border-top: 2px solid rgba(255, 255, 255, 1) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), inset 0 2px 5px rgba(255, 255, 255, 1) !important;
-  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  border-top: 1px solid rgba(255, 255, 255, 1) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.9) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05), inset 0 2px 5px rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   color: var(--pf-text-main) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.clean-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
 }
 
 .clean-card:hover {
-  border-color: rgba(59, 130, 246, 0.4) !important;
-  box-shadow: 0 15px 35px rgba(59, 130, 246, 0.15), inset 0 2px 5px rgba(255, 255, 255, 1) !important;
-  transform: translateY(-3px);
+  border-color: rgba(99, 102, 241, 0.5) !important;
+  box-shadow: 0 25px 50px rgba(99, 102, 241, 0.15), inset 0 2px 5px rgba(255, 255, 255, 1) !important;
+  transform: translateY(-5px);
 }
 
 .clean-card-flat {
-  background: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.8) !important;
-  border-top: 1px solid rgba(255, 255, 255, 1) !important;
-  border-radius: 12px !important;
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 16px !important;
   color: var(--pf-text-main) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
-  transition: all 0.25s ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.03) !important;
+  transition: all 0.3s ease;
 }
 
 .clean-card-flat:hover {
-  background: rgba(255, 255, 255, 0.9) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
   border-color: rgba(255, 255, 255, 1) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.06) !important;
 }
 
 .btn-primary-clean {
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
+  background: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%) !important;
   color: #FFFFFF !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   border: none !important;
-  border-radius: 8px !important;
-  padding: 8px 18px !important;
-  font-size: 14px !important;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  border-radius: 12px !important;
+  padding: 10px 22px !important;
+  font-size: 15px !important;
+  box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
   text-decoration: none !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 6px !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  letter-spacing: 0.5px;
 }
 
 .btn-primary-clean:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6) !important;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.4) !important;
   color: #FFFFFF !important;
+  background: linear-gradient(135deg, #4338ca 0%, #db2777 100%) !important;
 }
 
 .btn-outline-clean {
-  background-color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
   color: #475569 !important;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
   font-weight: 600 !important;
-  border: 1px solid #cbd5e1 !important;
-  border-radius: 8px !important;
-  padding: 8px 16px !important;
-  font-size: 14px !important;
-  transition: all 0.2s ease !important;
+  border: 1px solid rgba(148, 163, 184, 0.4) !important;
+  border-radius: 12px !important;
+  padding: 10px 22px !important;
+  font-size: 15px !important;
+  transition: all 0.3s ease !important;
   text-decoration: none !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 6px !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
 }
 
 .btn-outline-clean:hover {
-  background-color: #f8fafc !important;
-  border-color: #94a3b8 !important;
-  color: #0f172a !important;
+  background-color: #ffffff !important;
+  border-color: #6366f1 !important;
+  color: #4f46e5 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15);
 }
 
+/* Enhanced Vibrant Badges */
 .badge-clean-blue {
-  background-color: rgba(59, 130, 246, 0.1) !important;
-  color: #2563eb !important;
-  border: 1px solid rgba(59, 130, 246, 0.2) !important;
-  font-weight: 600 !important;
-  padding: 4px 10px !important;
-  border-radius: 6px !important;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.25) 100%) !important;
+  color: #1d4ed8 !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  font-weight: 700 !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
   font-size: 12px !important;
+  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.1) !important;
+  backdrop-filter: blur(4px);
 }
 
 .badge-clean-green {
-  background-color: rgba(16, 185, 129, 0.1) !important;
-  color: #059669 !important;
-  border: 1px solid rgba(16, 185, 129, 0.2) !important;
-  font-weight: 600 !important;
-  padding: 4px 10px !important;
-  border-radius: 6px !important;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.25) 100%) !important;
+  color: #047857 !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+  font-weight: 700 !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
   font-size: 12px !important;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.1) !important;
+  backdrop-filter: blur(4px);
 }
 
 .badge-clean-amber {
-  background-color: rgba(245, 158, 11, 0.1) !important;
-  color: #d97706 !important;
-  border: 1px solid rgba(245, 158, 11, 0.2) !important;
-  font-weight: 600 !important;
-  padding: 4px 10px !important;
-  border-radius: 6px !important;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.25) 100%) !important;
+  color: #b45309 !important;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+  font-weight: 700 !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
   font-size: 12px !important;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.1) !important;
+  backdrop-filter: blur(4px);
 }
 
 .badge-clean-gray {
-  background-color: rgba(15, 23, 42, 0.05) !important;
-  color: #475569 !important;
-  border: 1px solid rgba(15, 23, 42, 0.1) !important;
-  font-weight: 600 !important;
-  padding: 4px 10px !important;
-  border-radius: 6px !important;
+  background: linear-gradient(135deg, rgba(100, 116, 139, 0.15) 0%, rgba(71, 85, 105, 0.25) 100%) !important;
+  color: #334155 !important;
+  border: 1px solid rgba(100, 116, 139, 0.3) !important;
+  font-weight: 700 !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
   font-size: 12px !important;
+  box-shadow: 0 2px 10px rgba(100, 116, 139, 0.1) !important;
+  backdrop-filter: blur(4px);
 }

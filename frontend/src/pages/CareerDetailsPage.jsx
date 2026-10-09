@@ -123,7 +123,7 @@ function CareerDetailsPage() {
         )}
 
         {error && (
-          <div className="alert alert-danger rounded-4 p-4 text-center bg-danger  border-danger border-opacity-25 text-danger">
+          <div className="alert alert-danger rounded-4 p-4 text-center border-danger border-opacity-25">
             <h5 className="fw-bold">Unable to load career details</h5>
             <p className="small mb-0">{error}</p>
           </div>
