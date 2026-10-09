@@ -15,8 +15,8 @@ export default function DashboardScreen({ navigation }) {
       setLoading(true);
       const meRes = await api.get("/auth/me");
       if (meRes.data) setUser(meRes.data);
-      try { const perfRes = await api.get("/academic/performance"); if (perfRes.data?.performance) setPerformance(perfRes.data.performance); } catch (e) {}
-      try { const resRes = await api.get("/resumes"); if (resRes.data && Array.isArray(resRes.data)) setResumeData(resRes.data); } catch (e) {}
+      try { const perfRes = await api.get("/academic/performance"); if (perfRes.data?.performance) setPerformance(perfRes.data.performance); } catch (e) { }
+      try { const resRes = await api.get("/resumes"); if (resRes.data && Array.isArray(resRes.data)) setResumeData(resRes.data); } catch (e) { }
     } catch (err) {
       console.log("Dashboard load error:", err.message);
     } finally {
@@ -40,13 +40,12 @@ export default function DashboardScreen({ navigation }) {
   const readinessScore = user?.jobReadiness?.score || 0;
   const totalSkills = user?.skills?.length || 0;
   const resumesCount = resumeData ? resumeData.length : 0;
-  const learningProgress = performance ? `${performance.overallPercentage || 0}%` : "0%";
 
   return (
     <View style={styles.container}>
       <Header user={user} navigation={navigation} />
       <ScrollView contentContainerStyle={styles.scrollContent} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#3b82f6" />}>
-        
+
         {/* HERO SECTION */}
         <View style={styles.heroCard}>
           <View style={styles.badge}>
@@ -66,40 +65,17 @@ export default function DashboardScreen({ navigation }) {
 
         {/* METRICS GRID */}
         <View style={styles.metricsGrid}>
-          <View style={styles.metricBox}>
-            <View style={styles.metricHeader}>
-              <Text style={styles.metricLabel}>CAREER READINESS</Text>
-              <View style={[styles.iconBg, { backgroundColor: "#eff6ff" }]}><Text style={{ fontSize: 16 }}>🎯</Text></View>
-            </View>
-            <Text style={styles.metricValue}>{readinessScore}%</Text>
-            <Text style={styles.metricDesc}>Based on AI analysis</Text>
+          <View style={[styles.metricBox, { backgroundColor: "#eff6ff", borderColor: "#bfdbfe" }]}>
+            <Text style={[styles.metricLabel, { color: "#3b82f6" }]}>Readiness</Text>
+            <Text style={[styles.metricValue, { color: "#1e3a8a" }]}>{readinessScore}%</Text>
           </View>
-          
-          <View style={styles.metricBox}>
-            <View style={styles.metricHeader}>
-              <Text style={styles.metricLabel}>SKILLS VERIFIED</Text>
-              <View style={[styles.iconBg, { backgroundColor: "#f3e8ff" }]}><Text style={{ fontSize: 16 }}>💻</Text></View>
-            </View>
-            <Text style={styles.metricValue}>{totalSkills}</Text>
-            <Text style={styles.metricDesc}>Across all domains</Text>
+          <View style={[styles.metricBox, { backgroundColor: "#f3e8ff", borderColor: "#e9d5ff" }]}>
+            <Text style={[styles.metricLabel, { color: "#8b5cf6" }]}>Skills</Text>
+            <Text style={[styles.metricValue, { color: "#4c1d95" }]}>{totalSkills}</Text>
           </View>
-
-          <View style={styles.metricBox}>
-            <View style={styles.metricHeader}>
-              <Text style={styles.metricLabel}>ACADEMIC SCORE</Text>
-              <View style={[styles.iconBg, { backgroundColor: "#d1fae5" }]}><Text style={{ fontSize: 16 }}>📖</Text></View>
-            </View>
-            <Text style={styles.metricValue}>{learningProgress}</Text>
-            <Text style={styles.metricDesc}>Overall performance</Text>
-          </View>
-
-          <View style={styles.metricBox}>
-            <View style={styles.metricHeader}>
-              <Text style={styles.metricLabel}>RESUMES BUILT</Text>
-              <View style={[styles.iconBg, { backgroundColor: "#fef3c7" }]}><Text style={{ fontSize: 16 }}>💼</Text></View>
-            </View>
-            <Text style={styles.metricValue}>{resumesCount}</Text>
-            <Text style={styles.metricDesc}>ATS-optimized</Text>
+          <View style={[styles.metricBox, { backgroundColor: "#fef3c7", borderColor: "#fde68a" }]}>
+            <Text style={[styles.metricLabel, { color: "#d97706" }]}>Resumes</Text>
+            <Text style={[styles.metricValue, { color: "#78350f" }]}>{resumesCount}</Text>
           </View>
         </View>
 
@@ -113,6 +89,45 @@ export default function DashboardScreen({ navigation }) {
         </View>
 
         {/* RECENT PROJECTS (Removed) */}
+
+        {/* CERTIFICATIONS */}
+        <View style={styles.sectionCard}>
+          <Text style={styles.sectionTitle}>Certifications</Text>
+          {user?.certifications && user.certifications.length > 0 ? (
+            user.certifications.slice(0, 3).map((c, idx) => (
+              <View key={idx} style={styles.listItem}>
+                <Text style={styles.listTitle}>{c.title}</Text>
+                <Text style={styles.listSubtitle}>{c.issuer}</Text>
+              </View>
+            ))
+          ) : (
+            <Text style={styles.emptyText}>No certifications added.</Text>
+          )}
+          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+            <Text style={styles.linkText}>Manage profile →</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* RECOMMENDED ACTIONS */}
+        <View style={styles.sectionCard}>
+          <Text style={styles.sectionTitle}>Recommended Actions</Text>
+          
+          <View style={[styles.actionCard, { backgroundColor: "#eff6ff", borderLeftColor: "#3b82f6" }]}>
+            <Text style={styles.actionTitle}>Create Resume</Text>
+            <Text style={styles.actionDesc}>You need a resume to apply for jobs.</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("ResumeBuilder")}>
+              <Text style={styles.actionLink}>Start Builder →</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={[styles.actionCard, { backgroundColor: "#f3e8ff", borderLeftColor: "#8b5cf6" }]}>
+            <Text style={styles.actionTitle}>Take Assessment</Text>
+            <Text style={styles.actionDesc}>Identify your skill gaps and get recommendations.</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Assessment")}>
+              <Text style={styles.actionLink}>Start Assessment →</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
 
       </ScrollView>
     </View>
@@ -172,25 +187,21 @@ const styles = StyleSheet.create({
     borderColor: "#e2e8f0"
   },
   secondaryActionText: { color: "#334155", fontWeight: "bold", fontSize: 14 },
-  metricsGrid: { flexDirection: "row", flexWrap: "wrap", gap: 12, marginBottom: 20 },
+  metricsGrid: { flexDirection: "row", gap: 12, marginBottom: 20 },
   metricBox: {
-    width: "48%",
+    flex: 1,
     padding: 16,
     borderRadius: 16,
-    backgroundColor: "#ffffff",
     borderWidth: 1,
-    borderColor: "rgba(0,0,0,0.05)",
+    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.03,
     shadowRadius: 5,
     elevation: 1,
   },
-  metricHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 12 },
-  metricLabel: { fontSize: 10, color: "#64748b", fontWeight: "bold", letterSpacing: 0.5, flex: 1 },
-  iconBg: { padding: 6, borderRadius: 8 },
-  metricValue: { fontSize: 24, fontWeight: "bold", color: "#0f172a", marginBottom: 4 },
-  metricDesc: { fontSize: 11, color: "#64748b" },
+  metricLabel: { fontSize: 12, textTransform: "uppercase", marginBottom: 8, fontWeight: "bold" },
+  metricValue: { fontSize: 22, fontWeight: "bold" },
   promoCard: {
     backgroundColor: "#e0f2fe",
     borderRadius: 20,
@@ -207,6 +218,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 20,
     padding: 20,
+    marginBottom: 20,
     borderWidth: 1,
     borderColor: "rgba(0,0,0,0.05)",
     shadowColor: "#000",
@@ -218,7 +230,12 @@ const styles = StyleSheet.create({
   sectionTitle: { fontSize: 18, fontWeight: "bold", color: "#0f172a", marginBottom: 16 },
   listItem: { backgroundColor: "#f8fafc", padding: 16, borderRadius: 12, marginBottom: 12, borderWidth: 1, borderColor: "#e2e8f0" },
   listTitle: { fontSize: 16, fontWeight: "bold", color: "#0f172a", marginBottom: 4 },
+  listSubtitle: { fontSize: 13, color: "#3b82f6", fontWeight: "600" },
   listDesc: { fontSize: 13, color: "#64748b" },
   emptyText: { color: "#94a3b8", fontSize: 14, marginBottom: 12, fontStyle: "italic" },
-  linkText: { color: "#2563eb", fontWeight: "bold", fontSize: 14, marginTop: 8 }
+  linkText: { color: "#2563eb", fontWeight: "bold", fontSize: 14, marginTop: 8 },
+  actionCard: { padding: 16, borderRadius: 12, borderLeftWidth: 4, marginBottom: 12 },
+  actionTitle: { fontWeight: "bold", fontSize: 16, color: "#0f172a", marginBottom: 4 },
+  actionDesc: { fontSize: 13, color: "#64748b", marginBottom: 8 },
+  actionLink: { fontWeight: "bold", fontSize: 14, color: "#2563eb" }
 });
