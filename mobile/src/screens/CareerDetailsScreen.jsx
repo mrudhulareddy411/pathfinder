@@ -19,6 +19,7 @@ export default function CareerDetailsScreen({ route, navigation }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [actionMsg, setActionMsg] = useState("");
+  const [completingLvl, setCompletingLvl] = useState({});
 
   useEffect(() => {
     loadData();
@@ -49,6 +50,36 @@ export default function CareerDetailsScreen({ route, navigation }) {
     }
   };
 
+  const handleCompleteRoadmapActivity = async (lvl) => {
+    try {
+      const actId = `act_${onetCode}_lvl_${lvl.level}`;
+      setCompletingLvl((prev) => ({ ...prev, [lvl.level]: "recording" }));
+
+      const res = await api.post("/activity/complete", {
+        activityId: actId,
+        activityType: "ROADMAP_TASK_COMPLETED",
+        title: `Completed ${lvl.title}`,
+        xpEarned: 100,
+        metadata: { level: lvl.level, careerTitle: career?.title },
+      });
+
+      if (res.data?.user) {
+        setUser(res.data.user);
+      }
+
+      if (res.data?.duplicate) {
+        setActionMsg(`✓ Level ${lvl.level} already completed previously.`);
+      } else {
+        setActionMsg(`🎉 Level ${lvl.level} Completed! +100 XP awarded & Streak updated!`);
+      }
+      setTimeout(() => setActionMsg(""), 4000);
+    } catch (err) {
+      console.error("Complete roadmap error:", err);
+    } finally {
+      setCompletingLvl((prev) => ({ ...prev, [lvl.level]: "done" }));
+    }
+  };
+
   if (loading) {
     return (
       <View style={styles.center}>
@@ -73,6 +104,8 @@ export default function CareerDetailsScreen({ route, navigation }) {
   const requiredSkills = career.requiredSkills || ["Python", "Data Structures", "SQL", "Git"];
   const strongSkills = requiredSkills.filter((s) => userSkills.includes(s.toLowerCase()));
   const missingSkills = requiredSkills.filter((s) => !userSkills.includes(s.toLowerCase()));
+  
+  const completedActSet = new Set((user?.completedActivities || []).map((a) => a.activityId || a.title));
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -144,27 +177,75 @@ export default function CareerDetailsScreen({ route, navigation }) {
         </View>
       </View>
 
+      {/* ONET ABILITIES & KNOWLEDGE */}
+      <View style={styles.card}>
+        <Text style={styles.cardHeader}>🧠 O*NET Abilities & Knowledge</Text>
+        
+        <Text style={styles.sectionSubHeader}>Core Cognitive Abilities:</Text>
+        <View style={styles.tagWrap}>
+          {(career.abilities || ["Deductive Reasoning", "Problem Sensitivity", "Mathematical Reasoning"]).map((a) => (
+            <View key={a} style={[styles.topicTag, { backgroundColor: "#E0F2FE" }]}>
+              <Text style={[styles.topicTagText, { color: "#0369A1" }]}>{a}</Text>
+            </View>
+          ))}
+        </View>
+
+        <Text style={[styles.sectionSubHeader, { marginTop: 12 }]}>Knowledge Domains:</Text>
+        <View style={styles.tagWrap}>
+          {(career.knowledge || ["Computers & Electronics", "Mathematics", "Engineering"]).map((k) => (
+            <View key={k} style={[styles.topicTag, { backgroundColor: "#F3F4F6" }]}>
+              <Text style={[styles.topicTagText, { color: "#374151" }]}>{k}</Text>
+            </View>
+          ))}
+        </View>
+
+        <Text style={[styles.sectionSubHeader, { marginTop: 12 }]}>Software & Technologies:</Text>
+        <View style={styles.tagWrap}>
+          {(career.softwareTech || ["Python", "SQL", "Git", "Docker"]).map((st) => (
+            <View key={st} style={[styles.topicTag, { backgroundColor: "#FEF3C7" }]}>
+              <Text style={[styles.topicTagText, { color: "#B45309" }]}>{st}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
       {/* ROADMAP */}
       <View style={styles.card}>
         <Text style={styles.cardHeader}>🗺️ Career progression Roadmap</Text>
-        {(career.roadmap || []).map((lvl) => (
-          <View key={lvl.level} style={styles.roadmapStep}>
-            <View style={styles.stepBadge}>
-              <Text style={styles.stepBadgeText}>{lvl.level}</Text>
-            </View>
-            <View style={styles.stepContent}>
-              <Text style={styles.stepTitle}>{lvl.title}</Text>
-              <Text style={styles.stepDesc}>{lvl.desc}</Text>
-              <View style={styles.tagWrap}>
-                {(lvl.topics || []).map((t) => (
-                  <View key={t} style={styles.topicTag}>
-                    <Text style={styles.topicTagText}>{t}</Text>
-                  </View>
-                ))}
+        {(career.roadmap || []).map((lvl) => {
+          const actId = `act_${onetCode}_lvl_${lvl.level}`;
+          const isDone = completedActSet.has(actId) || completedActSet.has(`Completed ${lvl.title}`);
+          const isRecording = completingLvl[lvl.level] === "recording";
+
+          return (
+            <View key={lvl.level} style={styles.roadmapStep}>
+              <View style={styles.stepBadge}>
+                <Text style={styles.stepBadgeText}>{lvl.level}</Text>
+              </View>
+              <View style={styles.stepContent}>
+                <Text style={styles.stepTitle}>{lvl.title}</Text>
+                <Text style={styles.stepDesc}>{lvl.desc}</Text>
+                <View style={styles.tagWrap}>
+                  {(lvl.topics || []).map((t) => (
+                    <View key={t} style={styles.topicTag}>
+                      <Text style={styles.topicTagText}>{t}</Text>
+                    </View>
+                  ))}
+                </View>
+                
+                <TouchableOpacity
+                  style={[styles.milestoneBtn, isDone && styles.milestoneBtnDone]}
+                  onPress={() => handleCompleteRoadmapActivity(lvl)}
+                  disabled={isDone || isRecording}
+                >
+                  <Text style={[styles.milestoneBtnText, isDone && styles.milestoneBtnTextDone]}>
+                    {isDone ? "✓ Milestone Completed (+100 XP)" : isRecording ? "Recording..." : "⚡ Complete Milestone (+100 XP)"}
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
-          </View>
-        ))}
+          );
+        })}
       </View>
     </ScrollView>
   );
@@ -383,5 +464,27 @@ const styles = StyleSheet.create({
   topicTagText: {
     fontSize: 10,
     color: "#374151",
+    fontWeight: "600",
+  },
+  milestoneBtn: {
+    marginTop: 10,
+    backgroundColor: "#EFF6FF",
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+    paddingVertical: 8,
+    borderRadius: 6,
+    alignItems: "center",
+  },
+  milestoneBtnDone: {
+    backgroundColor: "#D1FAE5",
+    borderColor: "#065F46",
+  },
+  milestoneBtnText: {
+    color: theme.colors.primary,
+    fontWeight: "700",
+    fontSize: 12,
+  },
+  milestoneBtnTextDone: {
+    color: "#065F46",
   },
 });
