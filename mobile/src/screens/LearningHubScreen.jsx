@@ -121,7 +121,6 @@ export default function LearningHubScreen({ navigation }) {
         {loading ? (
           <ActivityIndicator color={theme.colors.primary} style={{ marginVertical: 30 }} />
         ) : (
-        ) : (
           filteredList.map((item, idx) => {
             const itemId = item._id || item.url || item.title || idx;
             const isDone = completedActSet.has(String(itemId)) || completedItems[itemId] === "done";
