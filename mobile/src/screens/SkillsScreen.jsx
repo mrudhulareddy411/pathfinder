@@ -16,6 +16,16 @@ export default function SkillsScreen({ navigation }) {
   const [selectedCareer, setSelectedCareer] = useState("Software Developer");
   const [skillGapData, setSkillGapData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [completedItems, setCompletedItems] = useState({});
+
+  const availableCareers = [
+    "Software Developer",
+    "Data Analyst",
+    "Machine Learning Engineer",
+    "Data Engineer",
+    "Cloud Architect",
+    "Cybersecurity Specialist"
+  ];
 
   const fetchSkillGap = async () => {
     try {
@@ -36,6 +46,28 @@ export default function SkillsScreen({ navigation }) {
     fetchSkillGap();
   }, [selectedCareer]);
 
+  const completedActSet = new Set((user?.completedActivities || []).map((a) => String(a.activityId || a.title)));
+
+  const handleCompleteActivity = async (itemId, itemTitle, itemSkill) => {
+    try {
+      setCompletedItems((prev) => ({ ...prev, [itemId]: "completing" }));
+      const res = await api.post("/activity/complete", {
+        activityId: String(itemId),
+        activityType: "RESOURCE_COMPLETED",
+        title: `Completed ${itemTitle} (${itemSkill})`,
+        xpEarned: 50,
+      });
+
+      if (res.data?.user) {
+        setUser(res.data.user);
+      }
+      setCompletedItems((prev) => ({ ...prev, [itemId]: "done" }));
+    } catch (err) {
+      console.error("Activity complete error:", err);
+      setCompletedItems((prev) => ({ ...prev, [itemId]: "done" }));
+    }
+  };
+
   return (
     <View style={globalStyles.container}>
       <Header user={user} navigation={navigation} />
@@ -50,6 +82,35 @@ export default function SkillsScreen({ navigation }) {
           <Text style={globalStyles.cardSubtitle}>
             Compare your current technical skills against industry benchmarks for target career roles.
           </Text>
+        </View>
+
+        {/* TARGET CAREER SELECTOR */}
+        <View style={{ marginBottom: 16 }}>
+          <Text style={{ fontSize: 13, fontWeight: "700", color: theme.colors.textDark, marginLeft: 16, marginBottom: 8 }}>
+            Select Target Occupation:
+          </Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16, gap: 10 }}>
+            {availableCareers.map((c) => {
+              const isSelected = selectedCareer === c;
+              return (
+                <TouchableOpacity
+                  key={c}
+                  onPress={() => setSelectedCareer(c)}
+                  style={[
+                    styles.catPill,
+                    isSelected ? styles.catPillSelected : null
+                  ]}
+                >
+                  <Text style={[
+                    styles.catPillText,
+                    isSelected ? styles.catPillTextSelected : null
+                  ]}>
+                    {c}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
         </View>
 
         {loading ? (
@@ -134,16 +195,58 @@ export default function SkillsScreen({ navigation }) {
             {/* RECOMMENDED LEARNING RESOURCES */}
             {skillGapData.learningResources && skillGapData.learningResources.length > 0 ? (
               <View style={globalStyles.card}>
-                <Text style={globalStyles.cardTitle}>Recommended Learning</Text>
-                {skillGapData.learningResources.map((res, i) => (
-                  <View key={i} style={styles.resCard}>
-                    <View style={globalStyles.badgeAmber}>
-                      <Text style={globalStyles.badgeAmberText}>Gap: {res.skill}</Text>
+                <Text style={globalStyles.cardTitle}>Recommended Learning for {selectedCareer}</Text>
+                <Text style={globalStyles.cardSubtitle}>
+                  Targeted resources selected to bridge identified gaps.
+                </Text>
+
+                {skillGapData.learningResources.map((res, i) => {
+                  const itemId = res._id || res.url || res.title || i;
+                  const isDone = completedActSet.has(String(itemId)) || completedItems[itemId] === "done";
+                  const isCompleting = completedItems[itemId] === "completing";
+
+                  return (
+                    <View key={i} style={styles.resCard}>
+                      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                        <View style={globalStyles.badgeAmber}>
+                          <Text style={globalStyles.badgeAmberText}>Gap: {res.skill}</Text>
+                        </View>
+                        <View style={[globalStyles.badgeBlue, { backgroundColor: "#F3F4F6", borderColor: "#E5E7EB" }]}>
+                          <Text style={[globalStyles.badgeBlueText, { color: "#4B5563" }]}>{res.difficulty || "Intermediate"}</Text>
+                        </View>
+                      </View>
+                      
+                      <Text style={styles.resTitle}>{res.title}</Text>
+                      <Text style={styles.resProvider}>Provider: {res.provider}</Text>
+
+                      <View style={{ gap: 8, marginTop: 12 }}>
+                        <TouchableOpacity
+                          style={globalStyles.btnOutline}
+                          onPress={() => alert(`Opening resource: ${res.title}`)}
+                        >
+                          <Text style={globalStyles.btnOutlineText}>Open Resource ↗</Text>
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity
+                          style={[
+                            globalStyles.btnPrimary,
+                            isDone && { backgroundColor: theme.colors.success }
+                          ]}
+                          onPress={() => handleCompleteActivity(itemId, res.title, res.skill)}
+                          disabled={isDone || isCompleting}
+                        >
+                          {isCompleting ? (
+                            <ActivityIndicator color="#FFFFFF" size="small" />
+                          ) : (
+                            <Text style={globalStyles.btnPrimaryText}>
+                              {isDone ? "✓ Completed (+50 XP)" : "Complete & Earn (+50 XP)"}
+                            </Text>
+                          )}
+                        </TouchableOpacity>
+                      </View>
                     </View>
-                    <Text style={styles.resTitle}>{res.title}</Text>
-                    <Text style={styles.resProvider}>Provider: {res.provider}</Text>
-                  </View>
-                ))}
+                  );
+                })}
               </View>
             ) : null}
           </View>
@@ -243,5 +346,25 @@ const styles = StyleSheet.create({
   resProvider: {
     fontSize: 12,
     color: theme.colors.textMuted,
+  },
+  catPill: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    backgroundColor: "#FFFFFF",
+  },
+  catPillSelected: {
+    backgroundColor: theme.colors.primaryLight,
+    borderColor: theme.colors.primary,
+  },
+  catPillText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: theme.colors.textMuted,
+  },
+  catPillTextSelected: {
+    color: theme.colors.primaryDark,
   },
 });
