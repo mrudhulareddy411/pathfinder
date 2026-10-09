@@ -14,6 +14,38 @@ import { theme, globalStyles } from "../theme";
 import Header from "../components/Header";
 import api from "../services/api";
 
+const COMPLETION_FIELDS = [
+  { key: "fullName",       label: "Full name" },
+  { key: "email",          label: "Email address" },
+  { key: "phone",          label: "Phone number" },
+  { key: "educationLevel", label: "Degree level" },
+  { key: "branch",         label: "Major / Branch" },
+  { key: "college",        label: "College / University" },
+  { key: "graduationYear", label: "Graduation year" },
+  { key: "cgpa",           label: "CGPA / Percentage" },
+  { key: "skills",         label: "Technical skills" },
+  { key: "github",         label: "GitHub profile" },
+  { key: "linkedin",       label: "LinkedIn profile" },
+];
+
+const calculateCompletion = (data) => {
+  if (!data) return { percent: 0, missing: [] };
+  const missing = [];
+  let filled = 0;
+  for (const field of COMPLETION_FIELDS) {
+    let value = data[field.key];
+    if (field.key === "github") value = data.githubUrl || data.github || "";
+    if (field.key === "linkedin") value = data.linkedinUrl || data.linkedin || "";
+    if (value && String(value).trim().length > 0) {
+      filled++;
+    } else {
+      missing.push(field.label);
+    }
+  }
+  const percent = Math.round((filled / COMPLETION_FIELDS.length) * 100);
+  return { percent, missing };
+};
+
 export default function ProfileScreen({ navigation }) {
   const [activeTab, setActiveTab] = useState("view"); // view vs edit
   const [user, setUser] = useState(null);
@@ -117,6 +149,14 @@ export default function ProfileScreen({ navigation }) {
       : `http://10.248.189.208:5000${rawPhoto.startsWith("/") ? "" : "/"}${rawPhoto}`
     : null;
 
+  const { percent: completionPercent, missing: missingFields } = calculateCompletion(user);
+  
+  const getProgressColor = (pct) => {
+    if (pct === 100) return "#16A34A";
+    if (pct >= 70) return "#2563EB";
+    return "#D97706";
+  };
+
   return (
     <View style={globalStyles.container}>
       <Header user={user} navigation={navigation} />
@@ -168,6 +208,37 @@ export default function ProfileScreen({ navigation }) {
               <Text style={styles.profileRole}>
                 {user?.educationLevel || "Degree"} {user?.branch || ""}
               </Text>
+            </View>
+
+            {/* PROFILE COMPLETION PROGRESS */}
+            <View style={styles.completionSection}>
+              <View style={styles.completionHeader}>
+                <Text style={styles.completionTitle}>Profile Completion</Text>
+                <Text style={[styles.completionPercent, { color: getProgressColor(completionPercent) }]}>
+                  {completionPercent}% Complete
+                </Text>
+              </View>
+              
+              <View style={styles.progressBarBg}>
+                <View 
+                  style={[
+                    styles.progressBarFill, 
+                    { width: `${completionPercent}%`, backgroundColor: getProgressColor(completionPercent) }
+                  ]} 
+                />
+              </View>
+
+              {missingFields.length > 0 && (
+                <View style={styles.missingBox}>
+                  <Text style={styles.missingBoxTitle}>Almost there! Complete these:</Text>
+                  {missingFields.slice(0, 5).map((f) => (
+                    <Text key={f} style={styles.missingItem}>• {f}</Text>
+                  ))}
+                  {missingFields.length > 5 && (
+                    <Text style={styles.missingItem}>+ {missingFields.length - 5} more fields</Text>
+                  )}
+                </View>
+              )}
             </View>
 
             <View style={styles.infoSection}>
@@ -447,4 +518,54 @@ const styles = StyleSheet.create({
     color: theme.colors.textDark,
     marginBottom: 4,
   },
+  completionSection: {
+    paddingVertical: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border,
+    marginBottom: 16,
+  },
+  completionHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 6,
+  },
+  completionTitle: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: theme.colors.textMuted,
+  },
+  completionPercent: {
+    fontSize: 13,
+    fontWeight: "800",
+  },
+  progressBarBg: {
+    height: 6,
+    backgroundColor: "#F3F4F6",
+    borderRadius: 3,
+    marginBottom: 10,
+    overflow: "hidden",
+  },
+  progressBarFill: {
+    height: "100%",
+    borderRadius: 3,
+  },
+  missingBox: {
+    backgroundColor: "#FFF7ED",
+    borderColor: "#FED7AA",
+    borderWidth: 1,
+    borderRadius: 6,
+    padding: 10,
+    marginTop: 6,
+  },
+  missingBoxTitle: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#92400E",
+    marginBottom: 4,
+  },
+  missingItem: {
+    fontSize: 12,
+    color: "#78350F",
+    marginLeft: 4,
+  }
 });
